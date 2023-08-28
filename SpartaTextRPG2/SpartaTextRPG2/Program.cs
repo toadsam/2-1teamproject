@@ -273,6 +273,77 @@
                 Console.WriteLine("잘못된 입력입니다.");
             }
         }
+
+
+        // 윤경: 전투 결과
+        static void DisplayGameOver()
+        {
+
+            if (player.CurHealth > 0 && player.CurHealth <= player.MaxHealth)
+            {
+                DisplayVictory();
+            }
+            else if (player.CurHealth == 0)
+            {
+                DisplayLose();
+            }
+
+        }
+
+        private static void DisplayVictory()
+        {
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Battle!! - Result");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Victory");
+            Console.ResetColor();
+
+            Console.WriteLine();
+            Console.WriteLine("던전에서 몬스터 3마리를 잡았습니다.");
+
+            Console.WriteLine();
+            Console.WriteLine($"Lv.{player.Level} {player.Name}");
+            Console.WriteLine($"HP {player.MaxHealth} -> {player.CurHealth} ");
+
+            Console.WriteLine();
+            Console.WriteLine("0. 다음");
+
+            int input = CheckValidInput(0, 0);
+            switch (input)
+            {
+                case 0:
+                    DisplayGameIntro();
+                    break;
+            }
+        }
+
+        private static void DisplayLose()
+        {
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Battle!! - Result");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("You Lose");
+            Console.ResetColor();
+
+            Console.WriteLine();
+            Console.WriteLine($"Lv.{player.Level} {player.Name}");
+            Console.WriteLine($"HP {player.MaxHealth} -> {player.CurHealth} ");
+
+            Console.WriteLine();
+            Console.WriteLine("0. 다음");
+
+            int input = CheckValidInput(0, 0);
+            switch (input)
+            {
+                case 0:
+                    DisplayGameIntro();
+                    break;
+            }
+        }
     }
 
 
