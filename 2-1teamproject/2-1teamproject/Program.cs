@@ -48,7 +48,7 @@
             Console.Clear();
 
             Console.WriteLine("상태보기");
-            Console.WriteLine("캐릭터의 정보르 표시합니다.");
+            Console.WriteLine("캐릭터의 정보를 표시합니다.");
             Console.WriteLine();
             Console.WriteLine($"Lv.{player.Level}");
             Console.WriteLine($"{player.Name}({player.Job})");

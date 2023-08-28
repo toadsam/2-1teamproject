@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\82106\\.nuget\\packages\\": {}
+    "C:\\Users\\wind\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\82106\\Documents\\GitHub\\2-1teamproject\\2-1teamproject\\2-1teamproject\\2-1teamproject.csproj",
+      "projectUniqueName": "D:\\Unity\\GitHub\\2-1teamproject\\2-1teamproject\\2-1teamproject\\2-1teamproject.csproj",
       "projectName": "2-1teamproject",
-      "projectPath": "C:\\Users\\82106\\Documents\\GitHub\\2-1teamproject\\2-1teamproject\\2-1teamproject\\2-1teamproject.csproj",
-      "packagesPath": "C:\\Users\\82106\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\82106\\Documents\\GitHub\\2-1teamproject\\2-1teamproject\\2-1teamproject\\obj\\",
+      "projectPath": "D:\\Unity\\GitHub\\2-1teamproject\\2-1teamproject\\2-1teamproject\\2-1teamproject.csproj",
+      "packagesPath": "C:\\Users\\wind\\.nuget\\packages\\",
+      "outputPath": "D:\\Unity\\GitHub\\2-1teamproject\\2-1teamproject\\2-1teamproject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\82106\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\wind\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -61,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
