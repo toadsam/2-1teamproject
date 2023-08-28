@@ -1,0 +1,15 @@
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\bin\Debug\net6.0\2-1teamproject.exe
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\bin\Debug\net6.0\2-1teamproject.deps.json
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\bin\Debug\net6.0\2-1teamproject.runtimeconfig.json
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\bin\Debug\net6.0\2-1teamproject.dll
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\bin\Debug\net6.0\2-1teamproject.pdb
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\obj\Debug\net6.0\2-1teamproject.csproj.AssemblyReference.cache
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\obj\Debug\net6.0\2-1teamproject.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\obj\Debug\net6.0\2-1teamproject.AssemblyInfoInputs.cache
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\obj\Debug\net6.0\2-1teamproject.AssemblyInfo.cs
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\obj\Debug\net6.0\2-1teamproject.csproj.CoreCompileInputs.cache
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\obj\Debug\net6.0\2-1teamproject.dll
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\obj\Debug\net6.0\refint\2-1teamproject.dll
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\obj\Debug\net6.0\2-1teamproject.pdb
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\obj\Debug\net6.0\2-1teamproject.genruntimeconfig.cache
+C:\Users\82106\Documents\GitHub\2-1teamproject\2-1teamproject\2-1teamproject\obj\Debug\net6.0\ref\2-1teamproject.dll
