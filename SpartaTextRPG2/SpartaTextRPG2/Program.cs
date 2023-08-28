@@ -21,8 +21,8 @@
 
 
             Monster monster1 = new Monster("미니언", 2, 15, 15, 5, false);
-            Monster monster2 = new Monster("대포미니언", 3, 25, 25, 10, false);
-            Monster monster3 = new Monster("공허충", 5, 10, 10, 15, false);
+            Monster monster2 = new Monster("대포미니언", 5, 25, 25, 8, false);
+            Monster monster3 = new Monster("공허충", 3, 10, 10, 9, false);
             monsters = new Monster[3] { monster1, monster2, monster3 };
 
         }
@@ -89,7 +89,7 @@
 
             Console.WriteLine("[몬스터 종류]");
 
-            for (int i = 0; i < monsters.Length; i++)
+            for (int i = 0; i < monsters.Length; i++) // ※ 1~4마리의 몬스터가 랜덤하게 등장하도록 해야함, 표시 순서는 랜덤, 중복 가능
             {
                 Console.Write($"Lv.{monsters[i].Level} {monsters[i].Name} HP {monsters[i].CurHealth} \n");
 
@@ -112,10 +112,11 @@
                 case 0:
                     DisplayGameIntro();
                     break;
-
+                case 1:
+                    DisplayBattleInfo();
+                    break;
                 default:
 
-                    DisplayBattleInfo();
                     break;
             }
         }
@@ -177,7 +178,7 @@
         {
 
         }*/
-        static void DisplayAttack(int inp)
+        static void DisplayAttack(int inp) // 실제 전투가 일어나는 페이지
         {
             // 공격 기능 
             // 공격 결과표시 화면
@@ -251,7 +252,6 @@
 
                 default:
 
-                    DisplayAttack(input);
                     break;
             }
         }
