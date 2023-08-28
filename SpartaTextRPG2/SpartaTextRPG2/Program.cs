@@ -4,6 +4,7 @@
     {
         private static Character player;
         private static Monster[] monsters; // 몬스터 종류
+        private static Monster[] ranMonsters; // 랜덤 몬스터 저장하는 배열
         static Random ran = new Random();
 
 
@@ -17,16 +18,37 @@
         {
             // 캐릭터 정보 세팅
             player = new Character("민열", "전사", 1, 10, 5, 100, 15000, 100, 100, true);
-            monsters = new Monster[5]; // 마릿수는
+            
             // 아이템 정보 세팅 => 상점에서 골드 대신 판매 완료를 하려면 어떻게 할까
 
 
             Monster monster1 = new Monster("미니언", 2, 15, 15, 5, false);
             Monster monster2 = new Monster("대포미니언", 5, 25, 25, 8, false);
             Monster monster3 = new Monster("공허충", 3, 10, 10, 9, false);
-            monsters = new Monster[3] { monster1, monster2, monster3 };
+            monsters = new Monster[3] {monster1, monster2, monster3 };
+            ranMonsters = new Monster[ran.Next(1, 4)];
 
-            //Monster[] ranMon = new Monster[4] { };
+
+            for (int i = 0; i < ranMonsters.Length; i++) // ※ 1~4마리의 몬스터가 랜덤하게 등장하도록 해야함, 표시 순서는 랜덤, 중복 가능
+            {
+                int y = ran.Next(0, 2);
+                
+                switch(y)
+                {
+                    case 0:
+                        ranMonsters[i] = new Monster("미니언", 2, 15, 15, 5, false);
+                        break;
+                    case 1:
+                        ranMonsters[i] = new Monster("대포미니언", 5, 25, 25, 8, false); ;
+                        break;
+                    case 2:
+                        ranMonsters[i] = new Monster("공허충", 3, 10, 10, 9, false);
+                        break;
+
+
+                }
+               
+            }
 
 
         }
@@ -95,12 +117,10 @@
 
 
 
-            for (int i = 0; i < ran.Next(1, 4); i++) // ※ 1~4마리의 몬스터가 랜덤하게 등장하도록 해야함, 표시 순서는 랜덤, 중복 가능
+
+            for(int i = 0; i < ranMonsters.Length; i++)
             {
-                int y = ran.Next(0, 2);
-                // Console.Write($"Lv.{monsters[i].Level} {monsters[i].Name} HP {monsters[i].CurHealth} \n");
-                Console.Write($"Lv.{monsters[y].Level} {monsters[y].Name} HP {monsters[y].CurHealth} \n");
-                // 추가로 필요한것 > 지금 나열한 몬스터들을 저장할 배열(DisplayBattleInfo)
+                Console.WriteLine($"Lv.{ranMonsters[i].Level} {ranMonsters[i].Name} HP {ranMonsters[i].CurHealth} \n");
             }
 
             Console.WriteLine();
@@ -144,17 +164,17 @@
 
             Console.WriteLine("[몬스터 종류]");
 
-            for (int i = 0; i < monsters.Length; i++)
+            for (int i = 0; i < ranMonsters.Length; i++)
             {
                 Console.Write($"{i + 1} ");
-                if (monsters[i].IsDead == true)
+                if (ranMonsters[i].IsDead == true)
                 {
-                    Console.Write($"Lv.{monsters[i].Level} {monsters[i].Name} Dead"); //몬스터 체력 0 이하면 Dead 출력
+                    Console.WriteLine($"Lv.{ranMonsters[i].Level} {ranMonsters[i].Name} Dead"); //몬스터 체력 0 이하면 Dead 출력
 
                 }
                 else
                 {
-                    Console.Write($"Lv.{monsters[i].Level} {monsters[i].Name} HP {monsters[i].CurHealth} \n");
+                    Console.WriteLine($"Lv.{ranMonsters[i].Level} {ranMonsters[i].Name} HP {ranMonsters[i].CurHealth} \n");
 
                 }
 
@@ -169,7 +189,7 @@
             Console.WriteLine();
             Console.WriteLine("대상을 선택해주세요");
 
-            int input = CheckValidInput(0, monsters.Length);
+            int input = CheckValidInput(0, ranMonsters.Length);
             switch (input)
             {
                 case 0:
@@ -194,7 +214,7 @@
             Console.Clear();
             Console.WriteLine("Battle!!");
             Console.WriteLine();
-            if (player.MyTurn == true)
+            if (player.MyTurn == true) // 내 턴일때
             {
 
                 int err = (int)Math.Ceiling(player.Atk / 10f);
@@ -202,31 +222,29 @@
                 int damage = ran.Next(player.Atk - err, player.Atk + err);
 
                 Console.WriteLine($"{player.Name}의 공격!");
-                Console.WriteLine($"{monsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]"); // 데미지는 공격력의 10%의 오차값 랜덤으로, 오차가 소수점이라면 올림 처리, 콘솔 텍스트 색 변경법 알아보기
+                Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]"); // 데미지는 공격력의 10%의 오차값 랜덤으로, 오차가 소수점이라면 올림 처리, 콘솔 텍스트 색 변경법 알아보기
                 Console.WriteLine();
-                Console.WriteLine($"{monsters[inp - 1].Name}");
+                Console.WriteLine($"{ranMonsters[inp - 1].Name}");
 
 
 
-                if ((monsters[inp - 1].CurHealth - damage) <= 0) // curHealth가 이미 닳아있는 오류 있음
+                if ((ranMonsters[inp - 1].CurHealth - damage) <= 0) // curHealth가 이미 닳아있는 오류 있음
                 {
-                    Console.WriteLine($"HP {monsters[inp - 1].CurHealth} -> Dead");
-                    monsters[inp - 1].CurHealth = 0;
-                    monsters[inp - 1].IsDead = true;
+                    Console.WriteLine($"HP {ranMonsters[inp - 1].CurHealth} -> Dead");
+                    ranMonsters[inp - 1].CurHealth = 0;
+                    ranMonsters[inp - 1].IsDead = true;
                 }
                 else
                 {
-                    Console.WriteLine($"HP {monsters[inp - 1].CurHealth} -> {monsters[inp - 1].CurHealth - damage}");
+                    Console.WriteLine($"HP {ranMonsters[inp - 1].CurHealth} -> {ranMonsters[inp - 1].CurHealth - damage}");
 
                 }
-                monsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
+                ranMonsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
                 player.MyTurn = false;
-                Console.WriteLine("0. 다음"); // 0으로 넘어갈지 thread.sleep으로 시간차 두고 넘어갈지 정하기
-            }
-            else
-            {
 
-                foreach (Monster mon in monsters) // 살아있는 몬스터 전부 돌아가면서 공격
+                Thread.Sleep(1500);
+
+                foreach (Monster mon in ranMonsters) // 살아있는 몬스터 전부 돌아가면서 공격
                 {
                     if (mon.IsDead == false)
                     {
@@ -255,6 +273,12 @@
                 }
                 player.MyTurn = true;
                 Console.WriteLine("0. 다음"); // 0으로 넘어갈지 thread.sleep으로 시간차 두고 넘어갈지 정하기
+            }
+            else
+            {
+
+                
+                Console.WriteLine("플레이어의 턴이 아닙니다.");
             }
 
 

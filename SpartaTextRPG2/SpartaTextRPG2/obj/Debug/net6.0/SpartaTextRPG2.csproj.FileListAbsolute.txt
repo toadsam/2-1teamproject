@@ -13,3 +13,18 @@ D:\Sparta(Unity)\C# lecture\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\refin
 D:\Sparta(Unity)\C# lecture\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.pdb
 D:\Sparta(Unity)\C# lecture\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.genruntimeconfig.cache
 D:\Sparta(Unity)\C# lecture\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\ref\SpartaTextRPG2.dll
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\bin\Debug\net6.0\SpartaTextRPG2.exe
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\bin\Debug\net6.0\SpartaTextRPG2.deps.json
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\bin\Debug\net6.0\SpartaTextRPG2.runtimeconfig.json
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\bin\Debug\net6.0\SpartaTextRPG2.dll
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\bin\Debug\net6.0\SpartaTextRPG2.pdb
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.csproj.AssemblyReference.cache
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.AssemblyInfoInputs.cache
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.AssemblyInfo.cs
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.csproj.CoreCompileInputs.cache
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.dll
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\refint\SpartaTextRPG2.dll
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.pdb
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.genruntimeconfig.cache
+C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\ref\SpartaTextRPG2.dll
