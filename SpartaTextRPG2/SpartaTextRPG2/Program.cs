@@ -1,4 +1,4 @@
-﻿namespace SpartaTextRPG2 
+﻿namespace SpartaTextRPG2
 {
     internal class Program
     {
@@ -6,6 +6,8 @@
         private static Monster[] monsters; // 몬스터 종류
         private static Monster[] ranMonsters; // 랜덤 몬스터 저장하는 배열
         static Random ran = new Random();
+        static bool[] isVictoryArr;
+        static bool isVictory = false;
 
 
         static void Main(string[] args)
@@ -18,22 +20,24 @@
         {
             // 캐릭터 정보 세팅
             player = new Character("민열", "전사", 1, 10, 5, 100, 15000, 100, 100, true);
-            
+
             // 아이템 정보 세팅 => 상점에서 골드 대신 판매 완료를 하려면 어떻게 할까
 
 
             Monster monster1 = new Monster("미니언", 2, 15, 15, 5, false);
             Monster monster2 = new Monster("대포미니언", 5, 25, 25, 8, false);
             Monster monster3 = new Monster("공허충", 3, 10, 10, 9, false);
-            monsters = new Monster[3] {monster1, monster2, monster3 };
+            monsters = new Monster[3] { monster1, monster2, monster3 };
             ranMonsters = new Monster[ran.Next(1, 4)];
+            isVictoryArr = new bool[ranMonsters.Length];
+
 
 
             for (int i = 0; i < ranMonsters.Length; i++) // ※ 1~4마리의 몬스터가 랜덤하게 등장하도록 해야함, 표시 순서는 랜덤, 중복 가능
             {
                 int y = ran.Next(0, 2);
-                
-                switch(y)
+
+                switch (y)
                 {
                     case 0:
                         ranMonsters[i] = new Monster("미니언", 2, 15, 15, 5, false);
@@ -47,7 +51,7 @@
 
 
                 }
-               
+
             }
 
 
@@ -118,7 +122,7 @@
 
 
 
-            for(int i = 0; i < ranMonsters.Length; i++)
+            for (int i = 0; i < ranMonsters.Length; i++)
             {
                 Console.WriteLine($"Lv.{ranMonsters[i].Level} {ranMonsters[i].Name} HP {ranMonsters[i].CurHealth} \n");
             }
@@ -169,7 +173,9 @@
                 Console.Write($"{i + 1} ");
                 if (ranMonsters[i].IsDead == true)
                 {
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine($"Lv.{ranMonsters[i].Level} {ranMonsters[i].Name} Dead"); //몬스터 체력 0 이하면 Dead 출력
+                    Console.ResetColor();
 
                 }
                 else
@@ -197,15 +203,19 @@
                     break;
 
                 default:
-
-                    DisplayAttack(input);
+                    if (ranMonsters[input-1].IsDead == true)
+                    {
+                        Console.WriteLine("이미 죽은 몬스터입니다.");
+                        Thread.Sleep(1000);
+                        DisplayBattleInfo();
+                    } else
+                    {
+                        DisplayAttack(input);
+                    }
                     break;
             }
         }
-        /*static void DisplayEnd()
-        {
 
-        }*/
         static void DisplayAttack(int inp) // 실제 전투가 일어나는 페이지
         {
             // 공격 기능 
@@ -228,7 +238,7 @@
 
 
 
-                if ((ranMonsters[inp - 1].CurHealth - damage) <= 0) // curHealth가 이미 닳아있는 오류 있음
+                if ((ranMonsters[inp - 1].CurHealth - damage) <= 0)
                 {
                     Console.WriteLine($"HP {ranMonsters[inp - 1].CurHealth} -> Dead");
                     ranMonsters[inp - 1].CurHealth = 0;
@@ -242,14 +252,17 @@
                 ranMonsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
                 player.MyTurn = false;
 
-                Thread.Sleep(1500);
+                Thread.Sleep(1000);
 
+                Console.WriteLine("Enemy turn");
+
+                int monDeadCount = 0; // true인 mon의 개수
                 foreach (Monster mon in ranMonsters) // 살아있는 몬스터 전부 돌아가면서 공격
                 {
-                    if (mon.IsDead == false)
+
+                    if (mon.IsDead == false) // 살아있는 몬스터의 행동
                     {
                         Console.WriteLine($"Lv.{mon.Level} {mon.Name}의 공격!");
-
 
                         Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Atk}]");
                         Console.WriteLine();
@@ -259,25 +272,31 @@
                         player.CurHealth -= mon.Atk;
                         Console.WriteLine();
 
+                        if (player.CurHealth <= 0)
+                        {
+                            DisplayLose();
+                            break;
+                        }
                     }
-                    else
+                    else // 죽어있는 몬스터의 행동
                     {
-                        // 몬스터가 다 죽었을 때
-                    }
-                    if (player.CurHealth <= 0)
-                    {
-                        // DisplayGameOver(); 플레이어 체력이 0 이하면 게임종료 실행
-                        break;
+
+                        monDeadCount++;
+                        // 결과값을 모두 저장할 배열
+                        // 배열 검사해서 모두  true일 때 true 인 bool 변수 하나
                     }
 
                 }
+                if (monDeadCount == ranMonsters.Length)
+                {
+                    DisplayVictory();
+                }
                 player.MyTurn = true;
+
                 Console.WriteLine("0. 다음"); // 0으로 넘어갈지 thread.sleep으로 시간차 두고 넘어갈지 정하기
             }
             else
             {
-
-                
                 Console.WriteLine("플레이어의 턴이 아닙니다.");
             }
 
@@ -316,20 +335,6 @@
 
 
         // 윤경: 전투 결과
-        static void DisplayGameOver()
-        {
-
-            if (player.CurHealth > 0 && player.CurHealth <= player.MaxHealth)
-            {
-                DisplayVictory();
-            }
-            else if (player.CurHealth == 0)
-            {
-                DisplayLose();
-            }
-
-        }
-
         private static void DisplayVictory()
         {
             Console.Clear();
@@ -436,7 +441,7 @@
             MaxHealth = maxHealth;
             CurHealth = curHealth;
             Atk = atk;
-            isDead = isDead;
+            IsDead = isDead;
         }
     }
 }
