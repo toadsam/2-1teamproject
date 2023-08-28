@@ -1,9 +1,10 @@
-﻿namespace SpartaTextRPG2
+﻿namespace SpartaTextRPG2 
 {
     internal class Program
     {
         private static Character player;
         private static Monster[] monsters; // 몬스터 종류
+        static Random ran = new Random();
 
 
         static void Main(string[] args)
@@ -25,6 +26,9 @@
             Monster monster3 = new Monster("공허충", 3, 10, 10, 9, false);
             monsters = new Monster[3] { monster1, monster2, monster3 };
 
+            //Monster[] ranMon = new Monster[4] { };
+
+
         }
 
         static void DisplayGameIntro()
@@ -32,7 +36,6 @@
             Console.Clear();
 
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
-            Console.WriteLine("스파르타 던전에 오신 여러분 안녕하세요.");
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");
             Console.WriteLine();
             Console.WriteLine("1. 상태보기");
@@ -90,10 +93,14 @@
 
             Console.WriteLine("[몬스터 종류]");
 
-            for (int i = 0; i < monsters.Length; i++) // ※ 1~4마리의 몬스터가 랜덤하게 등장하도록 해야함, 표시 순서는 랜덤, 중복 가능
-            {
-                Console.Write($"Lv.{monsters[i].Level} {monsters[i].Name} HP {monsters[i].CurHealth} \n");
 
+
+            for (int i = 0; i < ran.Next(1, 4); i++) // ※ 1~4마리의 몬스터가 랜덤하게 등장하도록 해야함, 표시 순서는 랜덤, 중복 가능
+            {
+                int y = ran.Next(0, 2);
+                // Console.Write($"Lv.{monsters[i].Level} {monsters[i].Name} HP {monsters[i].CurHealth} \n");
+                Console.Write($"Lv.{monsters[y].Level} {monsters[y].Name} HP {monsters[y].CurHealth} \n");
+                // 추가로 필요한것 > 지금 나열한 몬스터들을 저장할 배열(DisplayBattleInfo)
             }
 
             Console.WriteLine();
@@ -189,16 +196,17 @@
             Console.WriteLine();
             if (player.MyTurn == true)
             {
-                Random ran = new Random();
-                float err = Math.Ceiling(player.Atk / 10f);
-                float damage = ran.Next(player.Atk - err, player.Atk + err);
+
+                int err = (int)Math.Ceiling(player.Atk / 10f);
+                //int err = Math.Ceiling(player.Atk/10);
+                int damage = ran.Next(player.Atk - err, player.Atk + err);
 
                 Console.WriteLine($"{player.Name}의 공격!");
                 Console.WriteLine($"{monsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]"); // 데미지는 공격력의 10%의 오차값 랜덤으로, 오차가 소수점이라면 올림 처리, 콘솔 텍스트 색 변경법 알아보기
                 Console.WriteLine();
                 Console.WriteLine($"{monsters[inp - 1].Name}");
 
-                
+
 
                 if ((monsters[inp - 1].CurHealth - damage) <= 0) // curHealth가 이미 닳아있는 오류 있음
                 {
@@ -223,8 +231,8 @@
                     if (mon.IsDead == false)
                     {
                         Console.WriteLine($"Lv.{mon.Level} {mon.Name}의 공격!");
-                        
-                        
+
+
                         Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Atk}]");
                         Console.WriteLine();
                         Console.WriteLine();
@@ -404,7 +412,7 @@
             MaxHealth = maxHealth;
             CurHealth = curHealth;
             Atk = atk;
-            IsDead = isDead;
+            isDead = isDead;
         }
     }
 }
