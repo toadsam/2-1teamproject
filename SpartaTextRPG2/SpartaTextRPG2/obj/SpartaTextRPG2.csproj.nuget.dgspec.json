@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Sparta(Unity)\\C# lecture\\SpartaTextRPG2\\SpartaTextRPG2\\SpartaTextRPG2.csproj": {}
+    "D:\\Unity\\GitHub\\2-1teamproject\\SpartaTextRPG2\\SpartaTextRPG2\\SpartaTextRPG2.csproj": {}
   },
   "projects": {
-    "D:\\Sparta(Unity)\\C# lecture\\SpartaTextRPG2\\SpartaTextRPG2\\SpartaTextRPG2.csproj": {
+    "D:\\Unity\\GitHub\\2-1teamproject\\SpartaTextRPG2\\SpartaTextRPG2\\SpartaTextRPG2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Sparta(Unity)\\C# lecture\\SpartaTextRPG2\\SpartaTextRPG2\\SpartaTextRPG2.csproj",
+        "projectUniqueName": "D:\\Unity\\GitHub\\2-1teamproject\\SpartaTextRPG2\\SpartaTextRPG2\\SpartaTextRPG2.csproj",
         "projectName": "SpartaTextRPG2",
-        "projectPath": "D:\\Sparta(Unity)\\C# lecture\\SpartaTextRPG2\\SpartaTextRPG2\\SpartaTextRPG2.csproj",
-        "packagesPath": "C:\\Users\\이민열\\.nuget\\packages\\",
-        "outputPath": "D:\\Sparta(Unity)\\C# lecture\\SpartaTextRPG2\\SpartaTextRPG2\\obj\\",
+        "projectPath": "D:\\Unity\\GitHub\\2-1teamproject\\SpartaTextRPG2\\SpartaTextRPG2\\SpartaTextRPG2.csproj",
+        "packagesPath": "C:\\Users\\wind\\.nuget\\packages\\",
+        "outputPath": "D:\\Unity\\GitHub\\2-1teamproject\\SpartaTextRPG2\\SpartaTextRPG2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\이민열\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wind\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
