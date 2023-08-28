@@ -32,6 +32,7 @@
             Console.Clear();
 
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
+            Console.WriteLine("스파르타 던전에 오신 여러분 안녕하세요.");
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");
             Console.WriteLine();
             Console.WriteLine("1. 상태보기");
@@ -188,14 +189,18 @@
             Console.WriteLine();
             if (player.MyTurn == true)
             {
+                Random ran = new Random();
+                float err = Math.Ceiling(player.Atk / 10f);
+                float damage = ran.Next(player.Atk - err, player.Atk + err);
+
                 Console.WriteLine($"{player.Name}의 공격!");
-                Console.WriteLine($"{monsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {player.Atk}]"); // 데미지는 나중에 랜덤 넣을 예정
+                Console.WriteLine($"{monsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]"); // 데미지는 공격력의 10%의 오차값 랜덤으로, 오차가 소수점이라면 올림 처리, 콘솔 텍스트 색 변경법 알아보기
                 Console.WriteLine();
                 Console.WriteLine($"{monsters[inp - 1].Name}");
 
-                monsters[inp - 1].CurHealth -= player.Atk;
+                
 
-                if (monsters[inp - 1].CurHealth <= 0)
+                if ((monsters[inp - 1].CurHealth - damage) <= 0) // curHealth가 이미 닳아있는 오류 있음
                 {
                     Console.WriteLine($"HP {monsters[inp - 1].CurHealth} -> Dead");
                     monsters[inp - 1].CurHealth = 0;
@@ -203,9 +208,10 @@
                 }
                 else
                 {
-                    Console.WriteLine($"HP {monsters[inp - 1].CurHealth} -> {monsters[inp - 1].CurHealth - player.Atk}");
+                    Console.WriteLine($"HP {monsters[inp - 1].CurHealth} -> {monsters[inp - 1].CurHealth - damage}");
 
                 }
+                monsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
                 player.MyTurn = false;
                 Console.WriteLine("0. 다음"); // 0으로 넘어갈지 thread.sleep으로 시간차 두고 넘어갈지 정하기
             }
@@ -217,11 +223,13 @@
                     if (mon.IsDead == false)
                     {
                         Console.WriteLine($"Lv.{mon.Level} {mon.Name}의 공격!");
+                        
+                        
                         Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Atk}]");
                         Console.WriteLine();
                         Console.WriteLine();
                         Console.WriteLine($"Lv.{player.Level} {player.Name}");
-                        Console.WriteLine($"HP {player.CurHealth} {player.CurHealth - mon.Atk}");
+                        Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Atk}");
                         player.CurHealth -= mon.Atk;
                         Console.WriteLine();
 
