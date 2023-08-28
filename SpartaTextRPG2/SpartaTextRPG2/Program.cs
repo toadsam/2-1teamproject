@@ -396,7 +396,7 @@
             MaxHealth = maxHealth;
             CurHealth = curHealth;
             Atk = atk;
-            isDead = isDead;
+            IsDead = isDead;
         }
     }
 }
