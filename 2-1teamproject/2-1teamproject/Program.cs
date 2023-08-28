@@ -26,7 +26,7 @@
             Console.WriteLine("이곳에서 전전으로 들어가기 전 활동을 할 수 있습니다.");
             Console.WriteLine();
             Console.WriteLine("1. 상태보기");
-            Console.WriteLine("2. 인벤토리");
+            Console.WriteLine("2. 전투시작");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
@@ -38,7 +38,7 @@
                     break;
 
                 case 2:
-                    // 작업해보기
+                    // 작업해보기 전투시작
                     break;
             }
         }
@@ -68,7 +68,7 @@
             }
         }
 
-        static void DisplayInventory()
+        static void DisplayStartBattle()
         {
 
         }
