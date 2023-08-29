@@ -1,4 +1,5 @@
-﻿namespace SpartaTextRPG2
+﻿
+namespace SpartaTextRPG2
 {
     internal class Program
     {
@@ -19,6 +20,12 @@
 
             // 캐릭터 정보 세팅
             CreatePlayer();
+            // 이름 설정 
+            Console.Write("이름을 설정해주세요:");
+
+            string UserName = Console.ReadLine();
+
+            Console.WriteLine("안녕하세요!" + "UserName" + "님!");
 
             // 몬스터 정보 세팅 => 몬스터 생성도 CreateMonster 하나 만들자
             Monster monster1 = new Monster("미니언", 2, 15, 15, 5, false);
