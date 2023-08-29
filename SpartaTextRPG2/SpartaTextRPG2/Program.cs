@@ -346,7 +346,7 @@
             Console.ResetColor();
 
             Console.WriteLine();
-            Console.WriteLine("던전에서 몬스터 3마리를 잡았습니다.");
+            Console.WriteLine($"던전에서 몬스터 {ranMonsters.Length}마리를 잡았습니다.");
 
             Console.WriteLine();
             Console.WriteLine($"Lv.{player.Level} {player.Name}");
