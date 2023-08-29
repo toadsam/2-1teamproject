@@ -209,8 +209,33 @@
                 //int err = Math.Ceiling(player.Atk/10);
                 int damage = ran.Next((int)Math.Round(player.Atk - err), (int)Math.Round(player.Atk + err)); // 레벨업 시 플레이어 공격력이 0.5씩 오르기 때문에 타입 오류가 생기는걸 방지하기 위해 Round함수 적용
 
+                bool isAtkUp = ran.Next(0, 100) < 15; // 15프로 확률
+
+                bool isDodgeAtk = ran.Next(0, 100) < 10; // 10프로 확률
+
                 Console.WriteLine($"{player.Name}의 공격!");
-                Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]"); // 데미지는 공격력의 10%의 오차값 랜덤으로, 오차가 소수점이라면 올림 처리, 콘솔 텍스트 색 변경법 알아보기
+
+                if (isDodgeAtk)
+                {
+                    Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 공격했지만 아무 일도 일어나지 않았습니다.");
+                }
+                else
+                {
+                    if (isAtkUp)
+                    {
+                        damage = (int)Math.Round(damage * 1.6); // 치명타 데미지 160% 적용
+                        Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}] - 치명타 공격!!");
+
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]");
+                        // 데미지는 공격력의 10%의 오차값 랜덤으로, 오차가 소수점이라면 올림 처리, 콘솔 텍스트 색 변경법 알아보기
+
+                    }
+
+                }
+
                 Console.WriteLine();
                 Console.WriteLine($"{ranMonsters[inp - 1].Name}");
 
