@@ -28,9 +28,7 @@
             Monster monster2 = CreateMonster();
             Monster monster3 = CreateMonster();
             Monster monster4 = CreateMonster();
-            /*          Monster monster1 = new Monster("미니언", 2, 15, 15, 5, false); 
-                        Monster monster2 = new Monster("대포미니언", 5, 25, 25, 8, false);
-                        Monster monster3 = new Monster("공허충", 3, 10, 10, 9, false);*/
+            
             monsters = new Monster[4] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() };
             //monsters = new Monster[3] { monster1, monster2, monster3 };
             ranMonsters = new Monster[ran.Next(1, 4)];  // 무작위 몬스터 생성(1마리 ~ 4마리)
@@ -66,8 +64,8 @@
         {
             Console.Clear();
 
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");
+
             Console.WriteLine();
             Console.WriteLine("1. 상태보기");
             Console.WriteLine("2. 전투시작");
@@ -191,17 +189,26 @@
             Console.WriteLine($"HP {player.CurHealth} / {player.MaxHealth}");
             Console.WriteLine($"마나 : {player.CurMp} / {player.MaxMp}");
             Console.WriteLine();
-                        //스킬출력
-            int useSkill = 0;
-            if (isUseSkill == false)  //만약 스킬활성화가 아니면
+            //스킬출력
+            if (isUseSkill == false)  //만약 스킬활성화가 아니면 isUseSkill => 
             {
                 Console.WriteLine("스킬을 사용하시겠습니까?");   //물어보기
-                Console.WriteLine("1.O");
-                Console.WriteLine("2 X");
-                useSkill = int.Parse(Console.ReadLine());
-                if (useSkill == 1)                                //1을 입력받으면 스킬 활성화
+                Console.WriteLine("0. 취소");
+                Console.WriteLine("1.공격한다");
+                Console.WriteLine("2 스킬사용");
+
+                int inp = CheckValidInput(0, 2);
+                switch(inp)
                 {
-                    isUseSkill = true;
+                    case 0:
+                        DisplayBattleInfo();
+                        break;
+                    case 1:
+                        isUseSkill = false;
+                        break;
+                    case 2:
+                        isUseSkill = true;
+                        break;
                 }
             }
             if (isUseSkill == true)                               //스킬이 활성화면
@@ -223,7 +230,7 @@
                     isUseSkill = false;                             //비활성화
                 }
             }
-            Console.WriteLine("0. 취소");
+
             Console.WriteLine();
             Console.WriteLine("대상을 선택해주세요");
 
@@ -275,7 +282,6 @@
                     damage = sumskilldamage;
                     player.CurMp -= skills[skillSelect - 1].UseMp;
                     Console.WriteLine($"마나 {player.MaxMp} -> {player.CurMp} ");
-                    player.MaxMp = player.CurMp;
 
                 }
                 else //일반공격이면
@@ -327,7 +333,7 @@
                 ranMonsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
                 player.MyTurn = false;
                 isUseSkill = false;
-                player.MaxMp = player.CurMp;
+                
 
                 Thread.Sleep(1000);
 
@@ -453,12 +459,12 @@
 
             Console.Write($"EXP {player.Exp} -> ");
             player.Exp += getExp;
-            if ((player.Exp + getExp) > player.TotalExp) //레벨업 검사
+            if ((player.Exp) >= player.TotalExp) //레벨업 검사
             {
 
                 player.LevelUp();   //레벨업 
                 Console.WriteLine($"{player.Exp}");
-                Console.WriteLine($"{player.TotalExp}");
+
 
             }
             else
@@ -469,7 +475,7 @@
             Console.WriteLine("[획득 아이템]");
 
             int itemCount = ran.Next(1, ranMonsters.Length);
-            for(int i = 0; i < itemCount; i++)
+            for (int i = 0; i < itemCount; i++)
             {
                 Console.WriteLine(DropItem().Name);    //드롭될 아이템을 생성(new)하고 그 이름을 출력
 
@@ -511,6 +517,9 @@
 
             Console.WriteLine();
             Console.WriteLine("0. 다음");
+
+            player.CurHealth = player.MaxHealth;
+            player.CurMp = player.MaxMp;
 
             int input = CheckValidInput(0, 0);
             switch (input)
@@ -582,6 +591,8 @@
         static void CreatePlayer()
         {
             // 이름 설정 
+
+            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
             Console.Write("이름을 설정해주세요:");
             string userName = Console.ReadLine();
 
@@ -591,17 +602,18 @@
             switch (choice)
             {
                 case JobType.Worrior:
-                    player = new Character(userName, "전사", 1, 5, 10, 70, 10000, 150, 150, 0, 10, true);
+                    player = new Character(userName, "전사", 1, 8, 10, 10000, 150, 150, 0, 10, 50, 50, true);
                     break;
                 case JobType.Archer:
-                    player = new Character(userName, "궁수", 1, 10, 5, 70, 10000, 120, 120, 0, 10, true);
+                    player = new Character(userName, "궁수", 1, 10, 5, 10000, 120, 120, 0, 10, 50, 50, true);
                     break;
                 case JobType.Mage:
-                    player = new Character(userName, "마법사", 1, 8, 5, 120, 10000, 100, 100, 0, 10, true);
+                    player = new Character(userName, "마법사", 1, 5, 5, 10000, 100, 100, 0, 10, 120, 120, true);
                     break;
             }
             Console.WriteLine($"{player.Name}, {player.Job}를 생성합니다.");
             Thread.Sleep(1000);
+
 
         }
 
@@ -667,28 +679,27 @@
         public int MaxHealth { get; set; }
         public int Exp { get; set; }
         public int TotalExp { get; set; }
-
-        public bool MyTurn { get; set; }
         public int CurMp { get; set; }
 
         public int MaxMp { get; set; }
+        public bool MyTurn { get; set; }
 
-        public Character(string name, string job, int level, float atk, int def, int mp, float gold, int curHealth, int maxHealth, int exp, int totalExp, bool myTurn)
+
+        public Character(string name, string job, int level, float atk, int def, float gold, int curHealth, int maxHealth, int exp, int totalExp, int curMp, int maxMp, bool myTurn)
         {
             Name = name;
             Job = job;
             Level = level;
             Atk = atk;
             Def = def;
-            Mp = mp;
             Gold = gold;
             CurHealth = curHealth;
             MaxHealth = maxHealth;
             Exp = exp;
             TotalExp = totalExp;
+            CurMp = curMp;
+            MaxMp = maxMp;
             MyTurn = myTurn;
-            CurMp = 50;
-            MaxMp = 50;
         }
 
         public void LevelUp()
@@ -696,7 +707,7 @@
             Atk += 0.5f;             // 레벨업 시 기본 공격력 + 0.5, 방어력 + 1
             Def += 1;
             Exp = Exp - TotalExp;
-            Level++;
+            Level += 1;
             TotalExp += (20 + (Level - 1) * 5);         // 1는 10 필요, 2~3은 35필요, 3~4는 65, 4~5는 100, 만렙은 5이며 exp증가 X
                                                         //레벨업은 player.Level++ / totalExp를 그에 맞게 올림 / totalExp는 += 20 + (level-1)*5(레벨이 2 이상이면)
         }
