@@ -6,7 +6,7 @@
         private static Monster[] monsters; // 몬스터 종류
         private static Monster[] ranMonsters; // 랜덤 몬스터 저장하는 배열
         static Random ran = new Random();
-        static List<Skill> skills = new List<Skill>();  //스킬을 담는 리슽트 생성
+        static List<Skill> skills = new List<Skill>();  //스킬을 담는 리스트 생성
         static bool isUseSkill = false;   //스킬활성화
         static int skillSelect; //스킬선택
         static void Main(string[] args)
