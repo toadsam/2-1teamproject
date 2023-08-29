@@ -6,7 +6,9 @@
         private static Monster[] monsters; // 몬스터 종류
         private static Monster[] ranMonsters; // 랜덤 몬스터 저장하는 배열
         static Random ran = new Random();
-
+        static List<Skill> skills = new List<Skill>();  //스킬을 담는 리슽트 생성
+        static bool isUseSkill = false;   //스킬활성화
+        static int skillSelect; //스킬선택
         static void Main(string[] args)
         {
             GameDataSetting();
@@ -15,7 +17,7 @@
 
         static void GameDataSetting()
         {
-            
+
             // 캐릭터 정보 세팅
             player = new Character("민열", "전사", 1, 10, 5, 100, 15000, 100, 100, true);
 
@@ -23,6 +25,13 @@
             Monster monster1 = new Monster("미니언", 2, 15, 15, 5, false);
             Monster monster2 = new Monster("대포미니언", 5, 25, 25, 8, false);
             Monster monster3 = new Monster("공허충", 3, 10, 10, 9, false);
+            Skill skill1 = new Skill("알파 스트라이크", 10, 2, 1);
+            Skill skill2 = new Skill("더블 스트라이크", 15, 2, 2);
+            Skill skill3 = new Skill("고무고무 피스톨", 45, 99, 9);
+            //스킬담는 리스트
+            skills.Add(skill1);
+            skills.Add(skill2);
+            skills.Add(skill3);
             monsters = new Monster[3] { monster1, monster2, monster3 };
             ranMonsters = new Monster[ran.Next(1, 4)];  // 무작위 몬스터 생성(1마리 ~ 4마리)
 
@@ -66,7 +75,7 @@
             switch (input)
             {
                 case 1:
-                    DisplayMyInfo();   
+                    DisplayMyInfo();
                     break;
 
                 case 2:
@@ -76,7 +85,7 @@
         }
 
         static void DisplayMyInfo() //캐릭터 상태창
-        {
+        {           
             Console.Clear();
 
             Console.WriteLine("상태보기");
@@ -87,6 +96,7 @@
             Console.WriteLine($"공격력 :{player.Atk}");
             Console.WriteLine($"방어력 : {player.Def}");
             Console.WriteLine($"체력 : {player.Hp}");
+            Console.WriteLine($"마나 : {player.MaxMp}");
             Console.WriteLine($"Gold : {player.Gold} G");
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
@@ -122,13 +132,15 @@
             Console.WriteLine("[내 정보]");
             Console.WriteLine($"Lv.{player.Level} {player.Name} ({player.Job})");
             Console.WriteLine($"HP {player.CurHealth} / {player.MaxHealth}");
+            Console.WriteLine($"마나 : {player.CurMp} / {player.MaxMp}");
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
             Console.WriteLine("1. 공격");
+            Console.WriteLine("2. 스킬");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요");
 
-            int input = CheckValidInput(0, 1);
+            int input = CheckValidInput(0, 2);
             switch (input)
             {
                 case 0:
@@ -137,6 +149,11 @@
                 case 1:
                     DisplayBattleInfo();
                     break;
+                case 2:   //2번 누르면 
+                    isUseSkill = true;  //스킬 활성화
+                    DisplayBattleInfo();
+                    break;
+
                 default:
 
                     break;
@@ -156,7 +173,7 @@
 
             for (int i = 0; i < ranMonsters.Length; i++)
             {
-                
+
                 if (ranMonsters[i].IsDead == true)
                 {
 
@@ -179,7 +196,41 @@
             Console.WriteLine("[내 정보]");
             Console.WriteLine($"Lv.{player.Level} {player.Name} ({player.Job})");
             Console.WriteLine($"HP {player.CurHealth} / {player.MaxHealth}");
+            Console.WriteLine($"마나 : {player.CurMp} / {player.MaxMp}");
             Console.WriteLine();
+            //스킬출력
+            int useSkill = 0;
+            if (isUseSkill == false)  //만약 스킬활성화가 아니면
+            {
+                Console.WriteLine("스킬을 사용하시겠습니까?");   //물어보기
+                Console.WriteLine("1.O");
+                Console.WriteLine("2 X");
+                useSkill = int.Parse(Console.ReadLine());     
+                if(useSkill == 1)                                //1을 입력받으면 스킬 활성화
+                {  
+                    isUseSkill = true;
+                }
+            }
+            if (isUseSkill == true)                               //스킬이 활성화면
+            {
+                int i = 1;
+                foreach (Skill skill in skills)                   //skills리스트에 있는 스킬들 출력
+                {
+                    Console.WriteLine($"{i} {skill.Name} - 사용마나{skill.UseMp}");
+                    Console.WriteLine($"공격력의{skill.MultiAtk}배로 {skill.AtkNumber}명의 적을 공격합니다.");
+                    Console.WriteLine("");
+                    i++;
+                }
+                Console.WriteLine();
+                Console.WriteLine("스킬을 골라주세요");
+                skillSelect = CheckValidInput(1, skills.Count);    //어떤스킬 사용할지 입력받기
+                if(player.CurMp < skills[skillSelect - 1].UseMp)  //마나가 부족하면
+                {
+                    Console.WriteLine("마나가 부족합니다");
+                    isUseSkill = false;                             //비활성화
+                }
+            }
+            
             Console.WriteLine("0. 취소");
             Console.WriteLine();
             Console.WriteLine("대상을 선택해주세요");
@@ -192,14 +243,15 @@
                     break;
 
                 default: //죽은놈 판별
-                    if (ranMonsters[input-1].IsDead == true)
+                    if (ranMonsters[input - 1].IsDead == true)
                     {
 
                         Console.WriteLine("이미 죽은 몬스터입니다.");
                         Thread.Sleep(1000);
                         DisplayBattleInfo(); //다시 선택해라
 
-                    } else
+                    }
+                    else
                     {
                         DisplayAttack(input);
                     }
@@ -217,13 +269,32 @@
             Console.WriteLine();
             if (player.MyTurn == true) // 내 턴일때
             {
+                int damage = 0;
+                int sumskilldamage = 0;  //스킬데미지 종합
+                int err = (int)Math.Ceiling(player.Atk / 10f); //int err = Math.Ceiling(player.Atk/10);
+                if (isUseSkill == true)  //스킬 활성화면
+                {
+                    for (int i = 0; i < skills[skillSelect - 1].AtkNumber; i++)  //공격횟수만큼 공격
+                    {
+                        damage = skills[skillSelect - 1].MultiAtk * ran.Next(player.Atk - err, player.Atk + err);
+                        Console.WriteLine($"{player.Name}의 {skills[skillSelect - 1].Name}!");
+                        sumskilldamage += damage;
+                    }
+                    Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) {skills[skillSelect - 1].AtkNumber}번 맞췄습니다. [데미지 : {sumskilldamage}]");            
+                    damage = sumskilldamage;
+                    player.CurMp -= skills[skillSelect - 1].UseMp;
+                    Console.WriteLine($"마나 {player.MaxMp} -> {player.CurMp} ");
+                    player.MaxMp = player.CurMp;
+                }
+                else
+                {
+                    damage = ran.Next(player.Atk - err, player.Atk + err);
+                    Console.WriteLine($"{player.Name}의 공격!");
+                    Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]");
+                }
 
-                int err = (int)Math.Ceiling(player.Atk / 10f);
-                //int err = Math.Ceiling(player.Atk/10);
-                int damage = ran.Next(player.Atk - err, player.Atk + err);
 
-                Console.WriteLine($"{player.Name}의 공격!");
-                Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]"); // 데미지는 공격력의 10%의 오차값 랜덤으로, 오차가 소수점이라면 올림 처리, 콘솔 텍스트 색 변경법 알아보기
+                //Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]"); // 데미지는 공격력의 10%의 오차값 랜덤으로, 오차가 소수점이라면 올림 처리, 콘솔 텍스트 색 변경법 알아보기
                 Console.WriteLine();
                 Console.WriteLine($"{ranMonsters[inp - 1].Name}");
 
@@ -240,9 +311,14 @@
                     Console.WriteLine($"HP {ranMonsters[inp - 1].CurHealth} -> {ranMonsters[inp - 1].CurHealth - damage}");
 
                 }
-                ranMonsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
-                player.MyTurn = false;
 
+                ranMonsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
+
+
+
+                player.MyTurn = false;
+                isUseSkill = false; 
+                player.MaxMp = player.CurMp;
                 Thread.Sleep(1000);
 
                 Console.WriteLine("Enemy turn");
@@ -394,6 +470,9 @@
         public float Gold { get; set; }
         public int CurHealth { get; set; }
         public int MaxHealth { get; set; }
+        public int CurMp { get; set; }
+
+        public int MaxMp { get; set; }
 
         public bool MyTurn { get; set; }
 
@@ -409,6 +488,10 @@
             CurHealth = curHealth;
             MaxHealth = maxHealth;
             MyTurn = myTurn;
+
+            CurMp = 50;
+            MaxMp = 50;  // 일단 50으로 설정
+
         }
     }
 
@@ -435,4 +518,27 @@
             IsDead = isDead;
         }
     }
+
+    public class Skill   //스킬 클래스 생성
+    {
+        public string Name { get; set; } 
+        public int UseMp { get; set; } //필요한 마나
+
+        public int MultiAtk { get; set; }  //공격력의 몇배
+
+        public int AtkNumber { get; set; }  //공격 횟수
+
+        public Skill(string name, int usemp, int multiatk, int atknumber)
+        {
+            Name = name;
+            UseMp = usemp;
+            MultiAtk = multiatk;
+            AtkNumber = atknumber;
+
+        }
+
+
+    }
+
+
 }
