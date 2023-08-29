@@ -1,5 +1,4 @@
-﻿
-namespace SpartaTextRPG2
+﻿namespace SpartaTextRPG2
 {
     internal class Program
     {
@@ -20,23 +19,22 @@ namespace SpartaTextRPG2
 
             // 캐릭터 정보 세팅
             CreatePlayer();
-            // 이름 설정 
-            Console.Write("이름을 설정해주세요:");
-
-            string UserName = Console.ReadLine();
-
-            Console.WriteLine("안녕하세요!" + "UserName" + "님!");
 
             // 몬스터 정보 세팅 => 몬스터 생성도 CreateMonster 하나 만들자
-            Monster monster1 = new Monster("미니언", 2, 15, 15, 5, false);
-            Monster monster2 = new Monster("대포미니언", 5, 25, 25, 8, false);
-            Monster monster3 = new Monster("공허충", 3, 10, 10, 9, false);
-            monsters = new Monster[3] { monster1, monster2, monster3 };
+            Monster monster1 = CreateMonster();
+            Monster monster2 = CreateMonster();
+            Monster monster3 = CreateMonster();
+            Monster monster4 = CreateMonster();
+            /*          Monster monster1 = new Monster("미니언", 2, 15, 15, 5, false); 
+                        Monster monster2 = new Monster("대포미니언", 5, 25, 25, 8, false);
+                        Monster monster3 = new Monster("공허충", 3, 10, 10, 9, false);*/
+            monsters = new Monster[4] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() };
+            //monsters = new Monster[3] { monster1, monster2, monster3 };
             ranMonsters = new Monster[ran.Next(1, 4)];  // 무작위 몬스터 생성(1마리 ~ 4마리)
 
             for (int i = 0; i < ranMonsters.Length; i++) // ※ 랜덤 마릿수(ranMonsters.Length)의 랜덤 몬스터(y)를 생성
             {
-                int y = ran.Next(0, 2);
+                /*int y = ran.Next(0, 2);
 
                 switch (y)
                 {
@@ -49,7 +47,8 @@ namespace SpartaTextRPG2
                     case 2:
                         ranMonsters[i] = new Monster("공허충", 3, 10, 10, 9, false);   //랜덤 정수 y가 2이면 '공허충' 몬스터 생성
                         break;
-                }
+                }*/
+                ranMonsters[i] = monsters[i];
             }
         }
 
@@ -216,33 +215,8 @@ namespace SpartaTextRPG2
                 //int err = Math.Ceiling(player.Atk/10);
                 int damage = ran.Next((int)Math.Round(player.Atk - err), (int)Math.Round(player.Atk + err)); // 레벨업 시 플레이어 공격력이 0.5씩 오르기 때문에 타입 오류가 생기는걸 방지하기 위해 Round함수 적용
 
-                bool isAtkUp = ran.Next(0, 100) < 15; // 15프로 확률
-
-                bool isDodgeAtk = ran.Next(0, 100) < 10; // 10프로 확률
-
                 Console.WriteLine($"{player.Name}의 공격!");
-
-                if (isDodgeAtk)
-                {
-                    Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 공격했지만 아무 일도 일어나지 않았습니다.");
-                }
-                else
-                {
-                    if (isAtkUp)
-                    {
-                        damage = (int)Math.Round(damage * 1.6); // 치명타 데미지 160% 적용
-                        Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}] - 치명타 공격!!");
-
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]");
-                        // 데미지는 공격력의 10%의 오차값 랜덤으로, 오차가 소수점이라면 올림 처리, 콘솔 텍스트 색 변경법 알아보기
-
-                    }
-
-                }
-
+                Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]"); // 데미지는 공격력의 10%의 오차값 랜덤으로, 오차가 소수점이라면 올림 처리, 콘솔 텍스트 색 변경법 알아보기
                 Console.WriteLine();
                 Console.WriteLine($"{ranMonsters[inp - 1].Name}");
 
@@ -444,6 +418,7 @@ namespace SpartaTextRPG2
             Mage = 3
         }
 
+
         static JobType ChooseJob()
         {
             JobType choice = JobType.None;
@@ -486,8 +461,55 @@ namespace SpartaTextRPG2
             }
 
         }
-    }
 
+        enum MonsterType
+        {
+            None = 0,
+            미니언 = 1,
+            대포미니언 = 2,
+            공허충 = 3
+        }
+
+        static MonsterType ChooseMonster()
+        {
+            MonsterType mon = MonsterType.None;
+
+            int input = ran.Next(1, 3);
+            switch (input)
+            {
+                case 1:
+                    mon = MonsterType.미니언;
+                    break;
+                case 2:
+                    mon = MonsterType.대포미니언;
+                    break;
+                case 3:
+                    mon = MonsterType.공허충;
+                    break;
+            }
+            return mon;
+        }
+        static Monster CreateMonster()  //몬스터를 랜덤으로 생성
+        {
+            MonsterType mon = ChooseMonster();
+
+            switch (mon)
+            {
+                case MonsterType.미니언:
+                    return new Monster("미니언", 2, 15, 15, 5, false);
+                    break;
+                case MonsterType.대포미니언:
+                    return new Monster("대포미니언", 5, 25, 25, 8, false);
+                    break;
+                case MonsterType.공허충:
+                    return new Monster("공허충", 3, 10, 10, 9, false);
+                    break;
+                default:
+                    return new Monster("미니언", 2, 15, 15, 5, false);
+                    break;
+            }
+        }
+    }
 
     public class Character  // 캐릭터 정보를 담당하는 클래스
     {
