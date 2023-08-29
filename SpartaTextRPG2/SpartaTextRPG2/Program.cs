@@ -10,17 +10,17 @@
         static void Main(string[] args)
         {
             GameDataSetting();
-            CreatePlayer();
+            //CreatePlayer();
             DisplayGameIntro();
         }
 
         static void GameDataSetting()
         {
-            
-            // 캐릭터 정보 세팅
-            player = new Character("민열", "전사", 1, 10, 5, 100, 15000, 100, 100, true);
 
-            // 몬스터 정보 세팅
+            // 캐릭터 정보 세팅
+            CreatePlayer();
+
+            // 몬스터 정보 세팅 => 몬스터 생성도 CreateMonster 하나 만들자
             Monster monster1 = new Monster("미니언", 2, 15, 15, 5, false);
             Monster monster2 = new Monster("대포미니언", 5, 25, 25, 8, false);
             Monster monster3 = new Monster("공허충", 3, 10, 10, 9, false);
@@ -62,7 +62,7 @@
             switch (input)
             {
                 case 1:
-                    DisplayMyInfo();   
+                    DisplayMyInfo();
                     break;
 
                 case 2:
@@ -179,13 +179,14 @@
                     break;
 
                 default: //죽은놈 판별
-                    if (ranMonsters[input-1].IsDead == true)
+                    if (ranMonsters[input - 1].IsDead == true)
                     {
                         Console.WriteLine("이미 죽은 몬스터입니다.");
                         Thread.Sleep(1000);
                         DisplayBattleInfo(); //다시 선택해라
 
-                    } else
+                    }
+                    else
                     {
                         DisplayAttack(input);
                     }
@@ -204,9 +205,9 @@
             if (player.MyTurn == true) // 내 턴일때
             {
 
-                int err = (int)Math.Ceiling(player.Atk / 10f);
+                float err = (float)Math.Ceiling(player.Atk / 10f);
                 //int err = Math.Ceiling(player.Atk/10);
-                int damage = ran.Next(player.Atk - err, player.Atk + err);
+                int damage = ran.Next((int)Math.Round(player.Atk - err), (int)Math.Round(player.Atk + err)); // 레벨업 시 플레이어 공격력이 0.5씩 오르기 때문에 타입 오류가 생기는걸 방지하기 위해 Round함수 적용
 
                 Console.WriteLine($"{player.Name}의 공격!");
                 Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]"); // 데미지는 공격력의 10%의 오차값 랜덤으로, 오차가 소수점이라면 올림 처리, 콘솔 텍스트 색 변경법 알아보기
@@ -312,6 +313,10 @@
         // 윤경: 전투 결과
         private static void DisplayVictory()
         {
+            // 클리어 후 사냥한 몬스터만큼 경험치 증가
+            // 1~2는 10 필요, 2~3은 35필요, 3~4는 65, 4~5는 100, 만렙은 5이며 exp증가 X
+            // 레벨업 시 기본 공격력 + 0.5, 방어력 + 1
+            // 몬스터 레벨 1당 1의 경험치 제공
             Console.Clear();
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -324,8 +329,41 @@
             Console.WriteLine($"던전에서 몬스터 {ranMonsters.Length}마리를 잡았습니다.");
 
             Console.WriteLine();
-            Console.WriteLine($"Lv.{player.Level} {player.Name}");
+            Console.WriteLine("[캐릭터 정보]");
+
+            int getExp = 0;
+            foreach (Monster mon in ranMonsters)
+            {
+                getExp += mon.Level;
+            }
+
+            if ((player.Exp + getExp) > player.TotalExp) //레벨업 검사
+            {
+                Console.WriteLine($"Lv.{player.Level} {player.Name} -> Lv.{player.Level + 1} {player.Name}");
+
+            }
+            else
+            {
+                Console.WriteLine($"Lv.{player.Level} {player.Name} -> {player.Level} {player.Name}");
+
+            }
             Console.WriteLine($"HP {player.MaxHealth} -> {player.CurHealth} ");
+
+            Console.Write($"EXP {player.Exp} -> ");
+            player.Exp += getExp;
+            if ((player.Exp + getExp) > player.TotalExp) //레벨업 검사
+            {
+
+                player.LevelUp();   //레벨업 
+                Console.WriteLine($"{player.Exp}");
+                Console.WriteLine($"{player.TotalExp}");
+
+            }
+            else
+            {
+                Console.WriteLine($"{player.Exp + getExp} ");
+
+            }
 
             Console.WriteLine();
             Console.WriteLine("0. 다음");
@@ -338,7 +376,7 @@
                     break;
             }
         }
-        
+
 
         private static void DisplayLose()
         {
@@ -402,16 +440,16 @@
         {
             JobType choice = ChooseJob();
 
-            switch(choice)
+            switch (choice)
             {
                 case JobType.Worrior:
-                    player = new Character("플레이어", "전사", 1, 5, 10, 70, 10000, 150, 150, true);
+                    player = new Character("플레이어", "전사", 1, 5, 10, 70, 10000, 150, 150, 0, 10, true);
                     break;
                 case JobType.Archer:
-                    player = new Character("플레이어", "궁수", 1, 10, 5, 70, 10000, 120, 120, true);
+                    player = new Character("플레이어", "궁수", 1, 10, 5, 70, 10000, 120, 120, 0, 10, true);
                     break;
                 case JobType.Mage:
-                    player = new Character("플레이어", "마법사", 1, 8, 5, 120, 10000, 100, 100, true);
+                    player = new Character("플레이어", "마법사", 1, 8, 5, 120, 10000, 100, 100, 0, 10, true);
                     break;
             }
 
@@ -424,16 +462,18 @@
         public string Name { get; set; }
         public string Job { get; set; }
         public int Level { get; set; }
-        public int Atk { get; set; }
+        public float Atk { get; set; }
         public int Def { get; set; }
         public int Mp { get; set; }
         public float Gold { get; set; }
         public int CurHealth { get; set; }
         public int MaxHealth { get; set; }
+        public int Exp { get; set; }
+        public int TotalExp { get; set; }
 
         public bool MyTurn { get; set; }
 
-        public Character(string name, string job, int level, int atk, int def, int mp, float gold, int curHealth, int maxHealth, bool myTurn)
+        public Character(string name, string job, int level, float atk, int def, int mp, float gold, int curHealth, int maxHealth, int exp, int totalExp, bool myTurn)
         {
             Name = name;
             Job = job;
@@ -444,7 +484,19 @@
             Gold = gold;
             CurHealth = curHealth;
             MaxHealth = maxHealth;
+            Exp = exp;
+            TotalExp = totalExp;
             MyTurn = myTurn;
+        }
+
+        public void LevelUp()
+        {
+            Atk += 0.5f;             // 레벨업 시 기본 공격력 + 0.5, 방어력 + 1
+            Def += 1;
+            Exp = Exp - TotalExp;
+            Level++;
+            TotalExp += (20 + (Level - 1) * 5);         // 1는 10 필요, 2~3은 35필요, 3~4는 65, 4~5는 100, 만렙은 5이며 exp증가 X
+                                                        //레벨업은 player.Level++ / totalExp를 그에 맞게 올림 / totalExp는 += 20 + (level-1)*5(레벨이 2 이상이면)
         }
     }
 
