@@ -21,14 +21,14 @@
         {
 
             // 캐릭터 정보 세팅
-            CreatePlayer();
+            CreatePlayer(); // 이름 입력과 직업 선택 화면
 
             // 몬스터 정보 세팅 => 몬스터 생성도 CreateMonster 하나 만들자
             Monster monster1 = CreateMonster();
             Monster monster2 = CreateMonster();
             Monster monster3 = CreateMonster();
             Monster monster4 = CreateMonster();
-            
+
             monsters = new Monster[4] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() };
             //monsters = new Monster[3] { monster1, monster2, monster3 };
             ranMonsters = new Monster[ran.Next(1, 4)];  // 무작위 몬스터 생성(1마리 ~ 4마리)
@@ -60,6 +60,10 @@
             }
         }
 
+
+//----------------------------------------------------------전투 상황 화면-----------------------------------------------------------------------
+        
+        // 1. 게임 첫 시작 화면 
         static void DisplayGameIntro()
         {
             Console.Clear();
@@ -85,7 +89,8 @@
             }
         }
 
-        static void DisplayMyInfo() //캐릭터 상태창
+        // 1-1. 캐릭터 상태 보기 화면
+        static void DisplayMyInfo() 
         {
             Console.Clear();
             Console.WriteLine("상태보기");
@@ -110,7 +115,7 @@
             }
         }
 
-
+        // 1-2. 전투 시작 화면
         static void DisplayBattle() // 전투 페이지, 적 정보와 나의 정보를 알려주고 공격할지 도망갈지 선택할 수 있음
         {
 
@@ -158,6 +163,7 @@
             }
         }
 
+        // 2-1. 전투 스킬 사용 화면
         static void DisplayBattleInfo()
         {
 
@@ -198,7 +204,7 @@
                 Console.WriteLine("2 스킬사용");
 
                 int inp = CheckValidInput(0, 2);
-                switch(inp)
+                switch (inp)
                 {
                     case 0:
                         DisplayBattleInfo();
@@ -257,7 +263,9 @@
             }
         }
 
-        static void DisplayAttack(int inp) // 실제 전투가 일어나는 페이지
+
+        // 실제 전투가 일어나는 페이지
+        static void DisplayAttack(int inp) 
         {
             // 공격 기능 
             // 공격 결과표시 화면
@@ -333,7 +341,7 @@
                 ranMonsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
                 player.MyTurn = false;
                 isUseSkill = false;
-                
+
 
                 Thread.Sleep(1000);
 
@@ -400,7 +408,10 @@
         }
 
 
-        static int CheckValidInput(int min, int max)    //사용자로부터 입력받고 입력받은 값이 매개변수 사이의 값이 아니면 다시 입력받음
+
+//----------------------------------------------입력 필터 함수----------------------------------------------------
+        
+        static int CheckValidInput(int min, int max)  //사용자로부터 입력받고 입력받은 값이 매개변수 사이의 값이 아니면 다시 입력받음
         {
             while (true)
             {
@@ -418,7 +429,9 @@
         }
 
 
-        // 윤경: 전투 결과
+//--------------------------------------------전투 결과(레벨업 정보)----------------------------------------------
+       
+        // 승리
         private static void DisplayVictory()
         {
             // 클리어 후 사냥한 몬스터만큼 경험치 증가
@@ -499,8 +512,7 @@
                     break;
             }
         }
-
-
+        // 패배
         private static void DisplayLose()
         {
             Console.Clear();
@@ -529,6 +541,7 @@
                     break;
             }
         }
+
         static Item DropItem()  // ※ 나중엔 인벤토리에 저장해야할 듯
         {
             int itemIndex = 0;
@@ -555,6 +568,9 @@
 
         }
 
+//--------------------------------------------플레이어 직업과 몬스터 종류----------------------------------------------
+        
+        // 플레이어 직업
         enum JobType
         {
             None = 0,
@@ -562,7 +578,6 @@
             Archer = 2,
             Mage = 3
         }
-
 
         static JobType ChooseJob()
         {
@@ -590,9 +605,9 @@
 
         static void CreatePlayer()
         {
-            // 이름 설정 
-
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
+            
+            // 이름 설정
             Console.Write("이름을 설정해주세요:");
             string userName = Console.ReadLine();
 
@@ -617,6 +632,7 @@
 
         }
 
+        // 몬스터 종류
         enum MonsterType
         {
             None = 0,
@@ -663,107 +679,6 @@
                     return new Monster("미니언", 2, 15, 15, 5, false);
                     break;
             }
-        }
-    }
-
-    public class Character  // 캐릭터 정보를 담당하는 클래스  
-    {
-        public string Name { get; set; }
-        public string Job { get; set; }
-        public int Level { get; set; }
-        public float Atk { get; set; }
-        public int Def { get; set; }
-        public int Mp { get; set; }
-        public float Gold { get; set; }
-        public int CurHealth { get; set; }
-        public int MaxHealth { get; set; }
-        public int Exp { get; set; }
-        public int TotalExp { get; set; }
-        public int CurMp { get; set; }
-
-        public int MaxMp { get; set; }
-        public bool MyTurn { get; set; }
-
-
-        public Character(string name, string job, int level, float atk, int def, float gold, int curHealth, int maxHealth, int exp, int totalExp, int curMp, int maxMp, bool myTurn)
-        {
-            Name = name;
-            Job = job;
-            Level = level;
-            Atk = atk;
-            Def = def;
-            Gold = gold;
-            CurHealth = curHealth;
-            MaxHealth = maxHealth;
-            Exp = exp;
-            TotalExp = totalExp;
-            CurMp = curMp;
-            MaxMp = maxMp;
-            MyTurn = myTurn;
-        }
-
-        public void LevelUp()
-        {
-            Atk += 0.5f;             // 레벨업 시 기본 공격력 + 0.5, 방어력 + 1
-            Def += 1;
-            Exp = Exp - TotalExp;
-            Level += 1;
-            TotalExp += (20 + (Level - 1) * 5);         // 1는 10 필요, 2~3은 35필요, 3~4는 65, 4~5는 100, 만렙은 5이며 exp증가 X
-                                                        //레벨업은 player.Level++ / totalExp를 그에 맞게 올림 / totalExp는 += 20 + (level-1)*5(레벨이 2 이상이면)
-        }
-    }
-
-    public class Monster
-    {
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public int MaxHealth { get; set; }
-        public int CurHealth { get; set; }
-        public int Atk { get; set; }
-
-        public bool IsDead { get; set; }
-
-
-
-
-        public Monster(string name, int level, int maxHealth, int curHealth, int atk, bool isDead)
-        {
-            Name = name;
-            Level = level;
-            MaxHealth = maxHealth;
-            CurHealth = curHealth;
-            Atk = atk;
-            IsDead = isDead;
-        }
-    }
-    public class Skill   //스킬 클래스 생성
-    {
-        public string Name { get; set; }
-        public int UseMp { get; set; } //필요한 마나
-
-        public int MultiAtk { get; set; }  //공격력의 몇배
-
-        public int AtkNumber { get; set; }  //공격 횟수
-
-        public Skill(string name, int usemp, int multiatk, int atknumber)
-        {
-            Name = name;
-            UseMp = usemp;
-            MultiAtk = multiatk;
-            AtkNumber = atknumber;
-
-        }
-
-
-    }
-
-    public class Item
-    {
-        public string Name { get; set; }
-
-        public Item(string name)
-        {
-            Name = name;
         }
     }
 
