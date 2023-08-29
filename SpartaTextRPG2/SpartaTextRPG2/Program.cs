@@ -10,6 +10,7 @@
         static void Main(string[] args)
         {
             GameDataSetting();
+            CreatePlayer();
             DisplayGameIntro();
         }
 
@@ -41,13 +42,8 @@
                     case 2:
                         ranMonsters[i] = new Monster("공허충", 3, 10, 10, 9, false);   //랜덤 정수 y가 2이면 '공허충' 몬스터 생성
                         break;
-
-
                 }
-
             }
-
-
         }
 
         static void DisplayGameIntro()
@@ -78,7 +74,6 @@
         static void DisplayMyInfo() //캐릭터 상태창
         {
             Console.Clear();
-
             Console.WriteLine("상태보기");
             Console.WriteLine("캐릭터의 정보를 표시합니다.");
             Console.WriteLine();
@@ -86,7 +81,7 @@
             Console.WriteLine($"{player.Name}({player.Job})");
             Console.WriteLine($"공격력 :{player.Atk}");
             Console.WriteLine($"방어력 : {player.Def}");
-            Console.WriteLine($"체력 : {player.Hp}");
+            Console.WriteLine($"체력 : {player.MaxHealth}");
             Console.WriteLine($"Gold : {player.Gold} G");
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
@@ -109,7 +104,6 @@
             Console.Clear();
             Console.WriteLine("Battle!!");
             Console.WriteLine();
-
             Console.WriteLine("[몬스터 종류]");
 
             for (int i = 0; i < ranMonsters.Length; i++)
@@ -146,8 +140,7 @@
         static void DisplayBattleInfo()
         {
 
-            // 공격할 몬스터 번호를 선택
-            // 
+            // 공격할 몬스터 번호를 선택 
             Console.Clear();
             Console.WriteLine("Battle!!");
             Console.WriteLine();
@@ -156,24 +149,18 @@
 
             for (int i = 0; i < ranMonsters.Length; i++)
             {
-                
                 if (ranMonsters[i].IsDead == true)
                 {
-
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.Write($"{i + 1} ");
                     Console.WriteLine($"Lv.{ranMonsters[i].Level} {ranMonsters[i].Name} Dead"); //몬스터 체력 0 이하면 Dead 출력
                     Console.ResetColor();
-
                 }
                 else
                 {
                     Console.Write($"{i + 1} ");
                     Console.WriteLine($"Lv.{ranMonsters[i].Level} {ranMonsters[i].Name} HP {ranMonsters[i].CurHealth} \n");
-
                 }
-
-
             }
             Console.WriteLine();
             Console.WriteLine("[내 정보]");
@@ -194,7 +181,6 @@
                 default: //죽은놈 판별
                     if (ranMonsters[input-1].IsDead == true)
                     {
-
                         Console.WriteLine("이미 죽은 몬스터입니다.");
                         Thread.Sleep(1000);
                         DisplayBattleInfo(); //다시 선택해라
@@ -226,8 +212,6 @@
                 Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]"); // 데미지는 공격력의 10%의 오차값 랜덤으로, 오차가 소수점이라면 올림 처리, 콘솔 텍스트 색 변경법 알아보기
                 Console.WriteLine();
                 Console.WriteLine($"{ranMonsters[inp - 1].Name}");
-
-
 
                 if ((ranMonsters[inp - 1].CurHealth - damage) <= 0)
                 {
@@ -354,6 +338,7 @@
                     break;
             }
         }
+        
 
         private static void DisplayLose()
         {
@@ -380,6 +365,57 @@
                     break;
             }
         }
+
+        enum JobType
+        {
+            None = 0,
+            Worrior = 1,
+            Archer = 2,
+            Mage = 3
+        }
+
+        static JobType ChooseJob()
+        {
+            JobType choice = JobType.None;
+            Console.WriteLine("직업을 선택하세요");
+            Console.WriteLine("1. 전사");
+            Console.WriteLine("2. 궁수");
+            Console.WriteLine("3. 마법사");
+
+            int input = CheckValidInput(1, 3);
+            switch (input)
+            {
+                case 1:
+                    choice = JobType.Worrior;
+                    break;
+                case 2:
+                    choice = JobType.Archer;
+                    break;
+                case 3:
+                    choice = JobType.Mage;
+                    break;
+            }
+            return choice;
+        }
+
+        static void CreatePlayer()
+        {
+            JobType choice = ChooseJob();
+
+            switch(choice)
+            {
+                case JobType.Worrior:
+                    player = new Character("플레이어", "전사", 1, 5, 10, 70, 10000, 150, 150, true);
+                    break;
+                case JobType.Archer:
+                    player = new Character("플레이어", "궁수", 1, 10, 5, 70, 10000, 120, 120, true);
+                    break;
+                case JobType.Mage:
+                    player = new Character("플레이어", "마법사", 1, 8, 5, 120, 10000, 100, 100, true);
+                    break;
+            }
+
+        }
     }
 
 
@@ -390,21 +426,21 @@
         public int Level { get; set; }
         public int Atk { get; set; }
         public int Def { get; set; }
-        public int Hp { get; set; }
+        public int Mp { get; set; }
         public float Gold { get; set; }
         public int CurHealth { get; set; }
         public int MaxHealth { get; set; }
 
         public bool MyTurn { get; set; }
 
-        public Character(string name, string job, int level, int atk, int def, int hp, float gold, int curHealth, int maxHealth, bool myTurn)
+        public Character(string name, string job, int level, int atk, int def, int mp, float gold, int curHealth, int maxHealth, bool myTurn)
         {
             Name = name;
             Job = job;
             Level = level;
             Atk = atk;
             Def = def;
-            Hp = hp;
+            Mp = mp;
             Gold = gold;
             CurHealth = curHealth;
             MaxHealth = maxHealth;
@@ -435,4 +471,5 @@
             IsDead = isDead;
         }
     }
+
 }
