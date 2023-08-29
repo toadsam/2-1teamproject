@@ -137,7 +137,7 @@
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
             Console.WriteLine("1. 공격");
-           // Console.WriteLine("2. 스킬");
+            // Console.WriteLine("2. 스킬");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요");
 
@@ -191,7 +191,7 @@
             Console.WriteLine($"HP {player.CurHealth} / {player.MaxHealth}");
             Console.WriteLine($"마나 : {player.CurMp} / {player.MaxMp}");
             Console.WriteLine();
-            //스킬출력
+                        //스킬출력
             int useSkill = 0;
             if (isUseSkill == false)  //만약 스킬활성화가 아니면
             {
@@ -260,7 +260,6 @@
             Console.WriteLine();
             if (player.MyTurn == true) // 내 턴일때
             {
-
                 int damage = 0;
                 int sumskilldamage = 0;  //스킬데미지 종합
                 int err = (int)Math.Ceiling(player.Atk / 10f); //int err = Math.Ceiling(player.Atk/10);
@@ -277,8 +276,9 @@
                     player.CurMp -= skills[skillSelect - 1].UseMp;
                     Console.WriteLine($"마나 {player.MaxMp} -> {player.CurMp} ");
                     player.MaxMp = player.CurMp;
+
                 }
-                else  //일반 공격이면
+                else //일반공격이면
                 {
                     damage = ran.Next((int)Math.Round(player.Atk - err), (int)Math.Round(player.Atk + err));
                     bool isAtkUp = ran.Next(0, 100) < 15; // 15프로 확률
@@ -288,6 +288,7 @@
                     if (isDodgeAtk)
                     {
                         Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 공격했지만 아무 일도 일어나지 않았습니다.");
+
                     }
                     else
                     {
@@ -303,11 +304,12 @@
 
 
                         }
+
+
                     }
-                
 
                 }
-                
+
                 Console.WriteLine();
                 Console.WriteLine($"{ranMonsters[inp - 1].Name}");
 
@@ -362,11 +364,12 @@
                     }
 
                 }
+                player.MyTurn = true;
+
                 if (monDeadCount == ranMonsters.Length)
                 {
                     DisplayVictory();
                 }
-                player.MyTurn = true;
 
                 Console.WriteLine("0. 다음"); // 0으로 넘어갈지 thread.sleep으로 시간차 두고 넘어갈지 정하기
             }
@@ -460,12 +463,27 @@
             }
             else
             {
-                Console.WriteLine($"{player.Exp + getExp} ");
+                Console.WriteLine($"{player.Exp} ");
+            }
+            Console.WriteLine();
+            Console.WriteLine("[획득 아이템]");
+
+            int itemCount = ran.Next(1, ranMonsters.Length);
+            for(int i = 0; i < itemCount; i++)
+            {
+                Console.WriteLine(DropItem().Name);    //드롭될 아이템을 생성(new)하고 그 이름을 출력
 
             }
 
             Console.WriteLine();
             Console.WriteLine("0. 다음");
+
+            monsters = new Monster[4] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() }; // 몬스터가 다 죽으면 새로운 몬스터를 생성하는 코드
+            ranMonsters = new Monster[ran.Next(1, 4)];
+            for (int i = 0; i < ranMonsters.Length; i++)
+            {
+                ranMonsters[i] = monsters[i];
+            }
 
             int input = CheckValidInput(0, 0);
             switch (input)
@@ -501,6 +519,31 @@
                     DisplayGameIntro();
                     break;
             }
+        }
+        static Item DropItem()  // ※ 나중엔 인벤토리에 저장해야할 듯
+        {
+            int itemIndex = 0;
+            itemIndex = ran.Next(1, 5);
+            switch (itemIndex)
+            {
+                case 1:
+                    return new Item("포션");
+                    break;
+                case 2:
+                    return new Item("낡은검");
+                    break;
+                case 3:
+                    return new Item("낡은활");
+                    break;
+                case 4:
+                    return new Item("낡은스태프");
+                    break;
+                case 5:
+                    return new Item("500G");
+            }
+
+            return new Item("돌맹이");
+
         }
 
         enum JobType
@@ -611,7 +654,7 @@
         }
     }
 
-    public class Character  // 캐릭터 정보를 담당하는 클래스
+    public class Character  // 캐릭터 정보를 담당하는 클래스  
     {
         public string Name { get; set; }
         public string Job { get; set; }
@@ -630,7 +673,6 @@
 
         public int MaxMp { get; set; }
 
-
         public Character(string name, string job, int level, float atk, int def, int mp, float gold, int curHealth, int maxHealth, int exp, int totalExp, bool myTurn)
         {
             Name = name;
@@ -646,7 +688,7 @@
             TotalExp = totalExp;
             MyTurn = myTurn;
             CurMp = 50;
-            MaxMp = 50;  // 일단 50으로 설정
+            MaxMp = 50;
         }
 
         public void LevelUp()
@@ -702,6 +744,16 @@
         }
 
 
+    }
+
+    public class Item
+    {
+        public string Name { get; set; }
+
+        public Item(string name)
+        {
+            Name = name;
+        }
     }
 
 }
