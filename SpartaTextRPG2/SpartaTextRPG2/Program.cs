@@ -6,9 +6,6 @@
         private static Monster[] monsters; // 몬스터 종류
         private static Monster[] ranMonsters; // 랜덤 몬스터 저장하는 배열
         static Random ran = new Random();
-        static bool[] isVictoryArr;
-        static bool isVictory = false;
-
 
         static void Main(string[] args)
         {
@@ -18,35 +15,31 @@
 
         static void GameDataSetting()
         {
+            
             // 캐릭터 정보 세팅
             player = new Character("민열", "전사", 1, 10, 5, 100, 15000, 100, 100, true);
 
-            // 아이템 정보 세팅 => 상점에서 골드 대신 판매 완료를 하려면 어떻게 할까
-
-
+            // 몬스터 정보 세팅
             Monster monster1 = new Monster("미니언", 2, 15, 15, 5, false);
             Monster monster2 = new Monster("대포미니언", 5, 25, 25, 8, false);
             Monster monster3 = new Monster("공허충", 3, 10, 10, 9, false);
             monsters = new Monster[3] { monster1, monster2, monster3 };
-            ranMonsters = new Monster[ran.Next(1, 4)];
-            isVictoryArr = new bool[ranMonsters.Length];
+            ranMonsters = new Monster[ran.Next(1, 4)];  // 무작위 몬스터 생성(1마리 ~ 4마리)
 
-
-
-            for (int i = 0; i < ranMonsters.Length; i++) // ※ 1~4마리의 몬스터가 랜덤하게 등장하도록 해야함, 표시 순서는 랜덤, 중복 가능
+            for (int i = 0; i < ranMonsters.Length; i++) // ※ 랜덤 마릿수(ranMonsters.Length)의 랜덤 몬스터(y)를 생성
             {
                 int y = ran.Next(0, 2);
 
                 switch (y)
                 {
                     case 0:
-                        ranMonsters[i] = new Monster("미니언", 2, 15, 15, 5, false);
+                        ranMonsters[i] = new Monster("미니언", 2, 15, 15, 5, false);   //랜덤 정수 y가 0이면 '미니언' 몬스터 생성
                         break;
                     case 1:
-                        ranMonsters[i] = new Monster("대포미니언", 5, 25, 25, 8, false); ;
+                        ranMonsters[i] = new Monster("대포미니언", 5, 25, 25, 8, false); //랜덤 정수 y가 1이면 '대포미니언' 몬스터 생성
                         break;
                     case 2:
-                        ranMonsters[i] = new Monster("공허충", 3, 10, 10, 9, false);
+                        ranMonsters[i] = new Monster("공허충", 3, 10, 10, 9, false);   //랜덤 정수 y가 2이면 '공허충' 몬스터 생성
                         break;
 
 
@@ -73,7 +66,7 @@
             switch (input)
             {
                 case 1:
-                    DisplayMyInfo();
+                    DisplayMyInfo();   
                     break;
 
                 case 2:
@@ -82,7 +75,7 @@
             }
         }
 
-        static void DisplayMyInfo()
+        static void DisplayMyInfo() //캐릭터 상태창
         {
             Console.Clear();
 
@@ -108,7 +101,7 @@
         }
 
 
-        static void DisplayBattle()
+        static void DisplayBattle() // 전투 페이지, 적 정보와 나의 정보를 알려주고 공격할지 도망갈지 선택할 수 있음
         {
 
             // 공격할 몬스터 번호를 선택
@@ -118,9 +111,6 @@
             Console.WriteLine();
 
             Console.WriteLine("[몬스터 종류]");
-
-
-
 
             for (int i = 0; i < ranMonsters.Length; i++)
             {
@@ -152,10 +142,6 @@
                     break;
             }
         }
-        static void DisplayEnd()
-        {
-
-        }
 
         static void DisplayBattleInfo()
         {
@@ -170,16 +156,19 @@
 
             for (int i = 0; i < ranMonsters.Length; i++)
             {
-                Console.Write($"{i + 1} ");
+                
                 if (ranMonsters[i].IsDead == true)
                 {
-                    Console.ForegroundColor = ConsoleColor.Gray;
+
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.Write($"{i + 1} ");
                     Console.WriteLine($"Lv.{ranMonsters[i].Level} {ranMonsters[i].Name} Dead"); //몬스터 체력 0 이하면 Dead 출력
                     Console.ResetColor();
 
                 }
                 else
                 {
+                    Console.Write($"{i + 1} ");
                     Console.WriteLine($"Lv.{ranMonsters[i].Level} {ranMonsters[i].Name} HP {ranMonsters[i].CurHealth} \n");
 
                 }
@@ -202,12 +191,14 @@
                     DisplayBattle();
                     break;
 
-                default:
+                default: //죽은놈 판별
                     if (ranMonsters[input-1].IsDead == true)
                     {
+
                         Console.WriteLine("이미 죽은 몬스터입니다.");
                         Thread.Sleep(1000);
-                        DisplayBattleInfo();
+                        DisplayBattleInfo(); //다시 선택해라
+
                     } else
                     {
                         DisplayAttack(input);
