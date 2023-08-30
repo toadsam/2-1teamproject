@@ -47,10 +47,10 @@ namespace SpartaTextRPG2
             dungeonLevel = 1;
             // 몬스터 정보 세팅 => 몬스터 생성도 CreateMonster 하나 만들자
             //StreamReader file = File.OpenText(@"./item_type.json");
-            var json4 = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
-            Character character;
-            character = JsonConvert.DeserializeObject<Character>(json4);
-            Console.WriteLine(character.CurMp);
+            //var json4 = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
+            //Character character;
+            //character = JsonConvert.DeserializeObject<Character>(json4);
+            //Console.WriteLine(character.CurMp);
             Thread.Sleep(3000);
                 
              
@@ -135,11 +135,13 @@ namespace SpartaTextRPG2
                     DisPlayPotion();
                     break;
                 case 4:
-                    var json3 = JObject.FromObject(player);
+                    var preuser = JObject.FromObject(player);
+                  //  var prePotion = JObject.FromObject(potion);
                     Console.WriteLine("저장완료");
-                    Console.WriteLine(json3.ToString());
+                    Console.WriteLine(preuser.ToString());
                     Thread.Sleep(2000);
-                    File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", json3.ToString());
+                    File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());
+                   // File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", prePotion.ToString());
                     break;
             }
         }
@@ -702,11 +704,17 @@ namespace SpartaTextRPG2
             int a = int.Parse(Console.ReadLine());
             if (a == 1)
             {
-                var json4 = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
+                var curuser = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
                 Character character;
-                character = JsonConvert.DeserializeObject<Character>(json4);
+                character = JsonConvert.DeserializeObject<Character>(curuser);
                 Console.WriteLine(character.CurMp);
                 player = character;
+                //var curPotion = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
+                //Potion potion1;
+                //potion1 = JsonConvert.DeserializeObject<Potion>(curPotion);
+                //Console.WriteLine(character.CurMp);
+                //potion = potion1;
+
             }
             else
             {
