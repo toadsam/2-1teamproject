@@ -11,6 +11,7 @@ namespace SpartaTextRPG2
         static List<Skill> skills = new List<Skill>();  //스킬을 담는 리스트 생성
         static bool isUseSkill = false;   //스킬활성화
         static int skillSelect; //스킬선택
+        static int dungeonLevel;
         //포션생성
         static Potion potion = new Potion();
         
@@ -30,15 +31,29 @@ namespace SpartaTextRPG2
             // 캐릭터 정보 세팅
             CreatePlayer(); // 이름 입력과 직업 선택 화면
 
+            dungeonLevel = 1;
             // 몬스터 정보 세팅 => 몬스터 생성도 CreateMonster 하나 만들자
-            Monster monster1 = CreateMonster();
-            Monster monster2 = CreateMonster();
-            Monster monster3 = CreateMonster();
-            Monster monster4 = CreateMonster();
 
-            monsters = new Monster[4] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() };
+            monsters = new Monster[5] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() };
             //monsters = new Monster[3] { monster1, monster2, monster3 };
-            ranMonsters = new Monster[ran.Next(1, 4)];  // 무작위 몬스터 생성(1마리 ~ 4마리)
+            switch (dungeonLevel)// 던전 레벨에 따라 몬스터 마리수를 무작위로 생성
+            {
+                case 1:
+                    ranMonsters = new Monster[ran.Next(1, 4)];
+                    break;
+                case 2:
+                    ranMonsters = new Monster[ran.Next(2, 4)];
+
+                    break;
+                case 3:
+                    ranMonsters = new Monster[ran.Next(3, 5)];
+
+                    break;
+                default:
+                    ranMonsters = new Monster[ran.Next(1, 4)];
+                    Console.WriteLine("던전 레벨이 3을 초과했습니다.");
+                    break;
+            }
             Skill skill1 = new Skill("알파 스트라이크", 10, 2, 1);
             Skill skill2 = new Skill("더블 스트라이크", 15, 2, 2);
             Skill skill3 = new Skill("고무고무 피스톨", 45, 99, 9);
@@ -46,8 +61,6 @@ namespace SpartaTextRPG2
             skills.Add(skill1);
             skills.Add(skill2);
             skills.Add(skill3);
-
-            
 
 
             for (int i = 0; i < ranMonsters.Length; i++) // ※ 랜덤 마릿수(ranMonsters.Length)의 랜덤 몬스터(y)를 생성
@@ -82,7 +95,7 @@ namespace SpartaTextRPG2
 
             Console.WriteLine();
             Console.WriteLine("1. 상태보기");
-            Console.WriteLine("2. 전투시작");
+            Console.WriteLine($"2. 전투시작 (현재 진행 : {dungeonLevel}층)");
             Console.WriteLine("3. 회복아이템");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
@@ -541,6 +554,7 @@ namespace SpartaTextRPG2
             Console.WriteLine();
             Console.WriteLine("0. 다음");
 
+            dungeonLevel += 1;
             monsters = new Monster[4] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() }; // 몬스터가 다 죽으면 새로운 몬스터를 생성하는 코드
             ranMonsters = new Monster[ran.Next(1, 4)];
             for (int i = 0; i < ranMonsters.Length; i++)
@@ -686,14 +700,32 @@ namespace SpartaTextRPG2
             None = 0,
             미니언 = 1,
             대포미니언 = 2,
-            공허충 = 3
+            공허충 = 3,
+            바선생 = 4,
+            귀멸의강낭콩 = 5
+               
         }
 
         static MonsterType ChooseMonster()
         {
             MonsterType mon = MonsterType.None;
 
-            int input = ran.Next(1, 3);
+            int input = 0;
+            switch (dungeonLevel) // 스테이지가 3개뿐이라 switch문 사용, 훨씬 많아지면 if로 하는게 좋음
+            {
+                case 1:
+                    input = ran.Next(1, 3);
+                    break;
+                case 2:
+                    input = ran.Next(2, 4);
+                    break;
+                case 3:
+                    input = ran.Next(3, 5); // ※ 마지막 스테이지에서 항상 보스가 나오게 하고싶은데..
+                    break;
+                default:
+                    input = ran.Next(1, 3);
+                    break;
+            }
             switch (input)
             {
                 case 1:
@@ -704,6 +736,12 @@ namespace SpartaTextRPG2
                     break;
                 case 3:
                     mon = MonsterType.공허충;
+                    break;
+                case 4:
+                    mon = MonsterType.바선생;
+                    break;
+                case 5:
+                    mon = MonsterType.귀멸의강낭콩;
                     break;
             }
             return mon;
@@ -722,6 +760,12 @@ namespace SpartaTextRPG2
                     break;
                 case MonsterType.공허충:
                     return new Monster("공허충", 3, 10, 10, 9, false);
+                case MonsterType.바선생:
+                    return new Monster("공허충", 3, 10, 10, 9, false);
+                    break;
+                case MonsterType.귀멸의강낭콩:
+                    return new Monster("공허충", 3, 10, 10, 9, false);
+                    break;
                     break;
                 default:
                     return new Monster("미니언", 2, 15, 15, 5, false);
