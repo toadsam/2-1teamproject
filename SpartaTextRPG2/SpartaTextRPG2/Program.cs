@@ -8,15 +8,16 @@ namespace SpartaTextRPG2
         private static Monster[] monsters; // 몬스터 종류
         private static Monster[] ranMonsters; // 랜덤 몬스터 저장하는 배열
         static Random ran = new Random();
+        
         static List<Skill> skills = new List<Skill>();  //스킬을 담는 리스트 생성
         static bool isUseSkill = false;   //스킬활성화
         static int skillSelect; //스킬선택
-        static int dungeonLevel;
-        //포션생성
-        static Potion potion = new Potion();
         
+        static int dungeonLevel;
 
-
+        private static List<Item> invenList = new List<Item>(); // 인벤토리 아이템 생성
+        static Potion potion = new Potion(); //포션생성
+        
         static void Main(string[] args)
         {
             GameDataSetting();
@@ -54,10 +55,11 @@ namespace SpartaTextRPG2
                     Console.WriteLine("던전 레벨이 3을 초과했습니다.");
                     break;
             }
+
+            // 스킬 정보 세팅(스킬담은 리스트)
             Skill skill1 = new Skill("알파 스트라이크", 10, 2, 1);
             Skill skill2 = new Skill("더블 스트라이크", 15, 2, 2);
             Skill skill3 = new Skill("고무고무 피스톨", 45, 99, 9);
-            //스킬담는 리스트
             skills.Add(skill1);
             skills.Add(skill2);
             skills.Add(skill3);
@@ -84,7 +86,7 @@ namespace SpartaTextRPG2
         }
 
 
-        //----------------------------------------------------------전투 상황 화면-----------------------------------------------------------------------
+        //--------------------------------------------------------------전투 상황 화면----------------------------------------------------------------
 
         // 1. 게임 첫 시작 화면 
         static void DisplayGameIntro()
@@ -96,7 +98,7 @@ namespace SpartaTextRPG2
             Console.WriteLine();
             Console.WriteLine("1. 상태보기");
             Console.WriteLine($"2. 전투시작 (현재 진행 : {dungeonLevel}층)");
-            Console.WriteLine("3. 회복아이템");
+            Console.WriteLine("3. 인벤토리");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
@@ -111,7 +113,7 @@ namespace SpartaTextRPG2
                     DisplayBattle();
                     break;
                 case 3:
-                    DisPlayPotion();
+                    Inventory();
                     break;
             }
         }
@@ -431,62 +433,7 @@ namespace SpartaTextRPG2
             }
         }
 
-        //---------------------------------------------------------------------회복아이템---------------------------------------------------------------------------------------
-
-        static void DisPlayPotion()
-        {
-            Console.Clear();
-            Console.WriteLine("회복");
-            Console.WriteLine($"체력포션을 사용하면 체력을 30 회복 할 수 있습니다. (남은 포션 : {Potion.hpPotionCount}  현재체력: {player.CurHealth}");
-            Console.WriteLine($"마나포션을 사용하면 마나을 30 회복 할 수 있습니다. (남은 포션 : {Potion.mpPotionCount} 현재마나: {player.CurMp}");
-            Console.WriteLine("");
-
-            Console.WriteLine("2.체력포션 사용하기");
-            Console.WriteLine("1.마나포션 사용하기");         
-            Console.WriteLine("0.나가기");
-
-            int input = CheckValidInput(0, 2);
-            switch (input)
-            {
-                case 0:
-                    DisplayGameIntro();
-                    break;
-                case 1:
-                    potion.MpPotionUse(player);
-                    Thread.Sleep(1000);
-                    DisPlayPotion();
-                    break;
-                case 2:
-                    potion.HpPotionUse(player);
-                    Thread.Sleep(1000);
-                    DisPlayPotion();
-                    break;
-
-               
-            }
-        }
-
-        //----------------------------------------------입력 필터 함수----------------------------------------------------
-
-        static int CheckValidInput(int min, int max)  //사용자로부터 입력받고 입력받은 값이 매개변수 사이의 값이 아니면 다시 입력받음
-        {
-            while (true)
-            {
-                string input = Console.ReadLine();
-
-                bool parseSuccess = int.TryParse(input, out var ret);
-                if (parseSuccess)
-                {
-                    if (ret >= min && ret <= max)
-                        return ret;
-                }
-
-                Console.WriteLine("잘못된 입력입니다.");
-            }
-        }
-
-
-//--------------------------------------------전투 결과(레벨업 정보)----------------------------------------------
+        //----------------------------------------------------------전투 결과(레벨업 정보)------------------------------------------------------------
        
         // 승리
         private static void DisplayVictory()
@@ -600,6 +547,188 @@ namespace SpartaTextRPG2
             }
         }
 
+        //--------------------------------------------------------------회복아이템----------------------------------------------------------------------
+
+        static void DisPlayPotion()
+        {
+            Console.Clear();
+            Console.WriteLine("회복");
+            Console.WriteLine($"체력포션을 사용하면 체력을 30 회복 할 수 있습니다. (남은 포션 : {Potion.hpPotionCount}  현재체력: {player.CurHealth}");
+            Console.WriteLine($"마나포션을 사용하면 마나을 30 회복 할 수 있습니다. (남은 포션 : {Potion.mpPotionCount} 현재마나: {player.CurMp}");
+            Console.WriteLine("");
+
+            Console.WriteLine("2.체력포션 사용하기");
+            Console.WriteLine("1.마나포션 사용하기");         
+            Console.WriteLine("0.나가기");
+
+            int input = CheckValidInput(0, 2);
+            switch (input)
+            {
+                case 0:
+                    DisplayGameIntro();
+                    break;
+                case 1:
+                    potion.MpPotionUse(player);
+                    Thread.Sleep(1000);
+                    DisPlayPotion();
+                    break;
+                case 2:
+                    potion.HpPotionUse(player);
+                    Thread.Sleep(1000);
+                    DisPlayPotion();
+                    break;
+
+               
+            }
+        }
+        //-------------------------------------------------------------인벤토리-------------------------------------------------------------------------
+        
+        // 1-3 인벤토리 화면
+        static void Inventory()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.ResetColor();
+            Console.WriteLine("보유 중인 아이템 관리할 수 있습니다.");
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------[아이템 목록]----------------------------------------");
+            Console.WriteLine();
+
+            string e;
+            foreach (var item in invenList)
+            {
+                e = item.PlayerEquipped ? "[E]" : "[X]";
+                Console.WriteLine($"{e} {item.Name,-5}|{item.Type}(+{item.Power,-3})|{item.Description,-20}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("--------------------------------------------------------------------------------------------");
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("1. 장착 관리 \n2. 아이템 정렬 \n0. 나가기");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+            Console.Write(">> ");
+
+            int input = Program.CheckValidInput(0, 2);
+            switch (input)
+            {
+                case 0:
+                    DisplayGameIntro(); // 시작 화면
+                    break;
+                case 1:
+                    EquipManagment(); // 장착 관리
+                    break;
+                case 2:
+                    InventoryArray(); // 문자열 정렬
+                    break;
+            }
+        }
+
+        // 장착 관리 : 현재의 장착상태를 보여줌
+        static void EquipManagment()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("인벤토리 - 장착 관리");
+            Console.ResetColor();
+            Console.WriteLine("보유 아이템에 대해 장착여부를 관리할 수 있습니다.");
+            Console.WriteLine(" [E]:장착무기, [X]:해제무기 ");
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------[아이템 목록]----------------------------------------");
+            Console.WriteLine();
+
+            int i = 0;
+            string e;
+            foreach (var item in invenList)
+            {
+                i++; // 목록 앞 숫자
+                e = item.PlayerEquipped ? "[E]" : "[X]";
+                Console.WriteLine($"{i}. {e} {item.Name,-5}|{item.Type}(+{item.Power,-3})|{item.Description,-20}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("--------------------------------------------------------------------------------------------");
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("0. 나가기");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine(" 장착 또는 해제하고 싶다면 아이템 앞 번호를 입력해주세요. \n화면에서 나가려면 0번을 입력해주세요.");
+            Console.Write(">> ");
+
+            int input = Program.CheckValidInput(0, invenList.Count);
+            if (input == 0) // 0.나가기
+            {
+                Inventory(); // 인벤토리 화면
+                return;
+            }
+
+        }
+
+        // 아이템 정렬: 이름, 장착, 공격, 방어순
+        static void InventoryArray()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("인벤토리 - 아이템 정렬");
+            Console.ResetColor();
+            Console.WriteLine("보유 아이템들의 순서를 정렬해 볼 수 있습니다.");
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------[아이템 목록]----------------------------------------");
+            Console.WriteLine();
+
+            int i = 0;
+            string e;
+            foreach (var item in invenList)
+            {
+                i++; // 목록 앞 숫자
+                e = item.PlayerEquipped ? "[E]" : "[X]";
+                Console.WriteLine($"{i}.{e} {item.Name,-5}|{item.Type}(+{item.Power})|가격 {item.Price,-3} G|{item.Description,-20}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("--------------------------------------------------------------------------------------------");
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("1. 이름\n2. 장착순\n3. 공격력\n4. 방어력 \n0. 나가기");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+            Console.Write(">> ");
+
+            int input = Program.CheckValidInput(0, 4);
+            switch (input)
+            {
+                case 0: // 나가기
+                    Inventory(); // 인벤토리 화면
+                    break;
+
+                case 1: // 이름 정렬
+                    invenList = invenList.OrderByDescending(x => x.Name.Length).ToList();
+                    InventoryArray();
+                    break;
+
+                case 2: // 장착순
+                    invenList = invenList.OrderByDescending(x => x.PlayerEquipped).ToList();
+                    InventoryArray();
+                    break;
+                case 3: // 공격력
+                    invenList = invenList.OrderByDescending(x => x.Type == "Atk").ThenBy(x => x.Power).ToList();
+                    InventoryArray();
+                    break;
+                case 4: // 방어력
+                    invenList = invenList.OrderByDescending(x => x.Type == "Def").ThenBy(x => x.Power).ToList();
+                    InventoryArray();
+                    InventoryArray();
+                    break;
+            }
+        }
+
         static Item DropItem()  // ※ 나중엔 인벤토리에 저장해야할 듯
         {
             int itemIndex = 0;
@@ -608,16 +737,16 @@ namespace SpartaTextRPG2
             {
                 case 1:
                     Potion.hpPotionCount++;
-                    return new Item("체력포션");              
+                    return new Item("체력포션");
                     break;
                 case 2:
-                    return new Item("낡은검");
+                    return new Item("낡은 검", "공격력", 3, "쉽게 볼 수 있는 낡은 검 입니다.", false, "dropitem");
                     break;
                 case 3:
-                    return new Item("낡은활");
+                    return new Item("낡은 활", "공격력", 4, "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.", false, "dropitem");
                     break;
                 case 4:
-                    return new Item("낡은스태프");
+                    return new Item("낡은 스태프", "방어력", 2, "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.", false, "dropitem");
                     break;
                 case 5:
                     return new Item("500G");
@@ -626,11 +755,31 @@ namespace SpartaTextRPG2
                     return new Item("마나포션");
             }
 
-            return new Item("돌맹이");
+            return new Item("돌맹이", "Atk", 4, "원거리에서는 투척하여 적에게 공격을 가하는 방식으로 사용되는 돌멩이입니다.", false, "dropitem");
 
         }
 
-//--------------------------------------------플레이어 직업과 몬스터 종류----------------------------------------------
+        //----------------------------------------------------------입력 필터 함수-----------------------------------------------------------------------
+
+        static int CheckValidInput(int min, int max)  //사용자로부터 입력받고 입력받은 값이 매개변수 사이의 값이 아니면 다시 입력받음
+        {
+            while (true)
+            {
+                string input = Console.ReadLine();
+
+                bool parseSuccess = int.TryParse(input, out var ret);
+                if (parseSuccess)
+                {
+                    if (ret >= min && ret <= max)
+                        return ret;
+                }
+
+                Console.WriteLine("잘못된 입력입니다.");
+            }
+        }
+
+
+        //-----------------------------------------------------플레이어 직업과 몬스터 종류-------------------------------------------------------------------
         
         // 플레이어 직업
         enum JobType
