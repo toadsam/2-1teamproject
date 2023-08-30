@@ -64,6 +64,10 @@ namespace SpartaTextRPG2
             skills.Add(skill2);
             skills.Add(skill3);
 
+            // 아이템 세팅(인벤토리)
+            invenList.Add(new Item("무쇠갑옷", "방어력", 3, "무쇠로 만들어져 튼튼한 갑옷입니다.", true, "player"));
+            invenList.Add(new Item("불타는도끼", "공격력", 1, "불꽃으로 베어내며 화염 공격을 가하는 도끼입니다.", false, "player"));
+
 
             for (int i = 0; i < ranMonsters.Length; i++) // ※ 랜덤 마릿수(ranMonsters.Length)의 랜덤 몬스터(y)를 생성
             {
@@ -113,7 +117,7 @@ namespace SpartaTextRPG2
                     DisplayBattle();
                     break;
                 case 3:
-                    Inventory();
+                    DisplayInventory();
                     break;
             }
         }
@@ -549,6 +553,40 @@ namespace SpartaTextRPG2
 
         //--------------------------------------------------------------회복아이템----------------------------------------------------------------------
 
+       
+        //-------------------------------------------------------------인벤토리-------------------------------------------------------------------------
+        
+        // 1-3 인벤토리 화면
+        static void DisplayInventory()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.ResetColor();
+            Console.WriteLine("보유 중인 포션과 아이템들을 관리할 수 있습니다.");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("1. 포션 관리 \n2. 아이템 관리 \n0. 나가기");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+            Console.Write(">> ");
+
+            int input = Program.CheckValidInput(0, 2);
+            switch (input)
+            {
+                case 0:
+                    DisplayGameIntro(); // 시작 화면
+                    break;
+                case 1:
+                    DisPlayPotion(); // 포션 관리
+                    break;
+                case 2:
+                    DisPlayItem(); // 아이템 관리
+                    break;
+            }
+        }
+
         static void DisPlayPotion()
         {
             Console.Clear();
@@ -558,33 +596,31 @@ namespace SpartaTextRPG2
             Console.WriteLine("");
 
             Console.WriteLine("2.체력포션 사용하기");
-            Console.WriteLine("1.마나포션 사용하기");         
+            Console.WriteLine("1.마나포션 사용하기");
             Console.WriteLine("0.나가기");
 
             int input = CheckValidInput(0, 2);
             switch (input)
             {
                 case 0:
-                    DisplayGameIntro();
+                    DisplayInventory(); // 인벤토리 시작 화면
                     break;
                 case 1:
-                    potion.MpPotionUse(player);
+                    potion.MpPotionUse(player); // 체력 포션
                     Thread.Sleep(1000);
                     DisPlayPotion();
                     break;
                 case 2:
-                    potion.HpPotionUse(player);
+                    potion.HpPotionUse(player); // 마나 포션
                     Thread.Sleep(1000);
                     DisPlayPotion();
                     break;
 
-               
+
             }
         }
-        //-------------------------------------------------------------인벤토리-------------------------------------------------------------------------
-        
-        // 1-3 인벤토리 화면
-        static void Inventory()
+
+        static void DisPlayItem()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -616,7 +652,7 @@ namespace SpartaTextRPG2
             switch (input)
             {
                 case 0:
-                    DisplayGameIntro(); // 시작 화면
+                    DisplayInventory(); // 인벤토리 시작 화면
                     break;
                 case 1:
                     EquipManagment(); // 장착 관리
@@ -663,8 +699,42 @@ namespace SpartaTextRPG2
             int input = Program.CheckValidInput(0, invenList.Count);
             if (input == 0) // 0.나가기
             {
-                Inventory(); // 인벤토리 화면
+                DisPlayItem(); // 아이템 관리 화면
                 return;
+            }
+            else
+            {
+                if (invenList[input - 1].PlayerEquipped) 
+                {
+                    // 장착 상태 변경 E -> X(true -> false)
+                    invenList[input - 1].PlayerEquipped = false;
+
+                    // 공격 아이템이면 공격력 감소, 방어 아이템이면 방어력 감소
+                    if (invenList[input - 1].Type == "Atk")
+                    {
+                        player.Atk = player.Atk - invenList[input - 1].Power;
+                    }
+                    else if (invenList[input - 1].Type == "Def")
+                    {
+                        player.Def = player.Def - invenList[input - 1].Power;
+                    }
+                }
+                else if (!invenList[input - 1].PlayerEquipped)
+                {
+                    // 장착 상태 변경 X -> E(false -> true)
+                    invenList[input - 1].PlayerEquipped = true;
+
+                    // 공격 아이템이면 공격력 증가, 방어 아이템이면 방어력 증가
+                    if (invenList[input - 1].Type == "Atk")
+                    {
+                        player.Atk = player.Atk + invenList[input - 1].Power;
+                    }
+                    else if (invenList[input - 1].Type == "Def")
+                    {
+                        player.Def = player.Def + invenList[input - 1].Power;
+                    }
+
+                }
             }
 
         }
@@ -705,7 +775,7 @@ namespace SpartaTextRPG2
             switch (input)
             {
                 case 0: // 나가기
-                    Inventory(); // 인벤토리 화면
+                    DisPlayItem(); // 아이템 화면
                     break;
 
                 case 1: // 이름 정렬
@@ -718,11 +788,11 @@ namespace SpartaTextRPG2
                     InventoryArray();
                     break;
                 case 3: // 공격력
-                    invenList = invenList.OrderByDescending(x => x.Type == "Atk").ThenBy(x => x.Power).ToList();
+                    invenList = invenList.OrderByDescending(x => x.Type == "공격력").ThenBy(x => x.Power).ToList();
                     InventoryArray();
                     break;
                 case 4: // 방어력
-                    invenList = invenList.OrderByDescending(x => x.Type == "Def").ThenBy(x => x.Power).ToList();
+                    invenList = invenList.OrderByDescending(x => x.Type == "방어력").ThenBy(x => x.Power).ToList();
                     InventoryArray();
                     InventoryArray();
                     break;
@@ -735,10 +805,10 @@ namespace SpartaTextRPG2
             itemIndex = ran.Next(1, 6);
             switch (itemIndex)
             {
-                case 1:
+                /*case 1:
                     Potion.hpPotionCount++;
                     return new Item("체력포션");
-                    break;
+                    break;*/
                 case 2:
                     return new Item("낡은 검", "공격력", 3, "쉽게 볼 수 있는 낡은 검 입니다.", false, "dropitem");
                     break;
@@ -748,11 +818,11 @@ namespace SpartaTextRPG2
                 case 4:
                     return new Item("낡은 스태프", "방어력", 2, "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.", false, "dropitem");
                     break;
-                case 5:
+               /* case 5:
                     return new Item("500G");
                 case 6:
                     Potion.mpPotionCount++;
-                    return new Item("마나포션");
+                    return new Item("마나포션");*/
             }
 
             return new Item("돌맹이", "Atk", 4, "원거리에서는 투척하여 적에게 공격을 가하는 방식으로 사용되는 돌멩이입니다.", false, "dropitem");
