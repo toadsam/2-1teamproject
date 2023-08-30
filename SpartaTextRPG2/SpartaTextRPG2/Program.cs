@@ -9,12 +9,15 @@
         static List<Skill> skills = new List<Skill>();  //스킬을 담는 리스트 생성
         static bool isUseSkill = false;   //스킬활성화
         static int skillSelect; //스킬선택
+        //static Potion potion = new Potion();
+
 
         static void Main(string[] args)
         {
             GameDataSetting();
             //CreatePlayer();
             DisplayGameIntro();
+            
         }
 
         static void GameDataSetting()
@@ -39,7 +42,9 @@
             skills.Add(skill1);
             skills.Add(skill2);
             skills.Add(skill3);
-
+           
+           
+            
             for (int i = 0; i < ranMonsters.Length; i++) // ※ 랜덤 마릿수(ranMonsters.Length)의 랜덤 몬스터(y)를 생성
             {
                 /*int y = ran.Next(0, 2);
@@ -153,10 +158,7 @@
                 case 1:
                     DisplayBattleInfo();
                     break;
-                //case 2:   //2번 누르면 
-                //    isUseSkill = true;  //스킬 활성화   //이건 팀원분들과 상의해보자
-                //    DisplayBattleInfo();
-                //    break;
+                
                 default:
 
                     break;
