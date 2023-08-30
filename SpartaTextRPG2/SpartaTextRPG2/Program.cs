@@ -1,4 +1,6 @@
-﻿namespace SpartaTextRPG2
+﻿using System.Threading;
+
+namespace SpartaTextRPG2
 {
     internal class Program
     {
@@ -9,7 +11,9 @@
         static List<Skill> skills = new List<Skill>();  //스킬을 담는 리스트 생성
         static bool isUseSkill = false;   //스킬활성화
         static int skillSelect; //스킬선택
-        //static Potion potion = new Potion();
+        //포션생성
+        static Potion potion = new Potion();
+        
 
 
         static void Main(string[] args)
@@ -17,7 +21,7 @@
             GameDataSetting();
             //CreatePlayer();
             DisplayGameIntro();
-            
+
         }
 
         static void GameDataSetting()
@@ -42,9 +46,10 @@
             skills.Add(skill1);
             skills.Add(skill2);
             skills.Add(skill3);
-           
-           
+
             
+
+
             for (int i = 0; i < ranMonsters.Length; i++) // ※ 랜덤 마릿수(ranMonsters.Length)의 랜덤 몬스터(y)를 생성
             {
                 /*int y = ran.Next(0, 2);
@@ -60,20 +65,14 @@
                     case 2:
                         ranMonsters[i] = new Monster("공허충", 3, 10, 10, 9, false);   //랜덤 정수 y가 2이면 '공허충' 몬스터 생성
                         break;
-                    case 3:
-                        ranMonsters[i] = new Monster("바선생", 7, 20, 20, 10, false);   //랜덤 정수 y가 3이면 '바선생' 몬스터 생성
-                        break;
-                    case 4:
-                        ranMonsters[i] = new Monster("귀멸의강낭콩", 10, 25, 25, 10, false);   //랜덤 정수 y가 4이면 '귀멸의강낭콩' 몬스터 생성
-                         break;
                 }*/
                 ranMonsters[i] = monsters[i];
             }
         }
 
 
-//----------------------------------------------------------전투 상황 화면-----------------------------------------------------------------------
-        
+        //----------------------------------------------------------전투 상황 화면-----------------------------------------------------------------------
+
         // 1. 게임 첫 시작 화면 
         static void DisplayGameIntro()
         {
@@ -84,10 +83,11 @@
             Console.WriteLine();
             Console.WriteLine("1. 상태보기");
             Console.WriteLine("2. 전투시작");
+            Console.WriteLine("3. 회복아이템");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            int input = CheckValidInput(1, 2);
+            int input = CheckValidInput(1, 3);
             switch (input)
             {
                 case 1:
@@ -97,11 +97,14 @@
                 case 2:
                     DisplayBattle();
                     break;
+                case 3:
+                    DisPlayPotion();
+                    break;
             }
         }
 
         // 1-1. 캐릭터 상태 보기 화면
-        static void DisplayMyInfo() 
+        static void DisplayMyInfo()
         {
             Console.Clear();
             Console.WriteLine("상태보기");
@@ -164,7 +167,7 @@
                 case 1:
                     DisplayBattleInfo();
                     break;
-                
+
                 default:
 
                     break;
@@ -240,9 +243,7 @@
                 skillSelect = CheckValidInput(1, skills.Count);    //어떤스킬 사용할지 입력받기
                 if (player.CurMp < skills[skillSelect - 1].UseMp)  //마나가 부족하면
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;//경고 문구 노랑색 배경  
                     Console.WriteLine("마나가 부족합니다");
-                    Console.ResetColor();//경고 문구 색 끝 
                     isUseSkill = false;                             //비활성화
                 }
             }
@@ -260,11 +261,10 @@
                 default: //죽은놈 판별
                     if (ranMonsters[input - 1].IsDead == true)
                     {
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;//죽은놈 문구 노랑색 
                         Console.WriteLine("이미 죽은 몬스터입니다.");
-                        Console.ResetColor();//노랑색 끝  
                         Thread.Sleep(1000);
                         DisplayBattleInfo(); //다시 선택해라
+
                     }
                     else
                     {
@@ -276,14 +276,13 @@
 
 
         // 실제 전투가 일어나는 페이지
-        static void DisplayAttack(int inp) 
+        static void DisplayAttack(int inp)
         {
             // 공격 기능 
             // 공격 결과표시 화면
             // 공격 대상 판별
             Console.Clear();
             Console.WriteLine("Battle!!");
-            Console.ForegroundColor = ConsoleColor.DarkGreen;//캐릭터의 공격 초록색  
             Console.WriteLine();
             if (player.MyTurn == true) // 내 턴일때
             {
@@ -353,11 +352,10 @@
                 ranMonsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
                 player.MyTurn = false;
                 isUseSkill = false;
-                Console.ResetColor();//캐릭터의 공격 초록색 글자 끝
+
 
                 Thread.Sleep(1000);
 
-                Console.ForegroundColor = ConsoleColor.DarkRed;//몬스터의 공격 빨강색 
                 Console.WriteLine("Enemy turn");
 
                 int monDeadCount = 0; // true인 mon의 개수
@@ -392,7 +390,6 @@
 
                 }
                 player.MyTurn = true;
-                Console.ResetColor();//몬스터 공격 빨강색 끝
 
                 if (monDeadCount == ranMonsters.Length)
                 {
@@ -403,9 +400,7 @@
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;//안내 문구 노랑색 
                 Console.WriteLine("플레이어의 턴이 아닙니다.");
-                Console.ResetColor();//노랑색 끝 
             }
 
 
@@ -423,10 +418,43 @@
             }
         }
 
+        //---------------------------------------------------------------------회복아이템---------------------------------------------------------------------------------------
 
+        static void DisPlayPotion()
+        {
+            Console.Clear();
+            Console.WriteLine("회복");
+            Console.WriteLine($"체력포션을 사용하면 체력을 30 회복 할 수 있습니다. (남은 포션 : {Potion.hpPotionCount}  현재체력: {player.CurHealth}");
+            Console.WriteLine($"마나포션을 사용하면 마나을 30 회복 할 수 있습니다. (남은 포션 : {Potion.mpPotionCount} 현재마나: {player.CurMp}");
+            Console.WriteLine("");
 
-//----------------------------------------------입력 필터 함수----------------------------------------------------
-        
+            Console.WriteLine("2.체력포션 사용하기");
+            Console.WriteLine("1.마나포션 사용하기");         
+            Console.WriteLine("0.나가기");
+
+            int input = CheckValidInput(0, 2);
+            switch (input)
+            {
+                case 0:
+                    DisplayGameIntro();
+                    break;
+                case 1:
+                    potion.MpPotionUse(player);
+                    Thread.Sleep(1000);
+                    DisPlayPotion();
+                    break;
+                case 2:
+                    potion.HpPotionUse(player);
+                    Thread.Sleep(1000);
+                    DisPlayPotion();
+                    break;
+
+               
+            }
+        }
+
+        //----------------------------------------------입력 필터 함수----------------------------------------------------
+
         static int CheckValidInput(int min, int max)  //사용자로부터 입력받고 입력받은 값이 매개변수 사이의 값이 아니면 다시 입력받음
         {
             while (true)
@@ -440,9 +468,7 @@
                         return ret;
                 }
 
-                Console.ForegroundColor = ConsoleColor.DarkYellow;//안내 문구 노랑색 
                 Console.WriteLine("잘못된 입력입니다.");
-                Console.ResetColor();//노랑색 끝 
             }
         }
 
@@ -460,6 +486,7 @@
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Battle!! - Result");
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Victory");
             Console.ResetColor();
 
@@ -536,6 +563,7 @@
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Battle!! - Result");
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("You Lose");
             Console.ResetColor();
 
@@ -561,11 +589,12 @@
         static Item DropItem()  // ※ 나중엔 인벤토리에 저장해야할 듯
         {
             int itemIndex = 0;
-            itemIndex = ran.Next(1, 5);
+            itemIndex = ran.Next(1, 6);
             switch (itemIndex)
             {
                 case 1:
-                    return new Item("포션");
+                    Potion.hpPotionCount++;
+                    return new Item("체력포션");              
                     break;
                 case 2:
                     return new Item("낡은검");
@@ -578,6 +607,9 @@
                     break;
                 case 5:
                     return new Item("500G");
+                case 6:
+                    Potion.mpPotionCount++;
+                    return new Item("마나포션");
             }
 
             return new Item("돌맹이");
@@ -654,16 +686,14 @@
             None = 0,
             미니언 = 1,
             대포미니언 = 2,
-            공허충 = 3,
-            바선생 = 4,
-            귀멸의강낭콩 = 5
+            공허충 = 3
         }
 
         static MonsterType ChooseMonster()
         {
             MonsterType mon = MonsterType.None;
 
-            int input = ran.Next(1, 5);
+            int input = ran.Next(1, 3);
             switch (input)
             {
                 case 1:
@@ -674,12 +704,6 @@
                     break;
                 case 3:
                     mon = MonsterType.공허충;
-                    break;
-                case 4:
-                    mon = MonsterType.바선생;
-                    break;
-                case 5:
-                    mon = MonsterType.귀멸의강낭콩;
                     break;
             }
             return mon;
@@ -698,12 +722,6 @@
                     break;
                 case MonsterType.공허충:
                     return new Monster("공허충", 3, 10, 10, 9, false);
-                    break;
-                case MonsterType.바선생:
-                    return new Monster("바선생", 7, 20, 20, 10, false);
-                    break;
-                case MonsterType.귀멸의강낭콩:
-                    return new Monster("귀멸의강낭콩", 10, 25, 25, 10, false);
                     break;
                 default:
                     return new Monster("미니언", 2, 15, 15, 5, false);
