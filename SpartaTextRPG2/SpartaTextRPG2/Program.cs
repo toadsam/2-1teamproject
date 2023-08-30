@@ -55,6 +55,12 @@
                     case 2:
                         ranMonsters[i] = new Monster("공허충", 3, 10, 10, 9, false);   //랜덤 정수 y가 2이면 '공허충' 몬스터 생성
                         break;
+                    case 3:
+                        ranMonsters[i] = new Monster("바선생", 7, 20, 20, 10, false);   //랜덤 정수 y가 3이면 '바선생' 몬스터 생성
+                        break;
+                    case 4:
+                        ranMonsters[i] = new Monster("귀멸의강낭콩", 10, 25, 25, 10, false);   //랜덤 정수 y가 4이면 '귀멸의강낭콩' 몬스터 생성
+                         break;
                 }*/
                 ranMonsters[i] = monsters[i];
             }
@@ -232,7 +238,9 @@
                 skillSelect = CheckValidInput(1, skills.Count);    //어떤스킬 사용할지 입력받기
                 if (player.CurMp < skills[skillSelect - 1].UseMp)  //마나가 부족하면
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;//경고 문구 노랑색 배경  
                     Console.WriteLine("마나가 부족합니다");
+                    Console.ResetColor();//경고 문구 색 끝 
                     isUseSkill = false;                             //비활성화
                 }
             }
@@ -250,10 +258,11 @@
                 default: //죽은놈 판별
                     if (ranMonsters[input - 1].IsDead == true)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;//죽은놈 문구 노랑색 
                         Console.WriteLine("이미 죽은 몬스터입니다.");
+                        Console.ResetColor();//노랑색 끝  
                         Thread.Sleep(1000);
                         DisplayBattleInfo(); //다시 선택해라
-
                     }
                     else
                     {
@@ -272,6 +281,7 @@
             // 공격 대상 판별
             Console.Clear();
             Console.WriteLine("Battle!!");
+            Console.ForegroundColor = ConsoleColor.DarkGreen;//캐릭터의 공격 초록색  
             Console.WriteLine();
             if (player.MyTurn == true) // 내 턴일때
             {
@@ -341,10 +351,11 @@
                 ranMonsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
                 player.MyTurn = false;
                 isUseSkill = false;
-
+                Console.ResetColor();//캐릭터의 공격 초록색 글자 끝
 
                 Thread.Sleep(1000);
 
+                Console.ForegroundColor = ConsoleColor.DarkRed;//몬스터의 공격 빨강색 
                 Console.WriteLine("Enemy turn");
 
                 int monDeadCount = 0; // true인 mon의 개수
@@ -379,6 +390,7 @@
 
                 }
                 player.MyTurn = true;
+                Console.ResetColor();//몬스터 공격 빨강색 끝
 
                 if (monDeadCount == ranMonsters.Length)
                 {
@@ -389,7 +401,9 @@
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;//안내 문구 노랑색 
                 Console.WriteLine("플레이어의 턴이 아닙니다.");
+                Console.ResetColor();//노랑색 끝 
             }
 
 
@@ -424,7 +438,9 @@
                         return ret;
                 }
 
+                Console.ForegroundColor = ConsoleColor.DarkYellow;//안내 문구 노랑색 
                 Console.WriteLine("잘못된 입력입니다.");
+                Console.ResetColor();//노랑색 끝 
             }
         }
 
@@ -442,7 +458,6 @@
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Battle!! - Result");
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Victory");
             Console.ResetColor();
 
@@ -519,7 +534,6 @@
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Battle!! - Result");
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("You Lose");
             Console.ResetColor();
 
@@ -638,14 +652,16 @@
             None = 0,
             미니언 = 1,
             대포미니언 = 2,
-            공허충 = 3
+            공허충 = 3,
+            바선생 = 4,
+            귀멸의강낭콩 = 5
         }
 
         static MonsterType ChooseMonster()
         {
             MonsterType mon = MonsterType.None;
 
-            int input = ran.Next(1, 3);
+            int input = ran.Next(1, 5);
             switch (input)
             {
                 case 1:
@@ -656,6 +672,12 @@
                     break;
                 case 3:
                     mon = MonsterType.공허충;
+                    break;
+                case 4:
+                    mon = MonsterType.바선생;
+                    break;
+                case 5:
+                    mon = MonsterType.귀멸의강낭콩;
                     break;
             }
             return mon;
@@ -674,6 +696,12 @@
                     break;
                 case MonsterType.공허충:
                     return new Monster("공허충", 3, 10, 10, 9, false);
+                    break;
+                case MonsterType.바선생:
+                    return new Monster("바선생", 7, 20, 20, 10, false);
+                    break;
+                case MonsterType.귀멸의강낭콩:
+                    return new Monster("귀멸의강낭콩", 10, 25, 25, 10, false);
                     break;
                 default:
                     return new Monster("미니언", 2, 15, 15, 5, false);
