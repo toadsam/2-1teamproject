@@ -16,7 +16,7 @@ namespace SpartaTextRPG2
         static bool isUseSkill = false;   //스킬활성화
         static int skillSelect; //스킬선택
         static int dungeonLevel;
-       
+        static Save save = new Save();
         //포션생성
         static Potion potion = new Potion();
         
@@ -41,6 +41,7 @@ namespace SpartaTextRPG2
 
             // 캐릭터 정보 세팅
             CreatePlayer(); // 이름 입력과 직업 선택 화면
+            
             //var json3 = JObject.FromObject(player);
             //Console.WriteLine(json3.ToString());
             //File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", json3.ToString());
@@ -135,13 +136,18 @@ namespace SpartaTextRPG2
                     DisPlayPotion();
                     break;
                 case 4:
-                    var preuser = JObject.FromObject(player);
-                  //  var prePotion = JObject.FromObject(potion);
-                    Console.WriteLine("저장완료");
+                    save.SaveInformation(player, potion);
+                    var preuser = JObject.FromObject(save);
                     Console.WriteLine(preuser.ToString());
                     Thread.Sleep(2000);
                     File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());
-                   // File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", prePotion.ToString());
+                    //  var preuser = JObject.FromObject(player);
+                    ////  var prePotion = JObject.FromObject(potion);
+                    //  Console.WriteLine("저장완료");
+                    //  Console.WriteLine(preuser.ToString());
+                    //  Thread.Sleep(2000);
+                    //  File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());
+                    // // File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", prePotion.ToString());
                     break;
             }
         }
@@ -704,16 +710,13 @@ namespace SpartaTextRPG2
             int a = int.Parse(Console.ReadLine());
             if (a == 1)
             {
-                var curuser = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
-                Character character;
-                character = JsonConvert.DeserializeObject<Character>(curuser);
-                Console.WriteLine(character.CurMp);
-                player = character;
-                //var curPotion = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
-                //Potion potion1;
-                //potion1 = JsonConvert.DeserializeObject<Potion>(curPotion);
-                //Console.WriteLine(character.CurMp);
-                //potion = potion1;
+                var curuser = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");  
+                Save save2 = JsonConvert.DeserializeObject<Save>(curuser);
+                save = save2;
+                player = save.character;
+                potion = save.potion;
+                Console.WriteLine($"{player.Name}님 환영합니다");
+              
 
             }
             else
