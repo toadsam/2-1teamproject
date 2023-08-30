@@ -1,4 +1,8 @@
 ﻿using System.Threading;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace SpartaTextRPG2
 {
@@ -8,16 +12,16 @@ namespace SpartaTextRPG2
         private static Monster[] monsters; // 몬스터 종류
         private static Monster[] ranMonsters; // 랜덤 몬스터 저장하는 배열
         static Random ran = new Random();
-        
+
         static List<Skill> skills = new List<Skill>();  //스킬을 담는 리스트 생성
         static bool isUseSkill = false;   //스킬활성화
         static int skillSelect; //스킬선택
-        
+
         static int dungeonLevel;
 
         private static List<Item> invenList = new List<Item>(); // 인벤토리 아이템 생성
         static Potion potion = new Potion(); //포션생성
-        
+
         static void Main(string[] args)
         {
             GameDataSetting();
@@ -438,7 +442,7 @@ namespace SpartaTextRPG2
         }
 
         //----------------------------------------------------------전투 결과(레벨업 정보)------------------------------------------------------------
-       
+
         // 승리
         private static void DisplayVictory()
         {
@@ -500,7 +504,7 @@ namespace SpartaTextRPG2
             {
                 Item droppedItem = DropItem(); // 아이템 생성
                 Console.WriteLine(droppedItem.Name);
-               // Console.WriteLine(droppedItem.Name);    //드롭될 아이템을 생성(new)하고 그 이름을 출력
+                // Console.WriteLine(droppedItem.Name);    //드롭될 아이템을 생성(new)하고 그 이름을 출력
                 DropeItemToInventory(droppedItem); // 아이템 인벤토리에 추가
             }
 
@@ -554,9 +558,9 @@ namespace SpartaTextRPG2
         }
 
 
-       
+
         //-------------------------------------------------------------인벤토리-------------------------------------------------------------------------
-        
+
         // 1-3 인벤토리 화면
         static void DisplayInventory()
         {
@@ -706,7 +710,7 @@ namespace SpartaTextRPG2
             }
             else
             {
-                if (invenList[input - 1].PlayerEquipped) 
+                if (invenList[input - 1].PlayerEquipped)
                 {
                     // 장착 상태 변경 E -> X(true -> false)
                     invenList[input - 1].PlayerEquipped = false;
@@ -813,18 +817,18 @@ namespace SpartaTextRPG2
                     break;*/
                 case 1:
                     return new Item("낡은 검", "공격력", 3f, "쉽게 볼 수 있는 낡은 검 입니다.", false, "dropitem");
-                    //break;
+                //break;
                 case 2:
                     return new Item("낡은 활", "공격력", 4f, "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.", false, "dropitem");
-                    //break;
+                //break;
                 case 3:
                     return new Item("낡은 스태프", "방어력", 2f, "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.", false, "dropitem");
                     //break;
-                /*case 5:
-                    return new Item("500G");
-                case 6:
-                    Potion.mpPotionCount++;
-                    return new Item("마나포션");*/
+                    /*case 5:
+                        return new Item("500G");
+                    case 6:
+                        Potion.mpPotionCount++;
+                        return new Item("마나포션");*/
             }
 
             return new Item("돌맹이", "공격력", 4, "원거리에서는 투척하여 적에게 공격을 가하는 방식으로 사용되는 돌멩이입니다.", false, "dropitem");
@@ -857,7 +861,7 @@ namespace SpartaTextRPG2
 
 
         //-----------------------------------------------------플레이어 직업과 몬스터 종류-------------------------------------------------------------------
-        
+
         // 플레이어 직업
         enum JobType
         {
@@ -894,7 +898,7 @@ namespace SpartaTextRPG2
         static void CreatePlayer()
         {
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
-            
+
             // 이름 설정
             Console.Write("이름을 설정해주세요:");
             string userName = Console.ReadLine();
@@ -929,7 +933,7 @@ namespace SpartaTextRPG2
             공허충 = 3,
             바선생 = 4,
             귀멸의강낭콩 = 5
-               
+
         }
 
         static MonsterType ChooseMonster()
