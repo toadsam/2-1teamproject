@@ -1,4 +1,8 @@
 ﻿using System.Threading;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace SpartaTextRPG2
 {
@@ -12,6 +16,7 @@ namespace SpartaTextRPG2
         static bool isUseSkill = false;   //스킬활성화
         static int skillSelect; //스킬선택
         static int dungeonLevel;
+       
         //포션생성
         static Potion potion = new Potion();
         
@@ -19,6 +24,12 @@ namespace SpartaTextRPG2
 
         static void Main(string[] args)
         {
+            //var json = new JObject();
+            //json.Add("id", "Luna");
+            //json.Add("name", "Silver");
+            //json.Add("age", 19);
+
+            //Console.WriteLine(json.ToString());
             GameDataSetting();
             //CreatePlayer();
             DisplayGameIntro();
@@ -30,10 +41,19 @@ namespace SpartaTextRPG2
 
             // 캐릭터 정보 세팅
             CreatePlayer(); // 이름 입력과 직업 선택 화면
-
+            //var json3 = JObject.FromObject(player);
+            //Console.WriteLine(json3.ToString());
+            //File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", json3.ToString());
             dungeonLevel = 1;
             // 몬스터 정보 세팅 => 몬스터 생성도 CreateMonster 하나 만들자
-
+            //StreamReader file = File.OpenText(@"./item_type.json");
+            var json4 = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
+            Character character;
+            character = JsonConvert.DeserializeObject<Character>(json4);
+            Console.WriteLine(character.CurMp);
+            Thread.Sleep(3000);
+                
+             
             monsters = new Monster[5] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() };
             //monsters = new Monster[3] { monster1, monster2, monster3 };
             switch (dungeonLevel)// 던전 레벨에 따라 몬스터 마리수를 무작위로 생성
@@ -97,10 +117,11 @@ namespace SpartaTextRPG2
             Console.WriteLine("1. 상태보기");
             Console.WriteLine($"2. 전투시작 (현재 진행 : {dungeonLevel}층)");
             Console.WriteLine("3. 회복아이템");
+            Console.WriteLine("4. 저장기능");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            int input = CheckValidInput(1, 3);
+            int input = CheckValidInput(1, 4);
             switch (input)
             {
                 case 1:
@@ -112,6 +133,13 @@ namespace SpartaTextRPG2
                     break;
                 case 3:
                     DisPlayPotion();
+                    break;
+                case 4:
+                    var json3 = JObject.FromObject(player);
+                    Console.WriteLine("저장완료");
+                    Console.WriteLine(json3.ToString());
+                    Thread.Sleep(2000);
+                    File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", json3.ToString());
                     break;
             }
         }
@@ -668,28 +696,43 @@ namespace SpartaTextRPG2
         static void CreatePlayer()
         {
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
-            
-            // 이름 설정
-            Console.Write("이름을 설정해주세요:");
-            string userName = Console.ReadLine();
+            Console.WriteLine("저번 캐릭터를 이어하시겠습니까?");
+            Console.WriteLine("");
 
-
-            JobType choice = ChooseJob();
-
-            switch (choice)
+            int a = int.Parse(Console.ReadLine());
+            if (a == 1)
             {
-                case JobType.Worrior:
-                    player = new Character(userName, "전사", 1, 8, 10, 10000, 150, 150, 0, 10, 50, 50, true);
-                    break;
-                case JobType.Archer:
-                    player = new Character(userName, "궁수", 1, 10, 5, 10000, 120, 120, 0, 10, 50, 50, true);
-                    break;
-                case JobType.Mage:
-                    player = new Character(userName, "마법사", 1, 5, 5, 10000, 100, 100, 0, 10, 120, 120, true);
-                    break;
+                var json4 = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
+                Character character;
+                character = JsonConvert.DeserializeObject<Character>(json4);
+                Console.WriteLine(character.CurMp);
+                player = character;
             }
-            Console.WriteLine($"{player.Name}, {player.Job}를 생성합니다.");
-            Thread.Sleep(1000);
+            else
+            {
+                // 이름 설정
+                Console.Write("이름을 설정해주세요:");
+                string userName = Console.ReadLine();
+
+
+                JobType choice = ChooseJob();
+
+                switch (choice)
+                {
+                    case JobType.Worrior:
+                        player = new Character(userName, "전사", 1, 8, 10, 10000, 150, 150, 0, 10, 50, 50, true);
+                        break;
+                    case JobType.Archer:
+                        player = new Character(userName, "궁수", 1, 10, 5, 10000, 120, 120, 0, 10, 50, 50, true);
+                        break;
+                    case JobType.Mage:
+                        player = new Character(userName, "마법사", 1, 5, 5, 10000, 100, 100, 0, 10, 120, 120, true);
+                        break;
+                }
+                Console.WriteLine($"{player.Name}, {player.Job}를 생성합니다.");
+                Thread.Sleep(1000);
+
+            }
 
 
         }

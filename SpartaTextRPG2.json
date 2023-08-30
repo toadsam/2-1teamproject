@@ -1,0 +1,16 @@
+{
+  "Name": "w",
+  "Job": "궁수",
+  "Level": 1,
+  "Atk": 10.0,
+  "Def": 5,
+  "Mp": 0,
+  "Gold": 10000.0,
+  "CurHealth": 112,
+  "MaxHealth": 120,
+  "Exp": 5,
+  "TotalExp": 10,
+  "CurMp": 40,
+  "MaxMp": 50,
+  "MyTurn": true
+}
