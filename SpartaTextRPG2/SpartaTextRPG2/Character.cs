@@ -12,7 +12,7 @@ namespace SpartaTextRPG2
         public string Job { get; set; }
         public int Level { get; set; }
         public float Atk { get; set; }
-        public int Def { get; set; }
+        public float Def { get; set; }
         public int Mp { get; set; }
         public float Gold { get; set; }
         public int CurHealth { get; set; }
@@ -25,7 +25,7 @@ namespace SpartaTextRPG2
         public bool MyTurn { get; set; }
 
 
-        public Character(string name, string job, int level, float atk, int def, float gold, int curHealth, int maxHealth, int exp, int totalExp, int curMp, int maxMp, bool myTurn)
+        public Character(string name, string job, int level, float atk, float def, float gold, int curHealth, int maxHealth, int exp, int totalExp, int curMp, int maxMp, bool myTurn)
         {
             Name = name;
             Job = job;

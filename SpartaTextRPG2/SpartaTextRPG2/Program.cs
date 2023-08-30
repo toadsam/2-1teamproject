@@ -65,8 +65,8 @@ namespace SpartaTextRPG2
             skills.Add(skill3);
 
             // 아이템 세팅(인벤토리)
-            invenList.Add(new Item("무쇠갑옷", "방어력", 3, "무쇠로 만들어져 튼튼한 갑옷입니다.", true, "player"));
-            invenList.Add(new Item("불타는도끼", "공격력", 1, "불꽃으로 베어내며 화염 공격을 가하는 도끼입니다.", false, "player"));
+            invenList.Add(new Item("무쇠갑옷", "방어력", 3.0f, "무쇠로 만들어져 튼튼한 갑옷입니다.", true, "player"));
+            invenList.Add(new Item("불타는도끼", "공격력", 1.0f, "불꽃으로 베어내며 화염 공격을 가하는 도끼입니다.", false, "player"));
 
 
             for (int i = 0; i < ranMonsters.Length; i++) // ※ 랜덤 마릿수(ranMonsters.Length)의 랜덤 몬스터(y)를 생성
@@ -498,8 +498,10 @@ namespace SpartaTextRPG2
             int itemCount = ran.Next(1, ranMonsters.Length);
             for (int i = 0; i < itemCount; i++)
             {
-                Console.WriteLine(DropItem().Name);    //드롭될 아이템을 생성(new)하고 그 이름을 출력
-
+                Item droppedItem = DropItem(); // 아이템 생성
+                Console.WriteLine(droppedItem.Name);
+               // Console.WriteLine(droppedItem.Name);    //드롭될 아이템을 생성(new)하고 그 이름을 출력
+                DropeItemToInventory(droppedItem); // 아이템 인벤토리에 추가
             }
 
             Console.WriteLine();
@@ -551,7 +553,6 @@ namespace SpartaTextRPG2
             }
         }
 
-        //--------------------------------------------------------------회복아이템----------------------------------------------------------------------
 
        
         //-------------------------------------------------------------인벤토리-------------------------------------------------------------------------
@@ -562,6 +563,7 @@ namespace SpartaTextRPG2
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.ResetColor();
+            Console.WriteLine("인벤토리");
             Console.WriteLine("보유 중인 포션과 아이템들을 관리할 수 있습니다.");
             Console.WriteLine();
             Console.WriteLine();
@@ -671,7 +673,7 @@ namespace SpartaTextRPG2
             Console.WriteLine("인벤토리 - 장착 관리");
             Console.ResetColor();
             Console.WriteLine("보유 아이템에 대해 장착여부를 관리할 수 있습니다.");
-            Console.WriteLine(" [E]:장착무기, [X]:해제무기 ");
+            Console.WriteLine("[E]:장착무기, [X]:해제무기 ");
             Console.WriteLine();
             Console.WriteLine("---------------------------------------[아이템 목록]----------------------------------------");
             Console.WriteLine();
@@ -693,7 +695,7 @@ namespace SpartaTextRPG2
             Console.WriteLine("0. 나가기");
             Console.ResetColor();
             Console.WriteLine();
-            Console.WriteLine(" 장착 또는 해제하고 싶다면 아이템 앞 번호를 입력해주세요. \n화면에서 나가려면 0번을 입력해주세요.");
+            Console.WriteLine("장착 또는 해제하고 싶다면 아이템 앞 번호를 입력해주세요. \n화면에서 나가려면 0번을 입력해주세요.");
             Console.Write(">> ");
 
             int input = Program.CheckValidInput(0, invenList.Count);
@@ -710,13 +712,13 @@ namespace SpartaTextRPG2
                     invenList[input - 1].PlayerEquipped = false;
 
                     // 공격 아이템이면 공격력 감소, 방어 아이템이면 방어력 감소
-                    if (invenList[input - 1].Type == "Atk")
+                    if (invenList[input - 1].Type == "공격력")
                     {
-                        player.Atk = player.Atk - invenList[input - 1].Power;
+                        player.Atk -= invenList[input - 1].Power;
                     }
-                    else if (invenList[input - 1].Type == "Def")
+                    else if (invenList[input - 1].Type == "방어력")
                     {
-                        player.Def = player.Def - invenList[input - 1].Power;
+                        player.Def -= invenList[input - 1].Power;
                     }
                 }
                 else if (!invenList[input - 1].PlayerEquipped)
@@ -725,18 +727,18 @@ namespace SpartaTextRPG2
                     invenList[input - 1].PlayerEquipped = true;
 
                     // 공격 아이템이면 공격력 증가, 방어 아이템이면 방어력 증가
-                    if (invenList[input - 1].Type == "Atk")
+                    if (invenList[input - 1].Type == "공격력")
                     {
-                        player.Atk = player.Atk + invenList[input - 1].Power;
+                        player.Atk += invenList[input - 1].Power;
                     }
-                    else if (invenList[input - 1].Type == "Def")
+                    else if (invenList[input - 1].Type == "방어력")
                     {
-                        player.Def = player.Def + invenList[input - 1].Power;
+                        player.Def += invenList[input - 1].Power;
                     }
 
                 }
             }
-
+            EquipManagment();
         }
 
         // 아이템 정렬: 이름, 장착, 공격, 방어순
@@ -802,31 +804,36 @@ namespace SpartaTextRPG2
         static Item DropItem()  // ※ 나중엔 인벤토리에 저장해야할 듯
         {
             int itemIndex = 0;
-            itemIndex = ran.Next(1, 6);
+            itemIndex = ran.Next(1, 4);
             switch (itemIndex)
             {
                 /*case 1:
                     Potion.hpPotionCount++;
                     return new Item("체력포션");
                     break;*/
+                case 1:
+                    return new Item("낡은 검", "공격력", 3f, "쉽게 볼 수 있는 낡은 검 입니다.", false, "dropitem");
+                    //break;
                 case 2:
-                    return new Item("낡은 검", "공격력", 3, "쉽게 볼 수 있는 낡은 검 입니다.", false, "dropitem");
-                    break;
+                    return new Item("낡은 활", "공격력", 4f, "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.", false, "dropitem");
+                    //break;
                 case 3:
-                    return new Item("낡은 활", "공격력", 4, "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.", false, "dropitem");
-                    break;
-                case 4:
-                    return new Item("낡은 스태프", "방어력", 2, "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.", false, "dropitem");
-                    break;
-               /* case 5:
+                    return new Item("낡은 스태프", "방어력", 2f, "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.", false, "dropitem");
+                    //break;
+                /*case 5:
                     return new Item("500G");
                 case 6:
                     Potion.mpPotionCount++;
                     return new Item("마나포션");*/
             }
 
-            return new Item("돌맹이", "Atk", 4, "원거리에서는 투척하여 적에게 공격을 가하는 방식으로 사용되는 돌멩이입니다.", false, "dropitem");
+            return new Item("돌맹이", "공격력", 4, "원거리에서는 투척하여 적에게 공격을 가하는 방식으로 사용되는 돌멩이입니다.", false, "dropitem");
+        }
 
+        // 인벤토리 목록 추가
+        static void DropeItemToInventory(Item item)
+        {
+            invenList.Add(item);
         }
 
         //----------------------------------------------------------입력 필터 함수-----------------------------------------------------------------------
