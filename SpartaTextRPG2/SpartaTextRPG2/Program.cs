@@ -6,6 +6,9 @@
         private static Monster[] monsters; // 몬스터 종류
         private static Monster[] ranMonsters; // 랜덤 몬스터 저장하는 배열
         static Random ran = new Random();
+
+        private static List<Item> invenList = new List<Item>();
+
         static List<Skill> skills = new List<Skill>();  //스킬을 담는 리스트 생성
         static bool isUseSkill = false;   //스킬활성화
         static int skillSelect; //스킬선택
@@ -30,15 +33,21 @@
             Monster monster4 = CreateMonster();
 
             monsters = new Monster[4] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() };
-            //monsters = new Monster[3] { monster1, monster2, monster3 };
             ranMonsters = new Monster[ran.Next(1, 4)];  // 무작위 몬스터 생성(1마리 ~ 4마리)
+
+            // 스킬 세팅(스킬담는 리스트)
             Skill skill1 = new Skill("알파 스트라이크", 10, 2, 1);
             Skill skill2 = new Skill("더블 스트라이크", 15, 2, 2);
             Skill skill3 = new Skill("고무고무 피스톨", 45, 99, 9);
-            //스킬담는 리스트
             skills.Add(skill1);
             skills.Add(skill2);
             skills.Add(skill3);
+
+            // 아이템 세팅(인벤토리)
+            invenList.Add(new Item("무쇠갑옷", "방어력", 3, "무쇠로 만들어져 튼튼한 갑옷입니다.", true, "player"));
+            invenList.Add(new Item("불타는도끼", "공격력", 1, "불꽃으로 베어내며 화염 공격을 가하는 도끼입니다.", false, "player"));
+
+
 
             for (int i = 0; i < ranMonsters.Length; i++) // ※ 랜덤 마릿수(ranMonsters.Length)의 랜덤 몬스터(y)를 생성
             {
@@ -79,10 +88,11 @@
             Console.WriteLine();
             Console.WriteLine("1. 상태보기");
             Console.WriteLine("2. 전투시작");
+            Console.WriteLine("3. 인벤토리");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            int input = CheckValidInput(1, 2);
+            int input = CheckValidInput(1, 3);
             switch (input)
             {
                 case 1:
@@ -91,6 +101,9 @@
 
                 case 2:
                     DisplayBattle();
+                    break;
+                case 3:
+                    Inventory();
                     break;
             }
         }
@@ -416,15 +429,190 @@
                     break;
 
                 default:
-
+                    Inventory();
                     break;
             }
         }
 
-
-
-//----------------------------------------------입력 필터 함수----------------------------------------------------
+//---------------------------------------------------인벤토리----------------------------------------------------
         
+        // 1-3 인벤토리 화면
+        static void Inventory()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.ResetColor();
+            Console.WriteLine("보유 중인 아이템 관리할 수 있습니다.");
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------[아이템 목록]----------------------------------------");
+            Console.WriteLine();
+
+            string e;
+            foreach(var item in invenList)
+            {
+                e = item.PlayerEquipped ? "[E]" : "[X]";
+                Console.WriteLine($"{e} {item.Name,-5}|{item.Type}(+{item.Power, -3})|{item.Description,-20}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("--------------------------------------------------------------------------------------------");
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("1. 장착 관리 \n2. 아이템 정렬 \n0. 나가기");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+            Console.Write(">> ");
+
+            int input = Program.CheckValidInput(0, 2);
+            switch (input)
+            {
+                case 0:
+                    DisplayGameIntro(); // 시작 화면
+                    break;
+                case 1:
+                    EquipManagment(); // 장착 관리
+                    break;
+                case 2:
+                    InventoryArray(); // 문자열 정렬
+                    break;
+            }
+        }
+
+        // 장착 관리 : 현재의 장착상태를 보여줌
+        static void EquipManagment()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("인벤토리 - 장착 관리");
+            Console.ResetColor();
+            Console.WriteLine("보유 아이템에 대해 장착여부를 관리할 수 있습니다.");
+            Console.WriteLine(" [E]:장착무기, [X]:해제무기 ");
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------[아이템 목록]----------------------------------------");
+            Console.WriteLine();
+
+            int i = 0;
+            string e;
+            foreach(var item in invenList)
+            {
+                i++; // 목록 앞 숫자
+                e = item.PlayerEquipped ? "[E]" : "[X]";
+                Console.WriteLine($"{i}. {e} {item.Name,-5}|{item.Type}(+{item.Power, -3})|{item.Description,-20}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("--------------------------------------------------------------------------------------------");
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("0. 나가기");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine(" 장착 또는 해제하고 싶다면 아이템 앞 번호를 입력해주세요. \n화면에서 나가려면 0번을 입력해주세요.");
+            Console.Write(">> ");
+
+            int input = Program.CheckValidInput(0, invenList.Count);
+            if (input == 0) // 0.나가기
+            {
+                Inventory(); // 인벤토리 화면
+                return; 
+            }
+            else
+            {
+                if
+            }
+
+        }
+
+        // 아이템 정렬: 이름, 장착, 공격, 방어순
+        static void InventoryArray()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("인벤토리 - 아이템 정렬");
+            Console.ResetColor();
+            Console.WriteLine("보유 아이템들의 순서를 정렬해 볼 수 있습니다.");
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------[아이템 목록]----------------------------------------");
+            Console.WriteLine();
+
+            int i = 0;
+            string e;
+            foreach (var item in invenList)
+            {
+                i++; // 목록 앞 숫자
+                e = item.PlayerEquipped ? "[E]" : "[X]";
+                Console.WriteLine($"{i}.{e} {item.Name,-5}|{item.Type}(+{item.Power})|가격 {item.Price,-3} G|{item.Description,-20}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("--------------------------------------------------------------------------------------------");
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("1. 이름\n2. 장착순\n3. 공격력\n4. 방어력 \n0. 나가기");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+            Console.Write(">> ");
+
+            int input = Program.CheckValidInput(0, 4);
+            switch (input)
+            {
+                case 0: // 나가기
+                    Inventory(); // 인벤토리 화면
+                    break;
+
+                case 1: // 이름 정렬
+                    invenList = invenList.OrderByDescending(x => x.Name.Length).ToList();
+                    InventoryArray();
+                    break;
+
+                case 2: // 장착순
+                    invenList = invenList.OrderByDescending(x => x.PlayerEquipped).ToList();
+                    InventoryArray();
+                    break;
+                case 3: // 공격력
+                    invenList = invenList.OrderByDescending(x => x.Type == "Atk").ThenBy(x => x.Power).ToList();
+                    InventoryArray();
+                    break;
+                case 4: // 방어력
+                    invenList = invenList.OrderByDescending(x => x.Type == "Def").ThenBy(x => x.Power).ToList();
+                    InventoryArray();
+                    InventoryArray();
+                    break;
+            }
+        }
+        static Item DropItem()  // ※ 나중엔 인벤토리에 저장해야할 듯
+        {
+            int itemIndex = 0;
+            itemIndex = ran.Next(1, 5);
+            switch (itemIndex)
+            {
+                case 1:
+                    /*return new Item("포션");
+                    break;*/
+                case 2:
+                    return new Item("낡은 검", "공격력", 3, "쉽게 볼 수 있는 낡은 검 입니다.", false, "pick");
+                    break;
+                case 3:
+                    return new Item("낡은 활", "공격력", 4, "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.", false, "pick");
+                    break;
+                case 4:
+                    return new Item("낡은 스태프", "방어력", 2, "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.", false, "pick");
+                    break;
+                /*case 5:
+                    return new Item("500G");*/
+            }
+
+            return new Item("돌맹이", "Atk", 4, "원거리에서는 투척하여 적에게 공격을 가하는 방식으로 사용되는 돌멩이입니다.", false, "pick");
+
+        }
+
+        //----------------------------------------------입력 필터 함수----------------------------------------------------
+
         static int CheckValidInput(int min, int max)  //사용자로부터 입력받고 입력받은 값이 매개변수 사이의 값이 아니면 다시 입력받음
         {
             while (true)
@@ -556,31 +744,7 @@
             }
         }
 
-        static Item DropItem()  // ※ 나중엔 인벤토리에 저장해야할 듯
-        {
-            int itemIndex = 0;
-            itemIndex = ran.Next(1, 5);
-            switch (itemIndex)
-            {
-                case 1:
-                    return new Item("포션");
-                    break;
-                case 2:
-                    return new Item("낡은검");
-                    break;
-                case 3:
-                    return new Item("낡은활");
-                    break;
-                case 4:
-                    return new Item("낡은스태프");
-                    break;
-                case 5:
-                    return new Item("500G");
-            }
-
-            return new Item("돌맹이");
-
-        }
+       
 
 //--------------------------------------------플레이어 직업과 몬스터 종류----------------------------------------------
         
