@@ -1042,13 +1042,14 @@ namespace SpartaTextRPG2
                     break;
                 case MonsterType.공허충:
                     return new Monster("공허충", 3, 10, 10, 9, false);
+                    break;
                 case MonsterType.바선생:
-                    return new Monster("공허충", 3, 10, 10, 9, false);
+                    return new Monster("바선생", 7, 20, 20, 10, false);
                     break;
                 case MonsterType.귀멸의강낭콩:
-                    return new Monster("공허충", 3, 10, 10, 9, false);
+                    return new Monster("귀멸의강낭콩", 10, 25, 25, 10, false);
                     break;
-                    break;
+                    
                 default:
                     return new Monster("미니언", 2, 15, 15, 5, false);
                     break;
