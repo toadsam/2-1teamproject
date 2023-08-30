@@ -1,0 +1,22 @@
+{
+  "character": {
+    "Name": "dkdkdk",
+    "Job": "궁수",
+    "Level": 1,
+    "Atk": 10.0,
+    "Def": 5.0,
+    "Mp": 0,
+    "Gold": 10000.0,
+    "CurHealth": 120,
+    "MaxHealth": 120,
+    "Exp": 0,
+    "TotalExp": 10,
+    "CurMp": 50,
+    "MaxMp": 50,
+    "MyTurn": true
+  },
+  "potion": {
+    "Name": null,
+    "Recovery": 30
+  }
+}

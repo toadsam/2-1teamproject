@@ -18,6 +18,7 @@ namespace SpartaTextRPG2
         static int skillSelect; //스킬선택
 
         static int dungeonLevel;
+        static Save save = new Save(); //저장파일 생성
 
         private static List<Item> invenList = new List<Item>(); // 인벤토리 아이템 생성
         static Potion potion = new Potion(); //포션생성
@@ -107,10 +108,11 @@ namespace SpartaTextRPG2
             Console.WriteLine("1. 상태보기");
             Console.WriteLine($"2. 전투시작 (현재 진행 : {dungeonLevel}층)");
             Console.WriteLine("3. 인벤토리");
+            Console.WriteLine("4. 저장하기");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            int input = CheckValidInput(1, 3);
+            int input = CheckValidInput(1, 4);
             switch (input)
             {
                 case 1:
@@ -122,6 +124,14 @@ namespace SpartaTextRPG2
                     break;
                 case 3:
                     DisplayInventory();
+                    break;
+                case 4:
+                    save.SaveInformation(player, potion);   //저장할 파일 담기
+                    var preuser = JObject.FromObject(save); //파일 저장
+                    Console.WriteLine(preuser.ToString());
+                    Thread.Sleep(2000);
+                    File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());
+                    DisplayGameIntro();
                     break;
             }
         }
@@ -502,6 +512,17 @@ namespace SpartaTextRPG2
             int itemCount = ran.Next(1, ranMonsters.Length);
             for (int i = 0; i < itemCount; i++)
             {
+                int IsPotionGet = ran.Next(1, 10);            //포션 확률적으로 얻기
+                if ( 6 > IsPotionGet)  //50%확룰로 포션획득
+                {
+                    Console.WriteLine("[체력포션 획득]");
+                    Potion.hpPotionCount++;
+                }
+                else
+                {
+                    Console.WriteLine("[마나포션 획득]");
+                    Potion.mpPotionCount++;
+                }
                 Item droppedItem = DropItem(); // 아이템 생성
                 Console.WriteLine(droppedItem.Name);
                 // Console.WriteLine(droppedItem.Name);    //드롭될 아이템을 생성(new)하고 그 이름을 출력
@@ -896,31 +917,62 @@ namespace SpartaTextRPG2
         }
 
         static void CreatePlayer()
+
         {
+            Console.Clear();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
+            Console.WriteLine("저번 캐릭터를 이어하시겠습니까?");
+            Console.WriteLine("1. 저번 캐릭터 이어하기");
+            Console.WriteLine("2. 새로하기");
+            Console.WriteLine("");
 
-            // 이름 설정
-            Console.Write("이름을 설정해주세요:");
-            string userName = Console.ReadLine();
-
-
-            JobType choice = ChooseJob();
-
-            switch (choice)
+            int input = CheckValidInput(1, 2);
+            
+            
+            if (input == 1)
             {
-                case JobType.Worrior:
-                    player = new Character(userName, "전사", 1, 8, 10, 10000, 150, 150, 0, 10, 50, 50, true);
-                    break;
-                case JobType.Archer:
-                    player = new Character(userName, "궁수", 1, 10, 5, 10000, 120, 120, 0, 10, 50, 50, true);
-                    break;
-                case JobType.Mage:
-                    player = new Character(userName, "마법사", 1, 5, 5, 10000, 100, 100, 0, 10, 120, 120, true);
-                    break;
-            }
-            Console.WriteLine($"{player.Name}, {player.Job}를 생성합니다.");
-            Thread.Sleep(1000);
+                if (File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json") == null)
+                {
+                    Console.WriteLine("저장하신 캐릭터가 없습니다.");
+                    CreatePlayer();
+                }
+                else
+                {
+                    var curuser = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
+                    Save save2 = JsonConvert.DeserializeObject<Save>(curuser);
+                    save = save2;
+                    player = save.character;
+                    potion = save.potion;
+                    Console.WriteLine($"{player.Name}님 환영합니다");
+                    Thread.Sleep(1000);
+                }
 
+            }
+            else
+            {
+                // 이름 설정
+                Console.Write("이름을 설정해주세요:");
+                string userName = Console.ReadLine();
+
+
+                JobType choice = ChooseJob();
+
+                switch (choice)
+                {
+                    case JobType.Worrior:
+                        player = new Character(userName, "전사", 1, 8, 10, 10000, 150, 150, 0, 10, 50, 50, true);
+                        break;
+                    case JobType.Archer:
+                        player = new Character(userName, "궁수", 1, 10, 5, 10000, 120, 120, 0, 10, 50, 50, true);
+                        break;
+                    case JobType.Mage:
+                        player = new Character(userName, "마법사", 1, 5, 5, 10000, 100, 100, 0, 10, 120, 120, true);
+                        break;
+                }
+                Console.WriteLine($"{player.Name}, {player.Job}를 생성합니다.");
+                Thread.Sleep(1000);
+
+            }
 
         }
 
