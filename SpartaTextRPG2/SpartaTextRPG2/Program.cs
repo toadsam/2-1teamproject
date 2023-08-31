@@ -496,11 +496,8 @@ namespace SpartaTextRPG2
             player.Exp += getExp;
             if ((player.Exp) >= player.TotalExp) //레벨업 검사
             {
-
                 player.LevelUp();   //레벨업 
                 Console.WriteLine($"{player.Exp}");
-
-
             }
             else
             {
@@ -533,8 +530,25 @@ namespace SpartaTextRPG2
             Console.WriteLine("0. 다음");
 
             dungeonLevel += 1;
-            monsters = new Monster[4] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() }; // 몬스터가 다 죽으면 새로운 몬스터를 생성하는 코드
-            ranMonsters = new Monster[ran.Next(1, 4)];
+            monsters = new Monster[5] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() }; // 몬스터가 다 죽으면 새로운 몬스터를 생성하는 코드
+            switch (dungeonLevel)// 던전 레벨에 따라 몬스터 마리수를 무작위로 생성
+            {
+                case 1:
+                    ranMonsters = new Monster[ran.Next(1, 4)];
+                    break;
+                case 2:
+                    ranMonsters = new Monster[ran.Next(2, 4)];
+
+                    break;
+                case 3:
+                    ranMonsters = new Monster[ran.Next(3, 5)];
+
+                    break;
+                default:
+                    ranMonsters = new Monster[ran.Next(1, 4)];
+                    Console.WriteLine("던전 레벨이 3을 초과했습니다.");
+                    break;
+            }
             for (int i = 0; i < ranMonsters.Length; i++)
             {
                 ranMonsters[i] = monsters[i];
@@ -642,8 +656,6 @@ namespace SpartaTextRPG2
                     Thread.Sleep(1000);
                     DisPlayPotion();
                     break;
-
-
             }
         }
 
@@ -960,7 +972,7 @@ namespace SpartaTextRPG2
                 switch (choice)
                 {
                     case JobType.Worrior:
-                        player = new Character(userName, "전사", 1, 8, 10, 10000, 150, 150, 0, 10, 50, 50, true);
+                        player = new Character(userName, "전사", 1, 80, 10, 10000, 500, 500, 0, 10, 150, 150, true);
                         break;
                     case JobType.Archer:
                         player = new Character(userName, "궁수", 1, 10, 5, 10000, 120, 120, 0, 10, 50, 50, true);
@@ -984,8 +996,8 @@ namespace SpartaTextRPG2
             대포미니언 = 2,
             공허충 = 3,
             바선생 = 4,
-            귀멸의강낭콩 = 5
-
+            귀멸의강낭콩 = 5,
+            보스몬스터 = 6
         }
 
         static MonsterType ChooseMonster()
@@ -996,13 +1008,16 @@ namespace SpartaTextRPG2
             switch (dungeonLevel) // 스테이지가 3개뿐이라 switch문 사용, 훨씬 많아지면 if로 하는게 좋음
             {
                 case 1:
-                    input = ran.Next(1, 3);
+                    input = ran.Next(1, 4);
                     break;
                 case 2:
-                    input = ran.Next(2, 4);
+                    input = ran.Next(2, 5);
                     break;
                 case 3:
-                    input = ran.Next(3, 5); // ※ 마지막 스테이지에서 항상 보스가 나오게 하고싶은데..
+                    input = ran.Next(3, 6);
+                    break;
+                case 4:
+                    input = 6; // ※ 마지막 스테이지에서 항상 보스가 나오게 하기
                     break;
                 default:
                     input = ran.Next(1, 3);
@@ -1025,6 +1040,9 @@ namespace SpartaTextRPG2
                 case 5:
                     mon = MonsterType.귀멸의강낭콩;
                     break;
+                case 6:
+                    mon = MonsterType.보스몬스터;
+                    break;
             }
             return mon;
         }
@@ -1035,12 +1053,13 @@ namespace SpartaTextRPG2
             switch (mon)
             {
                 case MonsterType.미니언:
-                    return new Monster("미니언", 2, 15, 15, 5, false);
+                    return new Monster("미니언", 2, 15, 15, 5, false, 0);
                     break;
                 case MonsterType.대포미니언:
-                    return new Monster("대포미니언", 5, 25, 25, 8, false);
+                    return new Monster("대포미니언", 5, 25, 25, 8, false, 0);
                     break;
                 case MonsterType.공허충:
+<<<<<<< Updated upstream
                     return new Monster("공허충", 3, 10, 10, 9, false);
                     break;
                 case MonsterType.바선생:
@@ -1048,10 +1067,22 @@ namespace SpartaTextRPG2
                     break;
                 case MonsterType.귀멸의강낭콩:
                     return new Monster("귀멸의강낭콩", 10, 25, 25, 10, false);
+=======
+                    return new Monster("공허충", 3, 10, 10, 9, false, 0);
+                    break;
+                case MonsterType.바선생:
+                    return new Monster("바선생", 3, 10, 10, 9, false, 0);
+                    break;
+                case MonsterType.귀멸의강낭콩:
+                    return new Monster("귀멸의강낭콩", 3, 10, 10, 9, false, 0);
+                    break;
+                case MonsterType.보스몬스터:
+                    return new Monster("보스몬스터", 15, 150, 150, 25, false, 1);
+>>>>>>> Stashed changes
                     break;
                     
                 default:
-                    return new Monster("미니언", 2, 15, 15, 5, false);
+                    return new Monster("미니언", 2, 15, 15, 5, false, 0);
                     break;
             }
         }

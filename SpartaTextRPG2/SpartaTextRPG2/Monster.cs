@@ -16,10 +16,9 @@ namespace SpartaTextRPG2
 
         public bool IsDead { get; set; }
 
+        public int Boss { get; set; }
 
-
-
-        public Monster(string name, int level, int maxHealth, int curHealth, int atk, bool isDead)
+        public Monster(string name, int level, int maxHealth, int curHealth, int atk, bool isDead, int boss)
         {
             Name = name;
             Level = level;
@@ -27,6 +26,17 @@ namespace SpartaTextRPG2
             CurHealth = curHealth;
             Atk = atk;
             IsDead = isDead;
+            Boss = boss;
+        }
+
+        public void BossSkill()
+        {
+            switch(Boss)
+            {
+                case 0:
+
+                    break;
+            }
         }
     }
 }
