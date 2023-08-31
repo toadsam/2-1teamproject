@@ -42,24 +42,7 @@ namespace SpartaTextRPG2
 
             monsters = new Monster[5] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() };
             //monsters = new Monster[3] { monster1, monster2, monster3 };
-            switch (dungeonLevel)// 던전 레벨에 따라 몬스터 마리수를 무작위로 생성
-            {
-                case 1:
-                    ranMonsters = new Monster[ran.Next(1, 4)];
-                    break;
-                case 2:
-                    ranMonsters = new Monster[ran.Next(2, 4)];
-
-                    break;
-                case 3:
-                    ranMonsters = new Monster[ran.Next(3, 5)];
-
-                    break;
-                default:
-                    ranMonsters = new Monster[ran.Next(1, 4)];
-                    Console.WriteLine("던전 레벨이 3을 초과했습니다.");
-                    break;
-            }
+            ranMonsters = new Monster[ran.Next(1, 4)];
 
             // 스킬 정보 세팅(스킬담은 리스트)
             Skill skill1 = new Skill("알파 스트라이크", 10, 2, 1);
@@ -128,7 +111,8 @@ namespace SpartaTextRPG2
                     var preuser = JObject.FromObject(save); //파일 저장
                     Console.WriteLine(preuser.ToString());
                     Thread.Sleep(2000);
-                    File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());
+                    File.WriteAllText(@"C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());
+                    //File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());
                     DisplayGameIntro();
                     break;
             }
@@ -386,31 +370,84 @@ namespace SpartaTextRPG2
 
 
                 Thread.Sleep(1000);
-
-                Console.WriteLine("Enemy turn");
+                Console.WriteLine();
+                Console.WriteLine("Enemy turn"); // 적 턴 시작
 
                 int monDeadCount = 0; // true인 mon의 개수
                 foreach (Monster mon in ranMonsters) // 살아있는 몬스터 전부 돌아가면서 공격
                 {
-
                     if (mon.IsDead == false) // 살아있는 몬스터의 행동
                     {
-                        Console.WriteLine($"Lv.{mon.Level} {mon.Name}의 공격!");
+                        if (mon.Boss == 0)
+                        { // 일반 몬스터의 행동
+                            Console.WriteLine($"Lv.{mon.Level} {mon.Name}의 공격!");
+                            Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Atk}]");
+                            Console.WriteLine();
+                            Console.WriteLine();
+                            Console.WriteLine($"Lv.{player.Level} {player.Name}");
+                            Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Atk}");
+                            player.CurHealth -= mon.Atk;
+                            Console.WriteLine();
 
-                        Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Atk}]");
-                        Console.WriteLine();
-                        Console.WriteLine();
-                        Console.WriteLine($"Lv.{player.Level} {player.Name}");
-                        Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Atk}");
-                        player.CurHealth -= mon.Atk;
-                        Console.WriteLine();
 
-                        if (player.CurHealth <= 0)
+                        }
+                        else //보스 행동
                         {
-                            DisplayLose();
-                            break;
+                            int skillNum = ran.Next(0, 4);
+
+                            switch (mon.BossSkill(skillNum))
+                            {
+                                case 0:
+                                    Console.WriteLine($"Lv.{mon.Level} {mon.Name}가  일반공격을 사용합니다!");
+                                    Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Damage}]");
+                                    Console.WriteLine();
+                                    Console.WriteLine();
+                                    Console.WriteLine($"Lv.{player.Level} {player.Name}");
+                                    Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
+                                    player.CurHealth -= mon.Damage;
+                                    break;
+                                case 1:
+                                    Console.WriteLine($"Lv.{mon.Level} {mon.Name}가  공격스킬을 사용합니다!");
+                                    Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Damage}]");
+                                    Console.WriteLine();
+                                    Console.WriteLine();
+                                    Console.WriteLine($"Lv.{player.Level} {player.Name}");
+                                    Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
+                                    player.CurHealth -= mon.Damage;
+                                    break;
+                                case 2:
+                                    Console.WriteLine($"Lv.{mon.Level} {mon.Name}가  회복스킬을 사용합니다!");
+                                    Console.WriteLine();
+                                    Console.WriteLine();
+                                    Console.WriteLine($"{mon.Name}의 HP가 {mon.CurHealth}가 되었습니다.");
+                                    break;
+                                case 3:
+                                    Console.WriteLine($"Lv.{mon.Level} {mon.Name}가  몬스터를 소환합니다!");
+                                    Console.WriteLine();
+                                    Console.WriteLine();
+                                    if (ranMonsters.Length < 4)
+                                    {
+                                        Array.Resize(ref ranMonsters, ranMonsters.Length + 1);
+                                        ranMonsters[ranMonsters.Length - 1] = new Monster("미니언1", 0, 15, 15, 5, false, 0);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("몬스터 수가 최대입니다. 몬스터가 소환되지 않습니다.");
+                                    }
+                                    break;
+                            }
+
+                            Console.WriteLine();
+
+
+                            if (player.CurHealth <= 0)
+                            {
+                                DisplayLose();
+                                break;
+                            }
                         }
                     }
+
                     else // 죽어있는 몬스터의 행동
                     {
 
@@ -529,23 +566,28 @@ namespace SpartaTextRPG2
 
             dungeonLevel += 1;
             monsters = new Monster[5] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() }; // 몬스터가 다 죽으면 새로운 몬스터를 생성하는 코드
-            switch (dungeonLevel)// 던전 레벨에 따라 몬스터 마리수를 무작위로 생성
+            if (dungeonLevel >= 4)
             {
-                case 1:
-                    ranMonsters = new Monster[ran.Next(1, 4)];
-                    break;
-                case 2:
-                    ranMonsters = new Monster[ran.Next(2, 4)];
-
-                    break;
-                case 3:
-                    ranMonsters = new Monster[ran.Next(3, 5)];
-
-                    break;
-                default:
-                    ranMonsters = new Monster[ran.Next(1, 4)];
-                    Console.WriteLine("던전 레벨이 3을 초과했습니다.");
-                    break;
+                ranMonsters = new Monster[1];
+            }
+            else
+            {
+                switch (dungeonLevel)// 던전 레벨에 따라 몬스터 마리수를 무작위로 생성
+                {
+                    case 1:
+                        ranMonsters = new Monster[ran.Next(1, 4)];
+                        break;
+                    case 2:
+                        ranMonsters = new Monster[ran.Next(2, 4)]; 
+                        break;
+                    case 3:
+                        ranMonsters = new Monster[ran.Next(3, 5)];
+                        break;
+                    default:
+                        ranMonsters = new Monster[ran.Next(1, 4)];
+                        Console.WriteLine("다음 스테이지는 보스 스테이지입니다.");
+                        break;
+                }
             }
             for (int i = 0; i < ranMonsters.Length; i++)
             {
@@ -573,6 +615,10 @@ namespace SpartaTextRPG2
 
             Console.WriteLine();
             Console.WriteLine($"Lv.{player.Level} {player.Name}");
+            if (player.CurHealth <= 0)
+            {
+                player.CurHealth = 0;
+            }
             Console.WriteLine($"HP {player.MaxHealth} -> {player.CurHealth} ");
 
             Console.WriteLine();
@@ -941,14 +987,16 @@ namespace SpartaTextRPG2
             
             if (input == 1)
             {
-                if (File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json") == null)
+                //if (File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json") == null)
+                if (File.ReadAllText(@"C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json") == null)
                 {
                     Console.WriteLine("저장하신 캐릭터가 없습니다.");
                     CreatePlayer();
                 }
                 else
                 {
-                    var curuser = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
+                    //var curuser = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
+                    var curuser = File.ReadAllText(@"C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
                     Save save2 = JsonConvert.DeserializeObject<Save>(curuser);
                     save = save2;
                     player = save.character;
@@ -1070,13 +1118,13 @@ namespace SpartaTextRPG2
                     return new Monster("공허충", 3, 10, 10, 9, false, 0);
                     break;
                 case MonsterType.바선생:
-                    return new Monster("바선생", 3, 10, 10, 9, false, 0);
+                    return new Monster("바선생", 7, 20, 20, 10, false, 0);
                     break;
                 case MonsterType.귀멸의강낭콩:
-                    return new Monster("귀멸의강낭콩", 3, 10, 10, 9, false, 0);
+                    return new Monster("귀멸의강낭콩", 10, 25, 25, 10, false, 0);
                     break;
                 case MonsterType.보스몬스터:
-                    return new Monster("보스몬스터", 15, 150, 150, 25, false, 1);
+                    return new Monster("보스몬스터", 50, 500, 500, 50, false, 1);
                     break;
                     
                 default:

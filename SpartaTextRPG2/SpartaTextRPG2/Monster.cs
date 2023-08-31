@@ -17,6 +17,7 @@ namespace SpartaTextRPG2
         public bool IsDead { get; set; }
 
         public int Boss { get; set; }
+        public int Damage { get; set; }
 
         public Monster(string name, int level, int maxHealth, int curHealth, int atk, bool isDead, int boss)
         {
@@ -29,12 +30,34 @@ namespace SpartaTextRPG2
             Boss = boss;
         }
 
-        public void BossSkill()
+        public int BossSkill(int skillNum)
         {
-            switch(Boss)
+            Damage = Atk;
+            switch (skillNum)
             {
                 case 0:
-
+                    Damage = Atk;
+                    return 0;
+                    break;
+                case 1:
+                    Damage = Atk * 2;
+                    return 1;
+                    break;
+                case 2:
+                    CurHealth += 50;
+                    if (CurHealth > MaxHealth)
+                    {
+                        CurHealth = MaxHealth;
+                    }
+                    return 2;
+                    break;
+                case 3:
+                    //new Monster("미니언", 0, 15, 15, 5, false, 0);
+                    return 3;
+                    break;
+                default:
+                    Damage = Atk;
+                    return 0;
                     break;
             }
         }

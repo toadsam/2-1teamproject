@@ -1,18 +1,18 @@
 {
   "character": {
-    "Name": "pehldjfk",
-    "Job": "마법사",
+    "Name": "asdfasd",
+    "Job": "전사",
     "Level": 2,
-    "Atk": 9.5,
-    "Def": 6.0,
+    "Atk": 80.5,
+    "Def": 11.0,
     "Mp": 0,
     "Gold": 10000.0,
-    "CurHealth": 73,
-    "MaxHealth": 100,
-    "Exp": 12,
+    "CurHealth": 475,
+    "MaxHealth": 500,
+    "Exp": 0,
     "TotalExp": 35,
-    "CurMp": 90,
-    "MaxMp": 120,
+    "CurMp": 150,
+    "MaxMp": 150,
     "MyTurn": true
   },
   "potion": {
@@ -35,47 +35,20 @@
       "Type": "공격력",
       "Power": 1.0,
       "Price": 0,
-      "PlayerEquipped": true,
+      "PlayerEquipped": false,
       "Owner": "player"
     },
     {
-      "Description": "쉽게 볼 수 있는 낡은 검 입니다.",
-      "Name": "낡은 검",
-      "Type": "공격력",
-      "Power": 3.0,
-      "Price": 0,
-      "PlayerEquipped": true,
-      "Owner": "dropitem"
-    },
-    {
-      "Description": "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.",
-      "Name": "낡은 활",
-      "Type": "공격력",
-      "Power": 4.0,
-      "Price": 0,
-      "PlayerEquipped": false,
-      "Owner": "dropitem"
-    },
-    {
-      "Description": "쉽게 볼 수 있는 낡은 검 입니다.",
-      "Name": "낡은 검",
-      "Type": "공격력",
-      "Power": 3.0,
-      "Price": 0,
-      "PlayerEquipped": false,
-      "Owner": "dropitem"
-    },
-    {
-      "Description": "쉽게 볼 수 있는 낡은 검 입니다.",
-      "Name": "낡은 검",
-      "Type": "공격력",
-      "Power": 3.0,
+      "Description": "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.",
+      "Name": "낡은 스태프",
+      "Type": "방어력",
+      "Power": 2.0,
       "Price": 0,
       "PlayerEquipped": false,
       "Owner": "dropitem"
     }
   ],
-  "MpCount": 1,
-  "HpCount": 3,
-  "saveDungeonLevel": 4
+  "MpCount": 3,
+  "HpCount": 4,
+  "saveDungeonLevel": 2
 }
