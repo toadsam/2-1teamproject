@@ -112,7 +112,7 @@ namespace SpartaTextRPG2
                     var preuser = JObject.FromObject(save); //파일 저장
                     Console.WriteLine(preuser.ToString());
                     Thread.Sleep(2000);
-                    File.WriteAllText(@".. / SpartaTextRPG2.json", preuser.ToString());
+                    File.WriteAllText(@"../SpartaTextRPG2.json", preuser.ToString());
                     //File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());
                     DisplayGameIntro();
                     break;
@@ -539,6 +539,11 @@ namespace SpartaTextRPG2
                             Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
                             player.CurHealth -= mon.Damage;
                             Console.WriteLine();
+                            if (player.CurHealth <= 0)
+                            {
+                                DisplayLose();
+                                break;
+                            }
 
 
                         }
