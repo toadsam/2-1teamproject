@@ -1,0 +1,63 @@
+{
+  "character": {
+    "Name": "재훈",
+    "Job": "마법사",
+    "Level": 2,
+    "Atk": 5.5,
+    "Def": 6.0,
+    "Mp": 0,
+    "Gold": 10000.0,
+    "CurHealth": 73,
+    "MaxHealth": 100,
+    "Exp": 1,
+    "TotalExp": 35,
+    "CurMp": 45,
+    "MaxMp": 120,
+    "MyTurn": true
+  },
+  "potion": {
+    "Name": null,
+    "Recovery": 30
+  },
+  "saveItems": [
+    {
+      "Description": "무쇠로 만들어져 튼튼한 갑옷입니다.",
+      "Name": "무쇠갑옷",
+      "Type": "방어력",
+      "Power": 3.0,
+      "Price": 0,
+      "PlayerEquipped": true,
+      "Owner": "player"
+    },
+    {
+      "Description": "불꽃으로 베어내며 화염 공격을 가하는 도끼입니다.",
+      "Name": "불타는도끼",
+      "Type": "공격력",
+      "Power": 1.0,
+      "Price": 0,
+      "PlayerEquipped": false,
+      "Owner": "player"
+    },
+    {
+      "Description": "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.",
+      "Name": "낡은 스태프",
+      "Type": "방어력",
+      "Power": 2.0,
+      "Price": 0,
+      "PlayerEquipped": false,
+      "Owner": "dropitem"
+    },
+    {
+      "Description": "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.",
+      "Name": "낡은 스태프",
+      "Type": "방어력",
+      "Power": 2.0,
+      "Price": 0,
+      "PlayerEquipped": false,
+      "Owner": "dropitem"
+    }
+  ],
+  "MpCount": 5,
+  "HpCount": 3,
+  "saveDungeonLevel": 2
+}
