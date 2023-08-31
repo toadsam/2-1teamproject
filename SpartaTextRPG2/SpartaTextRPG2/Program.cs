@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Text.Json;
 using Newtonsoft.Json;
+using System;
 
 namespace SpartaTextRPG2
 {
@@ -519,15 +520,36 @@ namespace SpartaTextRPG2
 
 
 
-                Thread.Sleep(1000);
-                Console.WriteLine();
-                Console.WriteLine("Enemy turn"); // 적 턴 시작
-
                 int monDeadCount = 0; // true인 mon의 개수
                 foreach (Monster mon in ranMonsters) // 살아있는 몬스터 전부 돌아가면서 공격
                 {
                     if (mon.IsDead == false) // 살아있는 몬스터의 행동
                     {
+
+                        Thread.Sleep(1000);
+                        Console.WriteLine();
+                        Console.WriteLine("Enemy turn"); // 적 턴 시작
+                        Console.WriteLine();
+                        Console.WriteLine("공격을 피하시겠습니까 ?");//공격 피할지 물어본다 
+                        Console.WriteLine();
+                        Console.WriteLine("1. 안피한다 .");
+                        Console.WriteLine("2. 피한다 .");
+                        Console.WriteLine();
+
+
+                        int dodgerun = CheckValidInput(1, 2);
+                        bool isrun = ran.Next(0, 100) < 50; 
+                        if (dodgerun == 1)//1.안피한다 
+                        {
+                            Console.WriteLine("공격을 겸허히 받아들이는 중입니다 . ");
+                        }
+                        else if (dodgerun == 2 && isrun)//2.피한다>>50프로의 확률로 피한다 (541~542줄 )
+                        {
+                            Console.WriteLine("슉 -");
+                            Console.WriteLine("슈슉 -");
+                            Console.WriteLine($"{mon.Name}의 공격을 피하셨습니다 .");
+                            continue;
+                        }
                         if (mon.Boss == 0)
                         { // 일반 몬스터의 행동
                             mon.Damage = mon.Atk - (int)Math.Round(player.Def * (float)0.1);
@@ -539,11 +561,6 @@ namespace SpartaTextRPG2
                             Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
                             player.CurHealth -= mon.Damage;
                             Console.WriteLine();
-                            if (player.CurHealth <= 0)
-                            {
-                                DisplayLose();
-                                break;
-                            }
 
 
                         }
