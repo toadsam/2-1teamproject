@@ -58,6 +58,7 @@
     
 
 - 💾상태 보기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
+- ![스크린샷(9)](https://github.com/toadsam/2-1teamproject/assets/141693265/46d06ae2-ccea-4c3a-8117-91b0619ea668)
 
   
    
