@@ -1,22 +1,72 @@
 {
   "character": {
-    "Name": "마법사ㅏ",
-    "Job": "마법사",
+    "Name": "사기캐",
+    "Job": "전사",
     "Level": 2,
-    "Atk": 5.5,
-    "Def": 6.0,
+    "Atk": 1006.5,
+    "Def": 1000.0,
     "Mp": 0,
     "Gold": 10000.0,
-    "CurHealth": 100,
-    "MaxHealth": 100,
-    "Exp": 16,
+    "CurHealth": 954,
+    "MaxHealth": 999,
+    "Exp": 10,
     "TotalExp": 35,
-    "CurMp": 90,
-    "MaxMp": 120,
+    "CurMp": 774,
+    "MaxMp": 999,
     "MyTurn": true
   },
   "potion": {
     "Name": null,
     "Recovery": 30
-  }
+  },
+  "saveItems": [
+    {
+      "Description": "무쇠로 만들어져 튼튼한 갑옷입니다.",
+      "Name": "무쇠갑옷",
+      "Type": "방어력",
+      "Power": 3.0,
+      "Price": 0,
+      "PlayerEquipped": true,
+      "Owner": "player"
+    },
+    {
+      "Description": "불꽃으로 베어내며 화염 공격을 가하는 도끼입니다.",
+      "Name": "불타는도끼",
+      "Type": "공격력",
+      "Power": 1.0,
+      "Price": 0,
+      "PlayerEquipped": true,
+      "Owner": "player"
+    },
+    {
+      "Description": "쉽게 볼 수 있는 낡은 검 입니다.",
+      "Name": "낡은 검",
+      "Type": "공격력",
+      "Power": 3.0,
+      "Price": 0,
+      "PlayerEquipped": true,
+      "Owner": "dropitem"
+    },
+    {
+      "Description": "쉽게 볼 수 있는 낡은 검 입니다.",
+      "Name": "낡은 검",
+      "Type": "공격력",
+      "Power": 3.0,
+      "Price": 0,
+      "PlayerEquipped": true,
+      "Owner": "dropitem"
+    },
+    {
+      "Description": "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.",
+      "Name": "낡은 활",
+      "Type": "공격력",
+      "Power": 4.0,
+      "Price": 0,
+      "PlayerEquipped": false,
+      "Owner": "dropitem"
+    }
+  ],
+  "MpCount": 4,
+  "HpCount": 5,
+  "saveDungeonLevel": 3
 }

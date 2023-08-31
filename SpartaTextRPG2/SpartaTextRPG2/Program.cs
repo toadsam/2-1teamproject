@@ -37,7 +37,7 @@ namespace SpartaTextRPG2
             // 캐릭터 정보 세팅
             CreatePlayer(); // 이름 입력과 직업 선택 화면
 
-            dungeonLevel = 1;
+           // dungeonLevel = 1;
             // 몬스터 정보 세팅 => 몬스터 생성도 CreateMonster 하나 만들자
 
             monsters = new Monster[5] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() };
@@ -69,9 +69,9 @@ namespace SpartaTextRPG2
             skills.Add(skill2);
             skills.Add(skill3);
 
-            // 아이템 세팅(인벤토리)
-            invenList.Add(new Item("무쇠갑옷", "방어력", 3.0f, "무쇠로 만들어져 튼튼한 갑옷입니다.", true, "player"));
-            invenList.Add(new Item("불타는도끼", "공격력", 1.0f, "불꽃으로 베어내며 화염 공격을 가하는 도끼입니다.", false, "player"));
+            //// 아이템 세팅(인벤토리)
+            //invenList.Add(new Item("무쇠갑옷", "방어력", 3.0f, "무쇠로 만들어져 튼튼한 갑옷입니다.", true, "player"));
+            //invenList.Add(new Item("불타는도끼", "공격력", 1.0f, "불꽃으로 베어내며 화염 공격을 가하는 도끼입니다.", false, "player"));
 
 
             for (int i = 0; i < ranMonsters.Length; i++) // ※ 랜덤 마릿수(ranMonsters.Length)의 랜덤 몬스터(y)를 생성
@@ -126,7 +126,7 @@ namespace SpartaTextRPG2
                     DisplayInventory();
                     break;
                 case 4:
-                    save.SaveInformation(player, potion);   //저장할 파일 담기
+                    save.SaveInformation(player, potion, invenList , dungeonLevel);   //저장할 파일 담기
                     var preuser = JObject.FromObject(save); //파일 저장
                     Console.WriteLine(preuser.ToString());
                     Thread.Sleep(2000);
@@ -147,8 +147,8 @@ namespace SpartaTextRPG2
             Console.WriteLine($"{player.Name}({player.Job})");
             Console.WriteLine($"공격력 :{player.Atk}");
             Console.WriteLine($"방어력 : {player.Def}");
-            Console.WriteLine($"체력 : {player.MaxHealth}");
-            Console.WriteLine($"마나 : {player.MaxMp}");
+            Console.WriteLine($"체력 : {player.MaxHealth} | {player.CurHealth}");
+            Console.WriteLine($"마나 : {player.MaxMp} | {player.CurMp}");
             Console.WriteLine($"Gold : {player.Gold} G");
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
@@ -186,8 +186,7 @@ namespace SpartaTextRPG2
             Console.WriteLine($"마나 : {player.CurMp} / {player.MaxMp}");
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
-            Console.WriteLine("1. 공격");
-            // Console.WriteLine("2. 스킬");
+            Console.WriteLine("1. 공격");          
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요");
 
@@ -515,12 +514,12 @@ namespace SpartaTextRPG2
                 int IsPotionGet = ran.Next(1, 10);            //포션 확률적으로 얻기
                 if ( 6 > IsPotionGet)  //50%확룰로 포션획득
                 {
-                    Console.WriteLine("[체력포션 획득]");
+                    Console.WriteLine("체력포션 획득");
                     Potion.hpPotionCount++;
                 }
                 else
                 {
-                    Console.WriteLine("[마나포션 획득]");
+                    Console.WriteLine("마나포션 획득");
                     Potion.mpPotionCount++;
                 }
                 Item droppedItem = DropItem(); // 아이템 생성
@@ -832,10 +831,7 @@ namespace SpartaTextRPG2
             itemIndex = ran.Next(1, 4);
             switch (itemIndex)
             {
-                /*case 1:
-                    Potion.hpPotionCount++;
-                    return new Item("체력포션");
-                    break;*/
+                
                 case 1:
                     return new Item("낡은 검", "공격력", 3f, "쉽게 볼 수 있는 낡은 검 입니다.", false, "dropitem");
                 //break;
@@ -844,12 +840,7 @@ namespace SpartaTextRPG2
                 //break;
                 case 3:
                     return new Item("낡은 스태프", "방어력", 2f, "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.", false, "dropitem");
-                    //break;
-                    /*case 5:
-                        return new Item("500G");
-                    case 6:
-                        Potion.mpPotionCount++;
-                        return new Item("마나포션");*/
+                    
             }
 
             return new Item("돌맹이", "공격력", 4, "원거리에서는 투척하여 적에게 공격을 가하는 방식으로 사용되는 돌멩이입니다.", false, "dropitem");
@@ -943,6 +934,10 @@ namespace SpartaTextRPG2
                     save = save2;
                     player = save.character;
                     potion = save.potion;
+                    Potion.mpPotionCount = save.MpCount;
+                    Potion.hpPotionCount = save.HpCount;
+                    invenList = save.saveItems;
+                    dungeonLevel = save.saveDungeonLevel;
                     Console.WriteLine($"{player.Name}님 환영합니다");
                     Thread.Sleep(1000);
                 }
@@ -953,14 +948,16 @@ namespace SpartaTextRPG2
                 // 이름 설정
                 Console.Write("이름을 설정해주세요:");
                 string userName = Console.ReadLine();
-
-
+                dungeonLevel = 1;
+                // 아이템 세팅(인벤토리)
+                invenList.Add(new Item("무쇠갑옷", "방어력", 3.0f, "무쇠로 만들어져 튼튼한 갑옷입니다.", true, "player"));
+                invenList.Add(new Item("불타는도끼", "공격력", 1.0f, "불꽃으로 베어내며 화염 공격을 가하는 도끼입니다.", false, "player"));
                 JobType choice = ChooseJob();
 
                 switch (choice)
                 {
                     case JobType.Worrior:
-                        player = new Character(userName, "전사", 1, 8, 10, 10000, 150, 150, 0, 10, 50, 50, true);
+                        player = new Character(userName, "전사", 1, 999, 999, 10000, 999, 999, 0, 10, 999, 999, true);
                         break;
                     case JobType.Archer:
                         player = new Character(userName, "궁수", 1, 10, 5, 10000, 120, 120, 0, 10, 50, 50, true);
