@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Yin+DTFbCPGkMxNwtPsiatv3tperLO3bZLWIm+9Vn6w6Nui+ZfTbXa9Oj7HmzMq+C+cdGJXQXhpC0Q0twz4PlQ==",
+  "dgSpecHash": "iquLGR8oqMjj15Pbr0Q0BABQAH0MXaGvTDeuQcdeRHHBdAYEt1B8MsvFGVY2qlKrOOYzpch4NZxrtNO7pRaLcQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\이민열\\Documents\\GitHub\\2-1teamproject\\SpartaTextRPG2\\SpartaTextRPG2\\SpartaTextRPG2.csproj",
+  "projectFilePath": "D:\\Unity\\GitHub\\teamproject\\2-1teamproject\\SpartaTextRPG2\\SpartaTextRPG2\\SpartaTextRPG2.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\이민열\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+    "C:\\Users\\wind\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],
   "logs": []
 }

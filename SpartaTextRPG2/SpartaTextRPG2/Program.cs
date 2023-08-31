@@ -291,7 +291,15 @@ namespace SpartaTextRPG2
                     Console.WriteLine("마나가 부족합니다");
                     Console.ResetColor();
                     isUseSkill = false;                             //비활성화
-                } else
+                }
+                else if (player.Level < 3 && skillSelect == 3) // 레벨이 3 미만이면서 3번 스킬을 선택한 경우
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("해당 스킬은 레벨 3 이상부터 사용할 수 있는 스킬입니다.");
+                    Console.ResetColor();
+                    isUseSkill = false; // 비활성화
+                }
+                else
                 {
                     switch (skillSelect)
                     {
@@ -638,9 +646,10 @@ namespace SpartaTextRPG2
             Console.WriteLine($"마나포션을 사용하면 마나을 30 회복 할 수 있습니다. (남은 포션 : {Potion.mpPotionCount} 현재마나: {player.CurMp}");
             Console.WriteLine("");
 
-            Console.WriteLine("2.체력포션 사용하기");
-            Console.WriteLine("1.마나포션 사용하기");
             Console.WriteLine("0.나가기");
+            Console.WriteLine("1.마나포션 사용하기");
+            Console.WriteLine("2.체력포션 사용하기");
+            
 
             int input = CheckValidInput(0, 2);
             switch (input)
@@ -855,9 +864,10 @@ namespace SpartaTextRPG2
             Console.WriteLine($"마나포션을 사용하면 마나을 30 회복 할 수 있습니다. (남은 포션 : {Potion.mpPotionCount} 현재마나: {player.CurMp}");
             Console.WriteLine("");
 
-            Console.WriteLine("2.체력포션 사용하기");
-            Console.WriteLine("1.마나포션 사용하기");
             Console.WriteLine("0.나가기");
+            Console.WriteLine("1.마나포션 사용하기");
+            Console.WriteLine("2.체력포션 사용하기");
+            
 
             int input = CheckValidInput(0, 2);
             switch (input)
