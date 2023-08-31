@@ -114,7 +114,7 @@
 
 - 🚀게임 저장하기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EA%B2%8C%EC%9E%84-%EC%A0%80%EC%9E%A5%ED%95%98%EA%B8%B0)
 
-- 💪추가 기능!!! 매우 중요!!!! 💪  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EA%B2%8C%EC%9E%84-%EC%A0%80%EC%9E%A5%ED%95%98%EA%B8%B0)
+- 💪추가 기능!!! 매우 중요!!!! 💪  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%B6%94%EA%B0%80-%EA%B8%B0%EB%8A%A5!!-%EB%A7%A4%EC%9A%B0-%EC%A4%91%EC%9A%94)
    
 
 
