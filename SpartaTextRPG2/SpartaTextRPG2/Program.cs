@@ -560,7 +560,10 @@ namespace SpartaTextRPG2
                             Console.WriteLine();
                             Console.WriteLine($"Lv.{player.Level} {player.Name}");
                             Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
-                            player.CurHealth -= mon.Damage;
+                            if (dodgerun == 1 || !isrun)
+                            {
+                                player.CurHealth -= mon.Damage;
+                            }
                             Console.WriteLine();
 
 
@@ -578,7 +581,10 @@ namespace SpartaTextRPG2
                                     Console.WriteLine();
                                     Console.WriteLine($"Lv.{player.Level} {player.Name}");
                                     Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
-                                    player.CurHealth -= mon.Damage;
+                                    if (dodgerun == 1 && isrun)
+                                    {
+                                        player.CurHealth -= mon.Damage;
+                                    }
                                     break;
                                 case 1:
                                     Console.WriteLine($"Lv.{mon.Level} {mon.Name}가  공격스킬을 사용합니다!");
@@ -587,7 +593,10 @@ namespace SpartaTextRPG2
                                     Console.WriteLine();
                                     Console.WriteLine($"Lv.{player.Level} {player.Name}");
                                     Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
-                                    player.CurHealth -= mon.Damage;
+                                    if (dodgerun == 2 && isrun)
+                                    {
+                                        player.CurHealth -= mon.Damage;
+                                    }
                                     break;
                                 case 2:
                                     Console.WriteLine($"Lv.{mon.Level} {mon.Name}가  회복스킬을 사용합니다!");
