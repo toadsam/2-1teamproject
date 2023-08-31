@@ -110,12 +110,11 @@ namespace SpartaTextRPG2
                     DisplayInventory();
                     break;
                 case 4:
-                    save.SaveInformation(player, potion, invenList, dungeonLevel);   //저장할 파일 담기
+                    save.SaveInformation(player, potion, invenList, dungeonLevel,skills);   //저장할 파일 담기
                     var preuser = JObject.FromObject(save); //파일 저장
                     Console.WriteLine(preuser.ToString());
                     Thread.Sleep(2000);
-                    File.WriteAllText(@"../SpartaTextRPG2.json", preuser.ToString());
-                    //File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());
+                    File.WriteAllText(@"../SpartaTextRPG2.json", preuser.ToString());             
                     DisplayGameIntro();
                     break;
             }
@@ -524,6 +523,7 @@ namespace SpartaTextRPG2
                 int monDeadCount = 0; // true인 mon의 개수
                 foreach (Monster mon in ranMonsters) // 살아있는 몬스터 전부 돌아가면서 공격
                 {
+                    bool isEscape = false;
                     if (mon.IsDead == false) // 살아있는 몬스터의 행동
                     {
 
@@ -531,10 +531,10 @@ namespace SpartaTextRPG2
                         Console.WriteLine();
                         Console.WriteLine("Enemy turn"); // 적 턴 시작
                         Console.WriteLine();
-                        Console.WriteLine("공격을 피하시겠습니까 ?");//공격 피할지 물어본다 
+                        Console.WriteLine("공격을 피하시겠습니까 ?(보스 몬스터는 공격스킬만 해당됩니다)");//공격 피할지 물어본다 
                         Console.WriteLine();
                         Console.WriteLine("1. 안피한다 .");
-                        Console.WriteLine("2. 피한다 .");
+                        Console.WriteLine("2. 피한다(50의 확률로 공격을 피할 수 있다.) .");
                         Console.WriteLine();
 
 
@@ -542,26 +542,29 @@ namespace SpartaTextRPG2
                         bool isrun = ran.Next(0, 100) < 50; 
                         if (dodgerun == 1)//1.안피한다 
                         {
+                            isEscape = false;
                             Console.WriteLine("공격을 겸허히 받아들이는 중입니다 . ");
                         }
                         else if (dodgerun == 2 && isrun)//2.피한다>>50프로의 확률로 피한다 (541~542줄 )
                         {
+                            isEscape = true;
                             Console.WriteLine("슉 -");
                             Console.WriteLine("슈슉 -");
                             Console.WriteLine($"{mon.Name}의 공격을 피하셨습니다 .");
-                            continue;
+                          
                         }
                         if (mon.Boss == 0)
                         { // 일반 몬스터의 행동
-                            mon.Damage = mon.Atk - (int)Math.Round(player.Def * (float)0.1);
-                            Console.WriteLine($"Lv.{mon.Level} {mon.Name}의 공격!");
-                            Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Damage}]");
-                            Console.WriteLine();
-                            Console.WriteLine();
-                            Console.WriteLine($"Lv.{player.Level} {player.Name}");
-                            Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
-                            if (dodgerun == 1 || !isrun)
+                           
+                            if (isEscape == false)  //안 피하거나, 
                             {
+                                mon.Damage = mon.Atk - (int)Math.Round(player.Def * (float)0.1);
+                                Console.WriteLine($"Lv.{mon.Level} {mon.Name}의 공격!");
+                                Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Damage}]");
+                                Console.WriteLine();
+                                Console.WriteLine();
+                                Console.WriteLine($"Lv.{player.Level} {player.Name}");
+                                Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
                                 player.CurHealth -= mon.Damage;
                             }
                             Console.WriteLine();
@@ -575,26 +578,27 @@ namespace SpartaTextRPG2
                             switch (mon.BossSkill(skillNum))
                             {
                                 case 0:
-                                    Console.WriteLine($"Lv.{mon.Level} {mon.Name}가  일반공격을 사용합니다!");
-                                    Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Damage}]");
-                                    Console.WriteLine();
-                                    Console.WriteLine();
-                                    Console.WriteLine($"Lv.{player.Level} {player.Name}");
-                                    Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
-                                    if (dodgerun == 1 && isrun)
+                                    
+                                    if (isEscape == false)  //안 피하거나, 
                                     {
+                                        Console.WriteLine($"Lv.{mon.Level} {mon.Name}가  일반공격을 사용합니다!");
+                                        Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Damage}]");
+                                        Console.WriteLine();
+                                        Console.WriteLine();
+                                        Console.WriteLine($"Lv.{player.Level} {player.Name}");
+                                        Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
                                         player.CurHealth -= mon.Damage;
                                     }
                                     break;
                                 case 1:
-                                    Console.WriteLine($"Lv.{mon.Level} {mon.Name}가  공격스킬을 사용합니다!");
-                                    Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Damage}]");
-                                    Console.WriteLine();
-                                    Console.WriteLine();
-                                    Console.WriteLine($"Lv.{player.Level} {player.Name}");
-                                    Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
-                                    if (dodgerun == 2 && isrun)
+                                    if (isEscape == false) //안 피하거나,
                                     {
+                                        Console.WriteLine($"Lv.{mon.Level} {mon.Name}가  공격스킬을 사용합니다!");
+                                        Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Damage}]");
+                                        Console.WriteLine();
+                                        Console.WriteLine();
+                                        Console.WriteLine($"Lv.{player.Level} {player.Name}");
+                                        Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
                                         player.CurHealth -= mon.Damage;
                                     }
                                     break;
@@ -1105,24 +1109,16 @@ namespace SpartaTextRPG2
             itemIndex = ran.Next(1, 4);
             switch (itemIndex)
             {
-                /*case 1:
-                    Potion.hpPotionCount++;
-                    return new Item("체력포션");
-                    break;*/
+               
                 case 1:
                     return new Item("낡은 검", "공격력", 3f, "쉽게 볼 수 있는 낡은 검 입니다.", false, "dropitem");
-                //break;
+                
                 case 2:
                     return new Item("낡은 활", "공격력", 4f, "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.", false, "dropitem");
-                //break;
+                
                 case 3:
                     return new Item("낡은 스태프", "방어력", 2f, "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.", false, "dropitem");
-                    //break;
-                    /*case 5:
-                        return new Item("500G");
-                    case 6:
-                        Potion.mpPotionCount++;
-                        return new Item("마나포션");*/
+                   
             }
 
             return new Item("돌맹이", "공격력", 4, "원거리에서는 투척하여 적에게 공격을 가하는 방식으로 사용되는 돌멩이입니다.", false, "dropitem");
@@ -1206,16 +1202,14 @@ namespace SpartaTextRPG2
 
 
             if (input == 1)
-            {
-                //if (File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json") == null)
+            {              
                 if (File.ReadAllText(@"../SpartaTextRPG2.json") == null)
                 {
                     Console.WriteLine("저장하신 캐릭터가 없습니다.");
                     CreatePlayer();
                 }
                 else
-                {
-                    //var curuser = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
+                {                 
                     var curuser = File.ReadAllText(@"../SpartaTextRPG2.json");
                     Save save2 = JsonConvert.DeserializeObject<Save>(curuser);
                     save = save2;
@@ -1225,6 +1219,7 @@ namespace SpartaTextRPG2
                     Potion.mpPotionCount = save.MpCount;
                     Potion.hpPotionCount = save.HpCount;
                     dungeonLevel = save.saveDungeonLevel;
+                    skills = save.saveSkills;
                     Console.WriteLine($"{player.Name}님 환영합니다");
                     Thread.Sleep(1000);
                 }
@@ -1266,7 +1261,6 @@ namespace SpartaTextRPG2
                         skills.Add(skill4);
                         skills.Add(skill5);
                         skills.Add(skill6);
-
                         break;
                     case JobType.Mage:
                         player = new Character(userName, "마법사", 1, 5, 5, 10000, 100, 100, 0, 10, 120, 120, true);

@@ -15,7 +15,8 @@ namespace SpartaTextRPG2
         public int MpCount;
         public int HpCount;
         public int saveDungeonLevel;
-        public void SaveInformation(Character _character, Potion _potion, List<Item> _items, int _dungeonLevel)
+        public List<Skill> saveSkills;
+        public void SaveInformation(Character _character, Potion _potion, List<Item> _items, int _dungeonLevel,List<Skill>_skills)
         {
             character = _character;
             potion = _potion;
@@ -23,6 +24,7 @@ namespace SpartaTextRPG2
             HpCount = Potion.hpPotionCount;
             saveItems = _items;
             saveDungeonLevel = _dungeonLevel;
+            saveSkills = _skills;
         }
     }
 }

@@ -1,18 +1,18 @@
 {
   "character": {
-    "Name": "wldaw",
-    "Job": "마법사",
+    "Name": "진짜",
+    "Job": "전사",
     "Level": 1,
-    "Atk": 5.0,
-    "Def": 5.0,
+    "Atk": 80.0,
+    "Def": 10.0,
     "Mp": 0,
     "Gold": 10000.0,
-    "CurHealth": 100,
-    "MaxHealth": 100,
-    "Exp": 0,
+    "CurHealth": 500,
+    "MaxHealth": 500,
+    "Exp": 5,
     "TotalExp": 10,
-    "CurMp": 120,
-    "MaxMp": 120,
+    "CurMp": 135,
+    "MaxMp": 150,
     "MyTurn": true
   },
   "potion": {
@@ -37,9 +37,38 @@
       "Price": 0,
       "PlayerEquipped": false,
       "Owner": "player"
+    },
+    {
+      "Description": "쉽게 볼 수 있는 낡은 검 입니다.",
+      "Name": "낡은 검",
+      "Type": "공격력",
+      "Power": 3.0,
+      "Price": 0,
+      "PlayerEquipped": false,
+      "Owner": "dropitem"
     }
   ],
-  "MpCount": 3,
+  "MpCount": 4,
   "HpCount": 3,
-  "saveDungeonLevel": 1
+  "saveDungeonLevel": 2,
+  "saveSkills": [
+    {
+      "Name": "알파 스트라이크",
+      "UseMp": 10,
+      "MultiAtk": 2,
+      "AtkNumber": 1
+    },
+    {
+      "Name": "더블 스트라이크",
+      "UseMp": 15,
+      "MultiAtk": 2,
+      "AtkNumber": 2
+    },
+    {
+      "Name": "고무고무 피스톨",
+      "UseMp": 45,
+      "MultiAtk": 99,
+      "AtkNumber": 100
+    }
+  ]
 }
