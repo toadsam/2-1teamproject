@@ -85,23 +85,7 @@
     
         
 
-- 🤪콘솔 꾸미기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
-    - ConsoleColor를 이용해서 다양한 색을 구현했습니다.
-    
-    ```csharp
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.ForegroundColor = ConsoleColor.Yellow;
-    ```
-    
-    ```csharp
-    1. 장착 관리
-    2. 아이템 정렬
-    0. 나가기
-    
-    Battle!!
-    
-    [몬스터 종류]
-    ```
+- 🤪콘솔 꾸미기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%BD%98%EC%86%94-%EA%BE%B8%EB%AF%B8%EA%B8%B0)
     
 
 - 🐯몬스터 종류  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
