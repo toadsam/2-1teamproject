@@ -1,5 +1,5 @@
 # 팀과제 콘솔 게임
-
+<img src="https://capsule-render.vercel.app/api?type=waving&color=BDBDC8&height=150&section=header" 
 
 # 😁스파르타 던전 배틀 (Text 게임)
 
@@ -53,64 +53,27 @@
 
 ## 🌐주요 기능
 
-- 🎮게임 시작 화면  -  [자세히 보기](https://github.com/toadsam/TextGame/wiki/%EC%BA%90%EB%A6%AD%ED%84%B0)
+- 🎮게임 시작 화면 -  [자세히 보기](https://github.com/toadsam/TextGame/wiki/%EC%BA%90%EB%A6%AD%ED%84%B0)
     
-    
-
 - 💾상태 보기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
-- ![스크린샷(9)](https://github.com/toadsam/2-1teamproject/assets/141693265/46d06ae2-ccea-4c3a-8117-91b0619ea668)
-
-  
-   
-    
 
 - ⚔️전투 시작  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%A0%84%ED%88%AC-%EC%8B%9C%EC%9E%91)
 
-  
-   
-    
-
 - 🤡캐릭터 커스텀  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%BA%90%EB%A6%AD%ED%84%B0-%EC%BB%A4%EC%8A%A4%ED%85%80)
-
-  
-   
-    
 
 - 🤺배틀  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EB%B0%B0%EB%93%A4)
 
-  
-    
-        
-
 - 🦧던전추가 기능  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EB%8D%98%EC%A0%84%EC%B6%94%EA%B0%80-%EA%B8%B0%EB%8A%A5)
-
-  
-    
-        
 
 - 🤪콘솔 꾸미기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%BD%98%EC%86%94-%EA%BE%B8%EB%AF%B8%EA%B8%B0)
 
-  
-    
-
 - 🐯몬스터 종류  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EB%AA%AC%EC%8A%A4%ED%84%B0-%EC%A2%85%EB%A5%98)
-
-  
-    
 
 - 🧐아이템 기능  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%95%84%EC%9D%B4%ED%85%9C-%EA%B8%B0%EB%8A%A5)
 
-     
-    
-
 - 💖회복 아이템  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%ED%9A%8C%EB%B3%B5-%EC%95%84%EC%9D%B4%ED%85%9C)
 
-  
-
 - ↗️스테이지 추가  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80-%EC%B6%94%EA%B0%80)
-
-  
-   
 
 - 🚀게임 저장하기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EA%B2%8C%EC%9E%84-%EC%A0%80%EC%9E%A5%ED%95%98%EA%B8%B0)
    
