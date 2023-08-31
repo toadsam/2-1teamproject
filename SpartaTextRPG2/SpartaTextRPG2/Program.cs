@@ -3,8 +3,6 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Text.Json;
 using Newtonsoft.Json;
-using Internal;
-using System;
 
 namespace SpartaTextRPG2
 {
@@ -406,17 +404,17 @@ namespace SpartaTextRPG2
                     {
                         if (mon.Boss == 0)
                         { // 일반 몬스터의 행동
-                            mon.Damage = mon.Atk - (int)Math.Round(player.Def * (float)0.1);
                             Console.WriteLine($"Lv.{mon.Level} {mon.Name}의 공격!");
-                            Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Damage}]");
+                            Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {mon.Atk}]");
                             Console.WriteLine();
                             Console.WriteLine();
                             Console.WriteLine($"Lv.{player.Level} {player.Name}");
-                            Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
+                            Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Atk}");
+                            player.CurHealth -= mon.Atk;
                             Console.WriteLine();
-                            player.CurHealth -= mon.Damage; //실제로 맞는거에서 방어력 적용된거 
+
+
                         }
-                    }
                         else //보스 행동
                         {
                             int skillNum = ran.Next(0, 4);
