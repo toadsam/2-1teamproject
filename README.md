@@ -114,3 +114,7 @@
 
 - 🚀게임 저장하기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EA%B2%8C%EC%9E%84-%EC%A0%80%EC%9E%A5%ED%95%98%EA%B8%B0)
    
+
+
+## 시연 영상
+https://www.youtube.com/watch?v=viUSUvfzocE
