@@ -3,8 +3,6 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Text.Json;
 using Newtonsoft.Json;
-using Internal;
-using System;
 
 namespace SpartaTextRPG2
 {
@@ -50,6 +48,7 @@ namespace SpartaTextRPG2
             Skill skill1 = new Skill("알파 스트라이크", 10, 2, 1);
             Skill skill2 = new Skill("더블 스트라이크", 15, 2, 2);
             Skill skill3 = new Skill("고무고무 피스톨", 45, 99, 9);
+
             skills.Add(skill1);
             skills.Add(skill2);
             skills.Add(skill3);
@@ -113,7 +112,7 @@ namespace SpartaTextRPG2
                     var preuser = JObject.FromObject(save); //파일 저장
                     Console.WriteLine(preuser.ToString());
                     Thread.Sleep(2000);
-                    File.WriteAllText(@"../ SpartaTextRPG2.json", preuser.ToString());
+                    File.WriteAllText(@".. / SpartaTextRPG2.json", preuser.ToString());
                     //File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());
                     DisplayGameIntro();
                     break;
@@ -413,10 +412,11 @@ namespace SpartaTextRPG2
                             Console.WriteLine();
                             Console.WriteLine($"Lv.{player.Level} {player.Name}");
                             Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
+                            player.CurHealth -= mon.Damage;
                             Console.WriteLine();
-                            player.CurHealth -= mon.Damage; //실제로 맞는거에서 방어력 적용된거 
+
+
                         }
-                    }
                         else //보스 행동
                         {
                             int skillNum = ran.Next(0, 4);
@@ -1049,7 +1049,7 @@ namespace SpartaTextRPG2
             if (input == 1)
             {
                 //if (File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json") == null)
-                if (File.ReadAllText(@"../ SpartaTextRPG2.json") == null)
+                if (File.ReadAllText(@"../SpartaTextRPG2.json") == null)
                 {
                     Console.WriteLine("저장하신 캐릭터가 없습니다.");
                     CreatePlayer();
@@ -1057,7 +1057,7 @@ namespace SpartaTextRPG2
                 else
                 {
                     //var curuser = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
-                    var curuser = File.ReadAllText(@"../ SpartaTextRPG2.json");
+                    var curuser = File.ReadAllText(@"../SpartaTextRPG2.json");
                     Save save2 = JsonConvert.DeserializeObject<Save>(curuser);
                     save = save2;
                     player = save.character;
