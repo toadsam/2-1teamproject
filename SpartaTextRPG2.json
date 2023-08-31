@@ -2,16 +2,16 @@
   "character": {
     "Name": "asdfasd",
     "Job": "전사",
-    "Level": 2,
-    "Atk": 80.5,
-    "Def": 11.0,
+    "Level": 3,
+    "Atk": 81.0,
+    "Def": 12.0,
     "Mp": 0,
     "Gold": 10000.0,
-    "CurHealth": 475,
+    "CurHealth": 242,
     "MaxHealth": 500,
-    "Exp": 0,
-    "TotalExp": 35,
-    "CurMp": 150,
+    "Exp": 40,
+    "TotalExp": 65,
+    "CurMp": 95,
     "MaxMp": 150,
     "MyTurn": true
   },
@@ -46,9 +46,54 @@
       "Price": 0,
       "PlayerEquipped": false,
       "Owner": "dropitem"
+    },
+    {
+      "Description": "쉽게 볼 수 있는 낡은 검 입니다.",
+      "Name": "낡은 검",
+      "Type": "공격력",
+      "Power": 3.0,
+      "Price": 0,
+      "PlayerEquipped": false,
+      "Owner": "dropitem"
+    },
+    {
+      "Description": "쉽게 볼 수 있는 낡은 검 입니다.",
+      "Name": "낡은 검",
+      "Type": "공격력",
+      "Power": 3.0,
+      "Price": 0,
+      "PlayerEquipped": false,
+      "Owner": "dropitem"
+    },
+    {
+      "Description": "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.",
+      "Name": "낡은 활",
+      "Type": "공격력",
+      "Power": 4.0,
+      "Price": 0,
+      "PlayerEquipped": false,
+      "Owner": "dropitem"
+    },
+    {
+      "Description": "쉽게 볼 수 있는 낡은 검 입니다.",
+      "Name": "낡은 검",
+      "Type": "공격력",
+      "Power": 3.0,
+      "Price": 0,
+      "PlayerEquipped": false,
+      "Owner": "dropitem"
+    },
+    {
+      "Description": "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.",
+      "Name": "낡은 활",
+      "Type": "공격력",
+      "Power": 4.0,
+      "Price": 0,
+      "PlayerEquipped": false,
+      "Owner": "dropitem"
     }
   ],
-  "MpCount": 3,
-  "HpCount": 4,
-  "saveDungeonLevel": 2
+  "MpCount": 5,
+  "HpCount": 7,
+  "saveDungeonLevel": 5
 }

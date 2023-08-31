@@ -1,0 +1,45 @@
+{
+  "character": {
+    "Name": "w",
+    "Job": "궁수",
+    "Level": 1,
+    "Atk": 10.0,
+    "Def": 5.0,
+    "Mp": 0,
+    "Gold": 10000.0,
+    "CurHealth": 120,
+    "MaxHealth": 120,
+    "Exp": 0,
+    "TotalExp": 10,
+    "CurMp": 50,
+    "MaxMp": 50,
+    "MyTurn": true
+  },
+  "potion": {
+    "Name": null,
+    "Recovery": 30
+  },
+  "saveItems": [
+    {
+      "Description": "무쇠로 만들어져 튼튼한 갑옷입니다.",
+      "Name": "무쇠갑옷",
+      "Type": "방어력",
+      "Power": 3.0,
+      "Price": 0,
+      "PlayerEquipped": true,
+      "Owner": "player"
+    },
+    {
+      "Description": "불꽃으로 베어내며 화염 공격을 가하는 도끼입니다.",
+      "Name": "불타는도끼",
+      "Type": "공격력",
+      "Power": 1.0,
+      "Price": 0,
+      "PlayerEquipped": false,
+      "Owner": "player"
+    }
+  ],
+  "MpCount": 3,
+  "HpCount": 3,
+  "saveDungeonLevel": 1
+}
