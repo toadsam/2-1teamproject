@@ -62,3 +62,5 @@ C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\bin
 C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.csproj.CopyComplete
 C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.csproj.CopyComplete
+D:\Unity\GitHub\teamproject\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Unity\GitHub\teamproject\2-1teamproject\SpartaTextRPG2\SpartaTextRPG2\obj\Debug\net6.0\SpartaTextRPG2.csproj.CopyComplete
