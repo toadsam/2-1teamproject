@@ -37,7 +37,7 @@ namespace SpartaTextRPG2
             // 캐릭터 정보 세팅
             CreatePlayer(); // 이름 입력과 직업 선택 화면
 
-            dungeonLevel = 1;
+           
             // 몬스터 정보 세팅 => 몬스터 생성도 CreateMonster 하나 만들자
 
             monsters = new Monster[5] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() };
@@ -69,9 +69,7 @@ namespace SpartaTextRPG2
             skills.Add(skill2);
             skills.Add(skill3);
 
-            // 아이템 세팅(인벤토리)
-            invenList.Add(new Item("무쇠갑옷", "방어력", 3.0f, "무쇠로 만들어져 튼튼한 갑옷입니다.", true, "player"));
-            invenList.Add(new Item("불타는도끼", "공격력", 1.0f, "불꽃으로 베어내며 화염 공격을 가하는 도끼입니다.", false, "player"));
+            
 
 
             for (int i = 0; i < ranMonsters.Length; i++) // ※ 랜덤 마릿수(ranMonsters.Length)의 랜덤 몬스터(y)를 생성
@@ -126,7 +124,7 @@ namespace SpartaTextRPG2
                     DisplayInventory();
                     break;
                 case 4:
-                    save.SaveInformation(player, potion);   //저장할 파일 담기
+                    save.SaveInformation(player, potion,invenList,dungeonLevel);   //저장할 파일 담기
                     var preuser = JObject.FromObject(save); //파일 저장
                     Console.WriteLine(preuser.ToString());
                     Thread.Sleep(2000);
@@ -147,8 +145,8 @@ namespace SpartaTextRPG2
             Console.WriteLine($"{player.Name}({player.Job})");
             Console.WriteLine($"공격력 :{player.Atk}");
             Console.WriteLine($"방어력 : {player.Def}");
-            Console.WriteLine($"체력 : {player.MaxHealth}");
-            Console.WriteLine($"마나 : {player.MaxMp}");
+            Console.WriteLine($"체력 : {player.MaxHealth} | {player.CurHealth} ");
+            Console.WriteLine($"마나 : {player.MaxMp}  | {player.CurMp}");
             Console.WriteLine($"Gold : {player.Gold} G");
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
@@ -512,12 +510,12 @@ namespace SpartaTextRPG2
                 int IsPotionGet = ran.Next(1, 10);            //포션 확률적으로 얻기
                 if ( 6 > IsPotionGet)  //50%확룰로 포션획득
                 {
-                    Console.WriteLine("[체력포션 획득]");
+                    Console.WriteLine("체력포션 획득");
                     Potion.hpPotionCount++;
                 }
                 else
                 {
-                    Console.WriteLine("[마나포션 획득]");
+                    Console.WriteLine("마나포션 획득");
                     Potion.mpPotionCount++;
                 }
                 Item droppedItem = DropItem(); // 아이템 생성
@@ -955,6 +953,10 @@ namespace SpartaTextRPG2
                     save = save2;
                     player = save.character;
                     potion = save.potion;
+                    invenList = save.saveItems;
+                    Potion.mpPotionCount = save.MpCount;
+                    Potion.hpPotionCount = save.HpCount;
+                    dungeonLevel = save.saveDungeonLevel;
                     Console.WriteLine($"{player.Name}님 환영합니다");
                     Thread.Sleep(1000);
                 }
@@ -966,6 +968,11 @@ namespace SpartaTextRPG2
                 Console.Write("이름을 설정해주세요:");
                 string userName = Console.ReadLine();
 
+                dungeonLevel = 1;
+
+                // 아이템 세팅(인벤토리)
+                invenList.Add(new Item("무쇠갑옷", "방어력", 3.0f, "무쇠로 만들어져 튼튼한 갑옷입니다.", true, "player"));
+                invenList.Add(new Item("불타는도끼", "공격력", 1.0f, "불꽃으로 베어내며 화염 공격을 가하는 도끼입니다.", false, "player"));
 
                 JobType choice = ChooseJob();
 
@@ -1059,15 +1066,7 @@ namespace SpartaTextRPG2
                     return new Monster("대포미니언", 5, 25, 25, 8, false, 0);
                     break;
                 case MonsterType.공허충:
-<<<<<<< Updated upstream
-                    return new Monster("공허충", 3, 10, 10, 9, false);
-                    break;
-                case MonsterType.바선생:
-                    return new Monster("바선생", 7, 20, 20, 10, false);
-                    break;
-                case MonsterType.귀멸의강낭콩:
-                    return new Monster("귀멸의강낭콩", 10, 25, 25, 10, false);
-=======
+
                     return new Monster("공허충", 3, 10, 10, 9, false, 0);
                     break;
                 case MonsterType.바선생:
@@ -1078,7 +1077,6 @@ namespace SpartaTextRPG2
                     break;
                 case MonsterType.보스몬스터:
                     return new Monster("보스몬스터", 15, 150, 150, 25, false, 1);
->>>>>>> Stashed changes
                     break;
                     
                 default:

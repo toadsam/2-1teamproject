@@ -56,7 +56,7 @@
             }
             else
             {
-                if (character.CurMp + Recovery > character.MaxMp)
+                if (character.CurMp + Recovery >= character.MaxMp)
                 {
                     if (character.CurMp == character.MaxMp)
                     {
