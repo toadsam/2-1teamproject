@@ -88,41 +88,7 @@
 - 🤪콘솔 꾸미기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%BD%98%EC%86%94-%EA%BE%B8%EB%AF%B8%EA%B8%B0)
     
 
-- 🐯몬스터 종류  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
-    - switch문을 이용해 능력이 각각 다른 6마리의 몬스터를 랜덤으로 생성 할 수 있습니다.
-    
-    ```csharp
-    static Monster CreateMonster()  //몬스터를 랜덤으로 생성
-            {
-                MonsterType mon = ChooseMonster();
-    
-                switch (mon)
-                {
-                    case MonsterType.미니언:
-                        return new Monster("미니언", 2, 15, 15, 5, false, 0);
-                        break;
-                    case MonsterType.대포미니언:
-                        return new Monster("대포미니언", 5, 25, 25, 8, false, 0);
-                        break;
-                    case MonsterType.공허충:
-    
-                        return new Monster("공허충", 3, 10, 10, 9, false, 0);
-                        break;
-                    case MonsterType.바선생:
-                        return new Monster("바선생", 7, 20, 20, 10, false, 0);
-                        break;
-                    case MonsterType.귀멸의강낭콩:
-                        return new Monster("귀멸의강낭콩", 10, 25, 25, 10, false, 0);
-                        break;
-                    case MonsterType.보스몬스터:
-                        return new Monster("보스몬스터", 50, 500, 500, 50, false, 1);
-                        break;
-                        
-                    default:
-                        return new Monster("미니언", 2, 15, 15, 5, false, 0);
-                        break;
-                }
-    ```
+- 🐯몬스터 종류  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EB%AA%AC%EC%8A%A4%ED%84%B0-%EC%A2%85%EB%A5%98)
     
 
 - 🧐아이템 기능  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
