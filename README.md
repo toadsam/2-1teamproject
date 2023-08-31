@@ -81,64 +81,8 @@
     
         
 
-- 🦧던전추가 기능  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
-    - 레벨업 기능
-        - 몬스터마다 얻는 경험치를 다르게 해서 foreach문을 통해 일정 경험치를 넘으면 레벨을 올리도록 구현하였습니다.
-        
-        ```csharp
-        foreach (Monster mon in ranMonsters)
-                    {
-                        getExp += mon.Level;
-                    }
-        ublic void LevelUp()
-                {
-                    Atk += 0.5f;             // 레벨업 시 기본 공격력 + 0.5, 방어력 + 1
-                    Def += 1;
-                    Exp = Exp - TotalExp;
-                    Level += 1;
-                    TotalExp += (20 + (Level - 1) * 5);         // 1는 10 필요, 2~3은 35필요, 3~4는 65, 4~5는 100, 만렙은 5이며 exp증가 X
-                                                                //레벨업은 player.Level++ / totalExp를 그에 맞게 올림 / totalExp는 += 20 + (level-1)*5(레벨이 2 이상이면)
-                }
-        ```
-        
-        ```csharp
-        Battle!! - Result
-        Victory
-        
-        던전에서 몬스터 3마리를 잡았습니다.
-        
-        [캐릭터 정보]
-        Lv.1 재훈재훈재훈재훈재훈 -> Lv.2 재훈재훈재훈재훈재훈
-        ```
-        
-    - 보상 추가
-        - 몬스터의 수 까지 itemCount을 랜덤으로 받아  itemCount 만큼 switch문을 이용하여 아이템이 랜덤으로 나오도록 구현하였습니다.
-        
-        ```csharp
-        itemIndex = ran.Next(1, 4);
-                    switch (itemIndex)
-                    { 
-                        case 1:
-                            return new Item("낡은 검", "공격력", 3f, "쉽게 볼 수 있는 낡은 검 입니다.", false, "dropitem");             
-                        case 2:
-                            return new Item("낡은 활", "공격력", 4f, "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.", false, "dropitem");
-                        case 3:
-                            return new Item("낡은 스태프", "방어력", 2f, "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.", false, "dropitem");                    
-                    return new Item("돌맹이", "공격력", 4, "원거리에서는 투척하여 적에게 공격을 가하는 방식으로 사용되는 돌멩이입니다.", false, "dropitem");
-                }
-        
-        int itemCount = ran.Next(1, ranMonsters.Length);
-                    for (int i = 0; i < itemCount; i++)
-                    {//itemCount 만큼 아이템 랜덤 생성 }
-        ```
-        
-        ```csharp
-        [획득 아이템]
-        마나포션 획득
-        낡은 활
-        체력포션 획득
-        낡은 활
-        ```
+- 🦧던전추가 기능  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EB%8D%98%EC%A0%84%EC%B6%94%EA%B0%80-%EA%B8%B0%EB%8A%A5)
+    
         
 
 - 🤪콘솔 꾸미기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
