@@ -37,7 +37,7 @@ namespace SpartaTextRPG2
             // 캐릭터 정보 세팅
             CreatePlayer(); // 이름 입력과 직업 선택 화면
 
-           
+
             // 몬스터 정보 세팅 => 몬스터 생성도 CreateMonster 하나 만들자
 
             monsters = new Monster[5] { CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster(), CreateMonster() };
@@ -47,13 +47,13 @@ namespace SpartaTextRPG2
             // 스킬 정보 세팅(스킬담은 리스트)
             Skill skill1 = new Skill("알파 스트라이크", 10, 2, 1);
             Skill skill2 = new Skill("더블 스트라이크", 15, 2, 2);
-            Skill skill3 = new Skill("고무고무 피스톨", 45, 99, 9);
+            Skill skill3 = new Skill("고무고무 피스톨", 45, 99, 100);
 
             skills.Add(skill1);
             skills.Add(skill2);
             skills.Add(skill3);
 
-            
+
 
 
             for (int i = 0; i < ranMonsters.Length; i++) // ※ 랜덤 마릿수(ranMonsters.Length)의 랜덤 몬스터(y)를 생성
@@ -108,7 +108,7 @@ namespace SpartaTextRPG2
                     DisplayInventory();
                     break;
                 case 4:
-                    save.SaveInformation(player, potion,invenList,dungeonLevel);   //저장할 파일 담기
+                    save.SaveInformation(player, potion, invenList, dungeonLevel);   //저장할 파일 담기
                     var preuser = JObject.FromObject(save); //파일 저장
                     Console.WriteLine(preuser.ToString());
                     Thread.Sleep(2000);
@@ -269,21 +269,45 @@ namespace SpartaTextRPG2
                 foreach (Skill skill in skills)                   //skills리스트에 있는 스킬들 출력
                 {
                     Console.WriteLine($"{i} {skill.Name} - 사용마나{skill.UseMp}");
-                    Console.WriteLine($"공격력의{skill.MultiAtk}배로 {skill.AtkNumber}명의 적을 공격합니다.");
+                    if (i == 3)
+                    {
+                        Console.WriteLine($"공격력의{skill.MultiAtk}배로 모든 적을 공격합니다.");
+
+                    } else
+                    {
+                        Console.WriteLine($"공격력의{skill.MultiAtk}배로 무작위 {skill.AtkNumber}명의 적을 공격합니다.");
+
+                    }
                     Console.WriteLine("");
                     i++;
                 }
                 Console.WriteLine();
                 Console.WriteLine("스킬을 골라주세요");
                 skillSelect = CheckValidInput(1, skills.Count);    //어떤스킬 사용할지 입력받기
+
                 if (player.CurMp < skills[skillSelect - 1].UseMp)  //마나가 부족하면
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("마나가 부족합니다");
                     Console.ResetColor();
-
                     isUseSkill = false;                             //비활성화
+                } else
+                {
+                    switch (skillSelect)
+                    {
+                        case 2:
+                            DisplayAttack(0);
+
+                            break;
+                        case 3:
+                            DisplayAttack(0);
+
+                            break;
+                        default :
+                            break;
+                    }
                 }
+                
             }
 
             Console.WriteLine();
@@ -329,18 +353,110 @@ namespace SpartaTextRPG2
                 int damage = 0;
                 int sumskilldamage = 0;  //스킬데미지 종합
                 int err = (int)Math.Ceiling(player.Atk / 10f); //int err = Math.Ceiling(player.Atk/10);
+                int randomMonster;
                 if (isUseSkill == true)  //스킬 활성화면
                 {
-                    for (int i = 0; i < skills[skillSelect - 1].AtkNumber; i++)  //공격횟수만큼 공격
+                    damage = skills[skillSelect - 1].MultiAtk * ran.Next((int)Math.Round(player.Atk - err), (int)Math.Round(player.Atk + err));
+                    Console.WriteLine($"{player.Name}의 {skills[skillSelect - 1].Name}!");
+                    if (skills[skillSelect - 1].AtkNumber == 1) //단일공격 스킬
                     {
-                        damage = skills[skillSelect - 1].MultiAtk * ran.Next((int)Math.Round(player.Atk - err), (int)Math.Round(player.Atk + err));
-                        Console.WriteLine($"{player.Name}의 {skills[skillSelect - 1].Name}!");
-                        sumskilldamage += damage;
+
+                        //공격
+                        
+                        Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]");
+
+                        Console.WriteLine();
+                        Console.WriteLine($"{ranMonsters[inp - 1].Name}");
+
+                        if ((ranMonsters[inp - 1].CurHealth - damage) <= 0)
+                        {
+                            Console.WriteLine($"HP {ranMonsters[inp - 1].CurHealth} -> Dead");
+                            ranMonsters[inp - 1].CurHealth = 0;
+                            ranMonsters[inp - 1].IsDead = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"HP {ranMonsters[inp - 1].CurHealth} -> {ranMonsters[inp - 1].CurHealth - damage}");
+
+                        }
+                        ranMonsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
                     }
-                    Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) {skills[skillSelect - 1].AtkNumber}번 맞췄습니다. [데미지 : {sumskilldamage}]");
-                    damage = sumskilldamage;
+                    else if (skills[skillSelect-1].AtkNumber == 100) // 전체공격 스킬
+                    {
+                        foreach(Monster mons in ranMonsters)
+                        {
+                            if (mons.IsDead == false)
+                            {
+                                //공격
+                                //sumskilldamage += damage;
+                                Console.WriteLine($"{mons.Name}을(를) 맞췄습니다. [데미지 : {damage}]");
+                                Console.WriteLine();
+                                Console.WriteLine($"{mons.Name}");
+
+                                if ((mons.CurHealth - damage) <= 0)
+                                {
+                                    Console.WriteLine($"HP {mons.CurHealth} -> Dead");
+                                    mons.CurHealth = 0;
+                                    mons.IsDead = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"HP {mons.CurHealth} -> {mons.CurHealth - damage}");
+
+                                }
+                                mons.CurHealth -= damage; // 실제로 피해를 주는 코드
+
+                            }
+                           
+                        }
+                    }
+                    else // 다중공격 스킬
+                    {
+                        int y = 0;
+                        for (int i = 0; i < skills[skillSelect - 1].AtkNumber; i++)  //공격횟수만큼 공격
+                        {
+
+                            randomMonster = ran.Next(0, ranMonsters.Length);
+                            if (ranMonsters[randomMonster].IsDead == false)
+                            {
+                                //공격
+                                //sumskilldamage += damage;
+                                Console.WriteLine($"{ranMonsters[randomMonster].Name}을(를) 맞췄습니다. [데미지 : {damage}]");
+                                Console.WriteLine();
+                                Console.WriteLine($"{ranMonsters[randomMonster].Name}");
+
+                                if ((ranMonsters[randomMonster].CurHealth - damage) <= 0)
+                                {
+                                    Console.WriteLine($"HP {ranMonsters[randomMonster].CurHealth} -> Dead");
+                                    Console.WriteLine();
+                                    ranMonsters[randomMonster].CurHealth = 0;
+                                    ranMonsters[randomMonster].IsDead = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"HP {ranMonsters[randomMonster].CurHealth} -> {ranMonsters[randomMonster].CurHealth - damage}");
+
+                                }
+                                ranMonsters[randomMonster].CurHealth -= damage; // 실제로 피해를 주는 코드
+
+                            }
+                            else
+                            {
+                                i--;
+                                y++;
+                            }
+                            if(y > 30)
+                            {
+                                break;
+                            }
+
+                        }
+                    }
+                    Console.WriteLine();
                     player.CurMp -= skills[skillSelect - 1].UseMp;
                     Console.WriteLine($"마나 {player.MaxMp} -> {player.CurMp} ");
+                    player.MyTurn = false;
+                    isUseSkill = false;
 
                 }
                 else //일반공격이면
@@ -370,28 +486,28 @@ namespace SpartaTextRPG2
 
                         }
 
+                        Console.WriteLine();
+                        Console.WriteLine($"{ranMonsters[inp - 1].Name}");
 
+                        if ((ranMonsters[inp - 1].CurHealth - damage) <= 0)
+                        {
+                            Console.WriteLine($"HP {ranMonsters[inp - 1].CurHealth} -> Dead");
+                            ranMonsters[inp - 1].CurHealth = 0;
+                            ranMonsters[inp - 1].IsDead = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"HP {ranMonsters[inp - 1].CurHealth} -> {ranMonsters[inp - 1].CurHealth - damage}");
+
+                        }
+                        ranMonsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
+                        player.MyTurn = false;
+                        isUseSkill = false;
                     }
 
                 }
 
-                Console.WriteLine();
-                Console.WriteLine($"{ranMonsters[inp - 1].Name}");
 
-                if ((ranMonsters[inp - 1].CurHealth - damage) <= 0)
-                {
-                    Console.WriteLine($"HP {ranMonsters[inp - 1].CurHealth} -> Dead");
-                    ranMonsters[inp - 1].CurHealth = 0;
-                    ranMonsters[inp - 1].IsDead = true;
-                }
-                else
-                {
-                    Console.WriteLine($"HP {ranMonsters[inp - 1].CurHealth} -> {ranMonsters[inp - 1].CurHealth - damage}");
-
-                }
-                ranMonsters[inp - 1].CurHealth -= damage; // 실제로 피해를 주는 코드
-                player.MyTurn = false;
-                isUseSkill = false;
 
 
                 Thread.Sleep(1000);
@@ -603,7 +719,7 @@ namespace SpartaTextRPG2
             for (int i = 0; i < itemCount; i++)
             {
                 int IsPotionGet = ran.Next(1, 10);            //포션 확률적으로 얻기
-                if ( 6 > IsPotionGet)  //50%확룰로 포션획득
+                if (6 > IsPotionGet)  //50%확룰로 포션획득
                 {
                     Console.WriteLine("체력포션 획득");
                     Potion.hpPotionCount++;
@@ -636,7 +752,7 @@ namespace SpartaTextRPG2
                         ranMonsters = new Monster[ran.Next(1, 4)];
                         break;
                     case 2:
-                        ranMonsters = new Monster[ran.Next(2, 4)]; 
+                        ranMonsters = new Monster[ran.Next(2, 4)];
                         break;
                     case 3:
                         ranMonsters = new Monster[ran.Next(3, 5)];
@@ -1044,8 +1160,8 @@ namespace SpartaTextRPG2
             Console.WriteLine();
 
             int input = CheckValidInput(1, 2);
-            
-            
+
+
             if (input == 1)
             {
                 //if (File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json") == null)
@@ -1188,7 +1304,7 @@ namespace SpartaTextRPG2
                 case MonsterType.보스몬스터:
                     return new Monster("보스몬스터", 50, 500, 500, 50, false, 1);
                     break;
-                    
+
                 default:
                     return new Monster("미니언", 2, 15, 15, 5, false, 0);
                     break;
