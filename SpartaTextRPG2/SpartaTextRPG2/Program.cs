@@ -559,7 +559,7 @@ namespace SpartaTextRPG2
                             Console.WriteLine();
                             Console.WriteLine($"Lv.{player.Level} {player.Name}");
                             Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
-                            if (dodgerun == 2 && isrun)
+                            if (dodgerun == 1 && isrun)
                             {
                                 player.CurHealth -= mon.Damage;
                             }
@@ -580,7 +580,7 @@ namespace SpartaTextRPG2
                                     Console.WriteLine();
                                     Console.WriteLine($"Lv.{player.Level} {player.Name}");
                                     Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
-                                    if (dodgerun == 2 && isrun)
+                                    if (dodgerun == 1 && isrun)
                                     {
                                         player.CurHealth -= mon.Damage;
                                     }
@@ -592,7 +592,7 @@ namespace SpartaTextRPG2
                                     Console.WriteLine();
                                     Console.WriteLine($"Lv.{player.Level} {player.Name}");
                                     Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
-                                    if (dodgerun == 2 && isrun)
+                                    if (dodgerun == 1 && isrun)
                                     {
                                         player.CurHealth -= mon.Damage;
                                     }
