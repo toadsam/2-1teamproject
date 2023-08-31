@@ -111,8 +111,8 @@ namespace SpartaTextRPG2
                     var preuser = JObject.FromObject(save); //파일 저장
                     Console.WriteLine(preuser.ToString());
                     Thread.Sleep(2000);
-                    // File.WriteAllText(@"C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());  //C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json
-                    File.WriteAllText(@"../SpartaTextRPG2.json", preuser.ToString());
+                    File.WriteAllText(@".. / SpartaTextRPG2.json", preuser.ToString());
+                    //File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());
                     DisplayGameIntro();
                     break;
             }
@@ -122,7 +122,10 @@ namespace SpartaTextRPG2
         static void DisplayMyInfo()
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("상태보기");
+            Console.ResetColor();
+            Console.WriteLine();
             Console.WriteLine("캐릭터의 정보를 표시합니다.");
             Console.WriteLine();
             Console.WriteLine($"Lv.{player.Level}");
@@ -151,9 +154,13 @@ namespace SpartaTextRPG2
             // 공격할 몬스터 번호를 선택
             // 
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Battle!!");
+            Console.ResetColor();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("[몬스터 종류]");
+            Console.ResetColor();
 
             for (int i = 0; i < ranMonsters.Length; i++)
             {
@@ -162,7 +169,9 @@ namespace SpartaTextRPG2
 
             Console.WriteLine();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("[내 정보]");
+            Console.ResetColor();
             Console.WriteLine($"Lv.{player.Level} {player.Name} ({player.Job})");
             Console.WriteLine($"HP {player.CurHealth} / {player.MaxHealth}");
             Console.WriteLine($"마나 : {player.CurMp} / {player.MaxMp}");
@@ -195,10 +204,14 @@ namespace SpartaTextRPG2
 
             // 공격할 몬스터 번호를 선택 
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Battle!!");
+            Console.ResetColor();
             Console.WriteLine();
 
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("[몬스터 종류]");
+            Console.ResetColor();
 
             for (int i = 0; i < ranMonsters.Length; i++)
             {
@@ -216,7 +229,9 @@ namespace SpartaTextRPG2
                 }
             }
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("[내 정보]");
+            Console.ResetColor();
             Console.WriteLine($"Lv.{player.Level} {player.Name} ({player.Job})");
             Console.WriteLine($"HP {player.CurHealth} / {player.MaxHealth}");
             Console.WriteLine($"마나 : {player.CurMp} / {player.MaxMp}");
@@ -226,10 +241,11 @@ namespace SpartaTextRPG2
             {
                 Console.WriteLine("스킬을 사용하시겠습니까?");   //물어보기
                 Console.WriteLine("0. 취소");
-                Console.WriteLine("1.공격한다");
-                Console.WriteLine("2 스킬사용");
+                Console.WriteLine("1. 공격한다");
+                Console.WriteLine("2. 스킬사용");
+                Console.WriteLine("3. 포션 마시기");
 
-                int inp = CheckValidInput(0, 2);
+                int inp = CheckValidInput(0, 3);
                 switch (inp)
                 {
                     case 0:
@@ -240,6 +256,9 @@ namespace SpartaTextRPG2
                         break;
                     case 2:
                         isUseSkill = true;
+                        break;
+                    case 3:
+                        DrinkPotion();
                         break;
                 }
             }
@@ -258,7 +277,10 @@ namespace SpartaTextRPG2
                 skillSelect = CheckValidInput(1, skills.Count);    //어떤스킬 사용할지 입력받기
                 if (player.CurMp < skills[skillSelect - 1].UseMp)  //마나가 부족하면
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("마나가 부족합니다");
+                    Console.ResetColor();
+
                     isUseSkill = false;                             //비활성화
                 }
             }
@@ -276,7 +298,9 @@ namespace SpartaTextRPG2
                 default: //죽은놈 판별
                     if (ranMonsters[input - 1].IsDead == true)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("이미 죽은 몬스터입니다.");
+                        Console.ResetColor();
                         Thread.Sleep(1000);
                         DisplayBattleInfo(); //다시 선택해라
 
@@ -482,6 +506,38 @@ namespace SpartaTextRPG2
 
                 default:
 
+                    break;
+            }
+        }
+
+        // 전투 중 포션 사용
+        static void DrinkPotion()
+        {
+            Console.Clear();
+            Console.WriteLine("회복");
+            Console.WriteLine($"체력포션을 사용하면 체력을 30 회복 할 수 있습니다. (남은 포션 : {Potion.hpPotionCount}  현재체력: {player.CurHealth}");
+            Console.WriteLine($"마나포션을 사용하면 마나을 30 회복 할 수 있습니다. (남은 포션 : {Potion.mpPotionCount} 현재마나: {player.CurMp}");
+            Console.WriteLine("");
+
+            Console.WriteLine("2.체력포션 사용하기");
+            Console.WriteLine("1.마나포션 사용하기");
+            Console.WriteLine("0.나가기");
+
+            int input = CheckValidInput(0, 2);
+            switch (input)
+            {
+                case 0:
+                    DisplayBattleInfo(); // 인벤토리 시작 화면
+                    break;
+                case 1:
+                    potion.MpPotionUse(player); // 체력 포션
+                    Thread.Sleep(1000);
+                    DrinkPotion();
+                    break;
+                case 2:
+                    potion.HpPotionUse(player); // 마나 포션
+                    Thread.Sleep(1000);
+                    DrinkPotion();
                     break;
             }
         }
@@ -976,27 +1032,30 @@ namespace SpartaTextRPG2
 
         {
             Console.Clear();
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("♣ 스파르타 던전에 오신 여러분 환영합니다. ♣");
+            Console.WriteLine();
+            Console.ResetColor();
             Console.WriteLine("저번 캐릭터를 이어하시겠습니까?");
             Console.WriteLine("1. 저번 캐릭터 이어하기");
             Console.WriteLine("2. 새로하기");
-            Console.WriteLine("");
+            Console.WriteLine();
 
             int input = CheckValidInput(1, 2);
             
             
             if (input == 1)
             {
+                //if (File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json") == null)
                 if (File.ReadAllText(@"../SpartaTextRPG2.json") == null)
-                //if (File.ReadAllText(@"C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json") == null)
                 {
                     Console.WriteLine("저장하신 캐릭터가 없습니다.");
                     CreatePlayer();
                 }
                 else
                 {
-                    var curuser = File.ReadAllText(@"../SpartaTextRPG2.json");
-                    //var curuser = File.ReadAllText(@"C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
+                    //var curuser = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
+                    var curuser = File.ReadAllText(@"C:\Users\이민열\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
                     Save save2 = JsonConvert.DeserializeObject<Save>(curuser);
                     save = save2;
                     player = save.character;
@@ -1015,6 +1074,7 @@ namespace SpartaTextRPG2
                 // 이름 설정
                 Console.Write("이름을 설정해주세요:");
                 string userName = Console.ReadLine();
+                Console.WriteLine();
 
                 dungeonLevel = 1;
 
