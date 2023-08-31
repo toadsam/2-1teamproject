@@ -77,65 +77,8 @@
    
     
 
-- 🤺배틀  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
-    - 스킬 사용
-        - 전투 시작에서 1.공격을 누르면 스킬을 사용할 수 있습니다.
-        - Battle 에서 내정보에 MP 를 추가하고  스킬 항목을 추가했습니다.
-            
-            ```csharp
-            [몬스터 종류]
-            1 Lv.2 미니언 HP 15
-            
-            2 Lv.2 미니언 HP 15
-            
-            [내 정보]
-            Lv.1 재훈재훈재훈재훈재훈 (마법사)
-            HP 100 / 100
-            마나 : 120 / 120
-            
-            스킬을 사용하시겠습니까?
-            0. 취소
-            1. 공격한다
-            2. 스킬사용
-            3. 포션 마시기
-            2
-            1 알파 스트라이크 - 사용마나10
-            공격력의2배로 1명의 적을 공격합니다.
-            
-            2 더블 스트라이크 - 사용마나15
-            공격력의2배로 2명의 적을 공격합니다.
-            
-            3 고무고무 피스톨 - 사용마나45
-            공격력의99배로 9명의 적을 공격합니다.
-            
-            스킬을 골라주세요
-            ```
-            
-    - 치명타 , 회피 기능
-        - ran.Next()를 이용해서 일정 확률로 bool값에 true값을 넣어 기능을 구현하였습니다.
-        
-        ```csharp
-                            bool isAtkUp = ran.Next(0, 100) < 15; // 15프로 확률
-                            bool isDodgeAtk = ran.Next(0, 100) < 10; // 10프로 확률
-        if (isDodgeAtk)
-                            {
-                                Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 공격했지만 아무 일도 일어나지 않았습니다.");
-        
-                            }
-                            else
-                            {
-                                if (isAtkUp)
-                                {
-                                    damage = (int)Math.Round(damage * 1.6); // 치명타 데미지 160% 적용
-                                    Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}] - 치명타 공격!!");
-        
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"{ranMonsters[inp - 1].Name}을(를) 맞췄습니다. [데미지 : {damage}]");
-        
-                                }
-        ```
+- 🤺배틀  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EB%B0%B0%EB%93%A4)
+    
         
 
 - 🦧던전추가 기능  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
