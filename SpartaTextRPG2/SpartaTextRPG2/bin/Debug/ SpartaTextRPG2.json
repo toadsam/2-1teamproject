@@ -1,17 +1,17 @@
 {
   "character": {
-    "Name": "재훈",
+    "Name": "재훈재훈재훈재훈재훈",
     "Job": "마법사",
     "Level": 2,
     "Atk": 5.5,
     "Def": 6.0,
     "Mp": 0,
     "Gold": 10000.0,
-    "CurHealth": 73,
+    "CurHealth": 7,
     "MaxHealth": 100,
-    "Exp": 1,
+    "Exp": 9,
     "TotalExp": 35,
-    "CurMp": 45,
+    "CurMp": 50,
     "MaxMp": 120,
     "MyTurn": true
   },
@@ -39,19 +39,28 @@
       "Owner": "player"
     },
     {
-      "Description": "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.",
-      "Name": "낡은 스태프",
-      "Type": "방어력",
-      "Power": 2.0,
+      "Description": "쉽게 볼 수 있는 낡은 검 입니다.",
+      "Name": "낡은 검",
+      "Type": "공격력",
+      "Power": 3.0,
       "Price": 0,
       "PlayerEquipped": false,
       "Owner": "dropitem"
     },
     {
-      "Description": "적의 공격으로부터 보호를 제공하는 동시에 주문력을 발휘할 수 있는 스태프입니다.",
-      "Name": "낡은 스태프",
-      "Type": "방어력",
-      "Power": 2.0,
+      "Description": "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.",
+      "Name": "낡은 활",
+      "Type": "공격력",
+      "Power": 4.0,
+      "Price": 0,
+      "PlayerEquipped": false,
+      "Owner": "dropitem"
+    },
+    {
+      "Description": "신성한 힘을 담아 원거리에서 정확한 공격을 수행하는 활입니다.",
+      "Name": "낡은 활",
+      "Type": "공격력",
+      "Power": 4.0,
       "Price": 0,
       "PlayerEquipped": false,
       "Owner": "dropitem"
@@ -59,5 +68,5 @@
   ],
   "MpCount": 5,
   "HpCount": 3,
-  "saveDungeonLevel": 2
+  "saveDungeonLevel": 3
 }
