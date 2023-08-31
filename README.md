@@ -113,6 +113,8 @@
 - ↗️스테이지 추가  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80-%EC%B6%94%EA%B0%80)
 
 - 🚀게임 저장하기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EA%B2%8C%EC%9E%84-%EC%A0%80%EC%9E%A5%ED%95%98%EA%B8%B0)
+
+- 💪추가 기능!!! 매우 중요!!!! 💪  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EA%B2%8C%EC%9E%84-%EC%A0%80%EC%9E%A5%ED%95%98%EA%B8%B0)
    
 
 
