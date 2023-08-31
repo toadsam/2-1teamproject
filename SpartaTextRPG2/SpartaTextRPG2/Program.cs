@@ -45,14 +45,15 @@ namespace SpartaTextRPG2
             //monsters = new Monster[3] { monster1, monster2, monster3 };
             ranMonsters = new Monster[ran.Next(1, 4)];
 
-            // 스킬 정보 세팅(스킬담은 리스트)
-            Skill skill1 = new Skill("알파 스트라이크", 10, 2, 1);
-            Skill skill2 = new Skill("더블 스트라이크", 15, 2, 2);
-            Skill skill3 = new Skill("고무고무 피스톨", 45, 99, 100);
+            // 스킬 정보 세팅(스킬담은 리스트) //전사
+            
 
-            skills.Add(skill1);
-            skills.Add(skill2);
-            skills.Add(skill3);
+            
+
+            //궁수
+            
+
+
 
 
 
@@ -559,10 +560,7 @@ namespace SpartaTextRPG2
                             Console.WriteLine();
                             Console.WriteLine($"Lv.{player.Level} {player.Name}");
                             Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
-                            if (dodgerun == 2 && isrun)
-                            {
-                                player.CurHealth -= mon.Damage;
-                            }
+                            player.CurHealth -= mon.Damage;
                             Console.WriteLine();
 
 
@@ -580,10 +578,7 @@ namespace SpartaTextRPG2
                                     Console.WriteLine();
                                     Console.WriteLine($"Lv.{player.Level} {player.Name}");
                                     Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
-                                    if (dodgerun == 2 && isrun)
-                                    {
-                                        player.CurHealth -= mon.Damage;
-                                    }
+                                    player.CurHealth -= mon.Damage;
                                     break;
                                 case 1:
                                     Console.WriteLine($"Lv.{mon.Level} {mon.Name}가  공격스킬을 사용합니다!");
@@ -592,10 +587,7 @@ namespace SpartaTextRPG2
                                     Console.WriteLine();
                                     Console.WriteLine($"Lv.{player.Level} {player.Name}");
                                     Console.WriteLine($"HP {player.CurHealth} -> {player.CurHealth - mon.Damage}");
-                                    if (dodgerun == 2 && isrun)
-                                    {
-                                        player.CurHealth -= mon.Damage;
-                                    }
+                                    player.CurHealth -= mon.Damage;
                                     break;
                                 case 2:
                                     Console.WriteLine($"Lv.{mon.Level} {mon.Name}가  회복스킬을 사용합니다!");
@@ -1248,12 +1240,34 @@ namespace SpartaTextRPG2
                 {
                     case JobType.Worrior:
                         player = new Character(userName, "전사", 1, 80, 10, 10000, 500, 500, 0, 10, 150, 150, true);
+                        Skill skill1 = new Skill("알파 스트라이크", 10, 2, 1);
+                        Skill skill2 = new Skill("더블 스트라이크", 15, 2, 2);
+                        Skill skill3 = new Skill("고무고무 피스톨", 45, 99, 100);
+
+                        skills.Add(skill1);
+                        skills.Add(skill2);
+                        skills.Add(skill3);
                         break;
                     case JobType.Archer:
                         player = new Character(userName, "궁수", 1, 10, 5, 10000, 120, 120, 0, 10, 50, 50, true);
+                        Skill skill4 = new Skill("에궁", 5, 4, 1);
+                        Skill skill5 = new Skill("이궁", 25, 2, 2);
+                        Skill skill6 = new Skill("어이쿵", 45, 99, 100);
+
+                        skills.Add(skill4);
+                        skills.Add(skill5);
+                        skills.Add(skill6);
+
                         break;
                     case JobType.Mage:
                         player = new Character(userName, "마법사", 1, 5, 5, 10000, 100, 100, 0, 10, 120, 120, true);
+                        Skill skill7 = new Skill("지팡이로 때리기", 20, 4, 1);
+                        Skill skill8 = new Skill("지팡이로 휘두르기", 25, 2, 2);
+                        Skill skill9 = new Skill("옆집할아버지의 지팡이!!!!!", 45, 99, 100);
+
+                        skills.Add(skill7);
+                        skills.Add(skill8);
+                        skills.Add(skill9);
                         break;
                 }
                 Console.WriteLine($"{player.Name}, {player.Job}를 생성합니다.");
