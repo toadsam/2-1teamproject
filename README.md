@@ -96,51 +96,9 @@
     
 
 - 💖회복 아이템  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%ED%9A%8C%EB%B3%B5-%EC%95%84%EC%9D%B4%ED%85%9C)
-   
+
+- ↗️스테이지 추가  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80-%EC%B6%94%EA%B0%80
+   )
 
 - 🚀게임 저장하기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
-    - 데이더를 저장하거나, 데이터를 통신으로 보낼때 사용하는 json을 이용하여 저장기능을 구현하였습니다.
-    - Save클래스를 만들어 저장하고 싶은 기능을 SaveInformation를 이용하여 담아 다른 파일로 옯긴후 다시 실행시 가져오도록 구현하였습니다.
-        - class Save
-            
-            ```csharp
-            public Character character;
-                    public Potion potion;
-                    public List<Item> saveItems;
-                    public int MpCount;
-                    public int HpCount;
-                    public int saveDungeonLevel;
-                    public void SaveInformation(Character _character, Potion _potion, List<Item> _items, int _dungeonLevel)
-                    {//저장하고 싶은 값들을 인자값(파라미터 값으로 받아) save클래스의 멤버변수에 저장하는 함수 
-                        character = _character;
-                        potion = _potion;
-                        MpCount = Potion.mpPotionCount;
-                        HpCount = Potion.hpPotionCount;
-                        saveItems = _items;
-                        saveDungeonLevel = _dungeonLevel;
-                    }
-            ```
-            
-            ```csharp
-            save.SaveInformation(player, potion,invenList,dungeonLevel);   //저장할 파일 담는 함수 위에 클래스의 함수
-            
-            var preuser = JObject.FromObject(save); //JObject은 Json객체를 의미 -> save객체를 JObject로 변환 후 preuser에 담기
-            
-            File.WriteAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json", preuser.ToString());
-            //지정된 파일 위치에다가 preuser를 문자열로 바꿔 적기 //지정된 파일위치에 문자열로 정보가 저장되어있다. 
-            ```
-            
-            ```csharp
-            var curuser = File.ReadAllText(@"C:\Users\82106\Documents\GitHub\2-1teamproject\SpartaTextRPG2.json");
-            //위치에 있는 파일(저장했던 자료)을 읽어서 curuser에 저장
-                                Save save2 = JsonConvert.DeserializeObject<Save>(curuser);
-            //새로운 save2를 생성해서 curuser를 문자열로 저장했던걸 다시 json으로 바꾸주기
-            
-                                save = save2;//save2(정보가 담겨있는 객체)를 save로 옯기기
-                                player = save.character;    //Program 클래스에 선언했던 객체와 변수에 저장했던 값 받기
-                                potion = save.potion;
-                                invenList = save.saveItems;
-                                Potion.mpPotionCount = save.MpCount;
-                                Potion.hpPotionCount = save.HpCount;
-                                dungeonLevel = save.saveDungeonLevel;
-            ```
+   
