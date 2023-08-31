@@ -50,55 +50,62 @@
 ## 🌐주요 기능
 
 - 🎮게임 시작 화면  -  [자세히 보기](https://github.com/toadsam/TextGame/wiki/%EC%BA%90%EB%A6%AD%ED%84%B0)
-    - 게임 시작시 간단한 소개 말과 마을에서 할 수 있는 행동을 알려줍니다.
-    - 원하는 행동의 숫자를 타이핑하면 실행합니다.
     
-    ```csharp
-    이제 전투를 시작할 수 있습니다.
-    
-    1. 상태보기
-    2. 전투시작 (현재 진행 : 2층)
-    3. 인벤토리
-    4. 저장하기
-    
-    원하시는 행동을 입력해주세요.
-    ```
     
 
 - 💾상태 보기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
+
+  
    
     
 
 - ⚔️전투 시작  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%A0%84%ED%88%AC-%EC%8B%9C%EC%9E%91)
+
+  
    
     
 
 - 🤡캐릭터 커스텀  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%BA%90%EB%A6%AD%ED%84%B0-%EC%BB%A4%EC%8A%A4%ED%85%80)
+
+  
    
     
 
 - 🤺배틀  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EB%B0%B0%EB%93%A4)
+
+  
     
         
 
 - 🦧던전추가 기능  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EB%8D%98%EC%A0%84%EC%B6%94%EA%B0%80-%EA%B8%B0%EB%8A%A5)
+
+  
     
         
 
 - 🤪콘솔 꾸미기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%BD%98%EC%86%94-%EA%BE%B8%EB%AF%B8%EA%B8%B0)
+
+  
     
 
 - 🐯몬스터 종류  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EB%AA%AC%EC%8A%A4%ED%84%B0-%EC%A2%85%EB%A5%98)
+
+  
     
 
 - 🧐아이템 기능  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%95%84%EC%9D%B4%ED%85%9C-%EA%B8%B0%EB%8A%A5)
-   
+
+     
     
 
 - 💖회복 아이템  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%ED%9A%8C%EB%B3%B5-%EC%95%84%EC%9D%B4%ED%85%9C)
 
-- ↗️스테이지 추가  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80-%EC%B6%94%EA%B0%80
-   )
+  
 
-- 🚀게임 저장하기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%83%81%ED%83%9C-%EB%B3%B4%EA%B8%B0)
+- ↗️스테이지 추가  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80-%EC%B6%94%EA%B0%80)
+
+  
+   
+
+- 🚀게임 저장하기  -  [자세히 보기](https://github.com/toadsam/2-1teamproject/wiki/%EA%B2%8C%EC%9E%84-%EC%A0%80%EC%9E%A5%ED%95%98%EA%B8%B0)
    
